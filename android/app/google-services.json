@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1080188885419",
+    "project_id": "bms-sample-c79d5",
+    "storage_bucket": "bms-sample-c79d5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1080188885419:android:bc145f01594d02c4015aee",
+        "android_client_info": {
+          "package_name": "com.example.bms_sample"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4Sn3JuophTvviBI7Juy978um3dpqw5Js"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
