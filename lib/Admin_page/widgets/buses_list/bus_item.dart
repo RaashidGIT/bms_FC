@@ -1,5 +1,7 @@
 // widget for edit_bus_list.dart
 
+// ignore_for_file: unused_import
+
 import 'package:intl/intl.dart';
 
 import 'package:bms_sample/models/bus.dart';

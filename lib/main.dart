@@ -54,6 +54,7 @@ void main() async {
         // ... other dark theme customizations
       ),
       themeMode: ThemeMode.system, //default
+      debugShowCheckedModeBanner: false,
       home: const Buses(onSelectScreen: 'Bus Management System'),
     ),
   );

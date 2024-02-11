@@ -1,5 +1,7 @@
 // The first page admins see after loggin in
 
+// ignore_for_file: unused_import
+
 import 'package:bms_sample/Admin_page/add_sp.dart';
 import 'package:bms_sample/Admin_page/new_bus.dart';
 import 'package:bms_sample/Admin_page/widgets/buses_list/edit_bus_list.dart';
