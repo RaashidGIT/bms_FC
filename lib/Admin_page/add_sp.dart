@@ -6,7 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:bms_sample/Admin_page/bus_image_picker.dart';
+import 'package:bms_sample/Admin_page/sp_image_picker.dart';
 
 final _firebase = FirebaseAuth.instance;
 
@@ -131,7 +131,7 @@ class _AdminAuthScreenState extends State<AdminAuthScreen> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           if (!_isLogin)
-                            BusImagePicker(
+                            SpImagePicker(
                               onPickImage: (pickedImage) {
                                 _selectedImage = pickedImage;
                               },

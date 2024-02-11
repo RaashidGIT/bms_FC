@@ -101,7 +101,7 @@ class _NewBusState extends State<NewBus> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(16, 48, 16, 16),
+      padding: const EdgeInsets.fromLTRB(16, 48, 16, 16),
       child: Column(
         children: [
           // Add a bus icon that dynamically changes depending on the category type inputted by

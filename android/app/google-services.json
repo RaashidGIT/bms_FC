@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "1080188885419",
+    "firebase_url": "https://bms-sample-c79d5-default-rtdb.firebaseio.com",
     "project_id": "bms-sample-c79d5",
     "storage_bucket": "bms-sample-c79d5.appspot.com"
   },

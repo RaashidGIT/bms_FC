@@ -1,0 +1,1 @@
+1. Since the login state is saved, Admins dont have to keep typing their credentials to get into the app once they authenticate themselves but the issues becomes apparent when they automatically enter the sp pages after closing the app and tries to log in again.
