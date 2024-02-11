@@ -37,7 +37,25 @@ class _AdminAuthScreenState extends State<AdminAuthScreen> {
     //   return;
     // }
 
+    void showErrorMessage() {
+    showDialog(
+      context: context,
+      barrierDismissible: false, // prevent user from dismissing by tapping outside
+      builder: (context) => AlertDialog(
+        title: const Text('Error'),
+        content: const Text('Please fill in all required fields and select an image.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+
     if (!isValid || !_isLogin && _selectedImage == null) {
+      showErrorMessage();
       // show error message ...
       return;
     }

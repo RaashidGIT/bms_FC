@@ -49,7 +49,7 @@ class _UserImagePickerState extends State<SpImagePicker> {
 
       await _pickImage(isCamera: isCamera!);
     } catch (error) {
-      // Handle error gracefully, e.g., show a snackbar
+      // Handling any error, e.g., showing a snackbar
       print(error);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
