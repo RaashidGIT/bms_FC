@@ -29,6 +29,7 @@ class _AdminAuthScreenState extends State<AdminAuthScreen> {
   File? _selectedImage;
   var _isAuthenticating = false;
   var _enteredBusname = '';
+  var _enteredUsername = '';
 
   void _submit() async {
     final isValid = _form.currentState!.validate();
@@ -92,10 +93,12 @@ class _AdminAuthScreenState extends State<AdminAuthScreen> {
         final imageUrl = await storageRef.getDownloadURL();
 
         await FirebaseFirestore.instance
-            .collection('users')
+            .collection('Bus')
             .doc(userCredentials.user!.uid)
+            // currently the usercredential is the basis for database storing, may want to change that to a bus credential 
             .set({
           'bus_name': _enteredBusname,
+          'username': _enteredUsername,
           'email': _enteredEmail,
           'image_url': imageUrl,
         });
@@ -158,6 +161,37 @@ class _AdminAuthScreenState extends State<AdminAuthScreen> {
                                 _selectedImage = pickedImage;
                               },
                             ),
+                            if (!_isLogin)
+                            TextFormField(
+                              decoration:
+                                  const InputDecoration(labelText: 'Bus name'),
+                              enableSuggestions: false,
+                              validator: (value) {
+                                if (value == null ||
+                                    value.isEmpty ||
+                                    value.trim().length < 3) {
+                                  return 'Please enter at least 3 characters.';
+                                }
+                                return null;
+                              },
+                              onSaved: (value) {
+                                _enteredBusname = value!;
+                              },
+                            ),
+                            if (!_isLogin)
+                            TextFormField(
+                              decoration: InputDecoration(labelText: 'Username'),
+                              enableSuggestions: false,
+                              validator: (value) {
+                                if (value == null || value.trim().length<4) {
+                                  return 'Please enter atleast 4 characters.';
+                                }
+                                return null;
+                              },
+                              onSaved: (value) {
+                                _enteredUsername = value!;
+                              },
+                            ),
                           if (!_isLogin)
                             TextFormField(
                               decoration: const InputDecoration(
@@ -177,23 +211,8 @@ class _AdminAuthScreenState extends State<AdminAuthScreen> {
                                 _enteredEmail = value!;
                               },
                             ),
-                          if (!_isLogin)
-                            TextFormField(
-                              decoration:
-                                  const InputDecoration(labelText: 'Bus name'),
-                              enableSuggestions: false,
-                              validator: (value) {
-                                if (value == null ||
-                                    value.isEmpty ||
-                                    value.trim().length < 3) {
-                                  return 'Please enter at least 3 characters.';
-                                }
-                                return null;
-                              },
-                              onSaved: (value) {
-                                _enteredBusname = value!;
-                              },
-                            ),
+                            
+                          
                           if (!_isLogin)
                             TextFormField(
                               decoration:
