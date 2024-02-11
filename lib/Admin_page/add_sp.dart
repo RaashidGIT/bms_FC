@@ -56,7 +56,7 @@ class _AdminAuthScreenState extends State<AdminAuthScreen> {
 
     if (!isValid || !_isLogin && _selectedImage == null) {
       showErrorMessage();
-      // show error message ...
+      // shows error message ...
       return;
     }
 
@@ -74,13 +74,17 @@ class _AdminAuthScreenState extends State<AdminAuthScreen> {
       //   final userCredentials = await _firebase.signInWithEmailAndPassword(
       //       email: _enteredEmail, password: _enteredPassword);
       // }
+
+      // Check this part
+
+
       if (!_isLogin) {
         final userCredentials = await _firebase.createUserWithEmailAndPassword(
             email: _enteredEmail, password: _enteredPassword);
 
         final storageRef = FirebaseStorage.instance
             .ref()
-            .child('bus_images')
+            .child('user_images')
             .child('${userCredentials.user!.uid}.jpg');
         // creating new sub class in firebase storage
 
@@ -117,7 +121,7 @@ class _AdminAuthScreenState extends State<AdminAuthScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Sign up new users'),
+        title: const Text('Sign up new users'),
       ),
       backgroundColor: Theme.of(context).colorScheme.primary,
       body: Center(
@@ -210,6 +214,7 @@ class _AdminAuthScreenState extends State<AdminAuthScreen> {
                           ),
                           if (_isAuthenticating)
                             const CircularProgressIndicator(),
+                            // Non stop spinning but the thing works.
                           if (!_isAuthenticating)
                             ElevatedButton(
                               onPressed: _submit,

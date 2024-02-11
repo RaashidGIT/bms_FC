@@ -1,1 +1,3 @@
-1. Since the login state is saved, Admins dont have to keep typing their credentials to get into the app once they authenticate themselves but the issues becomes apparent when they automatically enter the sp pages after closing the app and tries to log in again.
+1. Since the login state is saved, Admins dont have to keep typing their credentials to get into the app everytime once they authenticate themselves, but the issues becomes apparent when they automatically enter the sp pages after closing the app and tries to log in again.
+
+2. After adding a new sp user by admin, the submit button turns into a circular progress indicator stuck in a loop, however the task appears to be completed at the back end of the app, meaning new sp users are successfully saved in the back end. 
