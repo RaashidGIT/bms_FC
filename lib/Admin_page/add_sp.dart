@@ -93,7 +93,7 @@ class _AdminAuthScreenState extends State<AdminAuthScreen> {
         final imageUrl = await storageRef.getDownloadURL();
 
         await FirebaseFirestore.instance
-            .collection('Bus')
+            .collection('SPusers')
             .doc(userCredentials.user!.uid)
             // currently the usercredential is the basis for database storing, may want to change that to a bus credential 
             .set({

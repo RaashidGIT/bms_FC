@@ -2,6 +2,7 @@
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:bms_sample/models/bus.dart';
 
@@ -52,10 +53,21 @@ class _NewBusState extends State<NewBus> {
   //   }
   // }
 
-  void _submitBusData() {
+  // Add Firestore instance and collection reference
+  // final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  // final CollectionReference busesRef = firestore.collection('Bus');
+
+  final _firestore = FirebaseFirestore.instance;
+
+  CollectionReference get busesRef {
+    return _firestore.collection('Bus');
+  }
+
+  Future<void> _submitBusData() async {
     // Here we show error messages, if any appeared
     if (_destinationController.text.trim().isEmpty ||
         _sourceController.text.trim().isEmpty ||
+        _destinationController.text.trim().isEmpty ||
         _BusNameController.text.trim().isEmpty) {
       showDialog(
         context: context,
@@ -76,6 +88,14 @@ class _NewBusState extends State<NewBus> {
       return;
     }
 
+     // Add bus data to Firestore
+    await busesRef.add({
+      'bus_name': _BusNameController.text,
+      'route_AB': _sourceController.text,
+      'route_BA': _destinationController.text, // Assuming same route for BA
+      'bustype': _selectedBustype.name,
+    });
+
     widget.onAddBus(
       Bus(
         bus_name: _BusNameController.text,
@@ -83,12 +103,13 @@ class _NewBusState extends State<NewBus> {
         // route_BA: _destinationController,
         // time_AB: _selectedTime,
         route_AB: _sourceController.text,
-        route_BA: _sourceController.text,
+        route_BA: _destinationController.text,
         bustype: _selectedBustype,
       ),
     );
     Navigator.pop(context);
   }
+  
 
   @override
   void dispose() {
