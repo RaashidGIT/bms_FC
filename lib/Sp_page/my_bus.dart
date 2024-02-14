@@ -48,10 +48,6 @@ class _MyBusState extends State<MyBus> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        child: (_selectedPageIndex == 0) ? Icon(Icons.check) : null,
-        onPressed: () => (_selectedPageIndex == 0) ? null : null, // Handle onPressed as needed
-      ),
       body: _pages[_selectedPageIndex],
       bottomNavigationBar: BottomNavigationBar(
         onTap: _selectPage,
