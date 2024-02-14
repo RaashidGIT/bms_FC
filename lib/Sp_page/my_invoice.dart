@@ -1,7 +1,6 @@
 // ignore_for_file: unused_import
 
 import 'package:bms_sample/Sp_page/create_invoice.dart';
-import 'package:bms_sample/Sp_page/invoice_view.dart';
 import 'package:bms_sample/Sp_page/models/invoice.dart';
 import 'package:bms_sample/Sp_page/widgets/Invoice_card.dart';
 import 'package:flutter/material.dart';
