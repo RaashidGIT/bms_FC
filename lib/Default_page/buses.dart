@@ -1,6 +1,7 @@
 import 'package:bms_sample/Admin_page/add_sp.dart';
 import 'package:bms_sample/Admin_page/edit_bus.dart';
 import 'package:bms_sample/Default_page/about.dart';
+import 'package:bms_sample/Default_page/help.dart';
 import 'package:bms_sample/Default_page/my_location_map.dart';
 import 'package:bms_sample/Default_page/splash.dart';
 import 'package:bms_sample/Sp_page/my_bus.dart';
@@ -317,6 +318,34 @@ class _BusesState extends State<Buses> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => const AboutPage(),
+                  ),
+                );
+              },
+            ),
+            ListTile(
+              leading: Icon(
+                Icons.help_outline_outlined,
+                size: 26,
+                color: Theme.of(context).colorScheme.onBackground,
+              ),
+              title: Text(
+                'Help',
+                style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                      color: Theme.of(context).colorScheme.onBackground,
+                      fontSize: 18,
+                    ),
+              ),
+              selected: _selectedIndex == 3,
+              onTap: () {
+                // Update the state of the app
+                _onItemTapped(3);
+
+                // Then close the drawer
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const HelpPage(),
                   ),
                 );
               },
