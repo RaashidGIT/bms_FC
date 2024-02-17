@@ -30,15 +30,12 @@ class _MyBusState extends State<MyBus> {
 
   @override
   Widget build(BuildContext context) {
-    // Update _busName dynamically (replace with actual logic later)
-    _busName = 'Example Bus 123'; // Placeholder
-
+    
     return Scaffold(
       appBar: AppBar(
         title: Text(
           (_selectedPageIndex == 0)
-              // ? 'My Bus [$busName]' // Use _busName directly
-              ? 'My Bus BusABC'
+              ? 'My Bus'
               : 'Invoice Management',
         ),
         actions: [
