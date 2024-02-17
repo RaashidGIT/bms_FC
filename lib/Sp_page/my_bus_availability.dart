@@ -11,6 +11,7 @@ class MyBusAvailability extends StatefulWidget {
 }
 class _MyBusAvailabilityState extends State<MyBusAvailability> {
   bool _isSelected = false;
+  bool availability = false;
 
   final user = FirebaseAuth.instance.currentUser; // Get current user
 
@@ -24,7 +25,7 @@ class _MyBusAvailabilityState extends State<MyBusAvailability> {
     // String sourceDestination = "";
     // String finalDestination = "";
 
-    @override
+  @override
   void initState() {
     super.initState();
     // Fetch data from Firestore here
@@ -154,6 +155,7 @@ class _MyBusAvailabilityState extends State<MyBusAvailability> {
                   onTap: () {
                     setState(() {
                       _isSelected = !_isSelected;
+                      availability = _isSelected; // Update availability based on _isSelected
                     });
                   },
                   child: Container(
