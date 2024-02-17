@@ -1,4 +1,3 @@
-import 'package:bms_sample/Admin_page/add_sp.dart';
 import 'package:bms_sample/Admin_page/edit_bus.dart';
 import 'package:bms_sample/Default_page/about.dart';
 import 'package:bms_sample/Default_page/help.dart';
@@ -7,11 +6,9 @@ import 'package:bms_sample/Default_page/splash.dart';
 import 'package:bms_sample/Sp_page/my_bus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:bms_sample/widgets/bus_list_builder.dart';
-// import 'package:bms_2/login_page/login_page.dart';
 import 'package:bms_sample/login_page/auth.dart';
-import 'package:bms_sample/main.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:bms_sample/models/bus.dart';
 class Buses extends StatefulWidget {
   const Buses({
     super.key,
@@ -27,17 +24,6 @@ class Buses extends StatefulWidget {
 class _BusesState extends State<Buses> {
   final TextEditingController _fromController = TextEditingController();
   final TextEditingController _toController = TextEditingController();
-
-  // void _setScreen(String identifier) async {
-  //   Navigator.of(context).pop();
-  //   if (identifier == 'filters') {
-  //     await Navigator.of(context).push(
-  //       MaterialPageRoute(
-  //         builder: (ctx) => const DrawerItem(),
-  //       ),
-  //     );
-  //   }
-  // }
 
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
@@ -55,49 +41,6 @@ class _BusesState extends State<Buses> {
       style: optionStyle,
     ),
   ];
-
-  // _buildListView(String from, String to) {
-  //   return DecoratedBox(
-  //     decoration: BoxDecoration(
-  //       color: Colors.white,
-  //       borderRadius: BorderRadius.circular(8),
-  //     ),
-  //     child: ListView.builder(
-  //       padding: const EdgeInsets.all(24), // Margin around the box
-  //       itemCount: 5, // Replace with your actual number of items
-  //       itemBuilder: (context, index) {
-  //         return Padding(
-  //           padding: const EdgeInsets.symmetric(
-  //               vertical: 16), // Spacing between items
-  //           child: Row(
-  //             children: [
-  //               const Icon(Icons.directions_bus), // Bus icon
-  //               const SizedBox(width: 16),
-  //               Expanded(
-  //                 child: Column(
-  //                   crossAxisAlignment: CrossAxisAlignment.start,
-  //                   children: [
-  //                     Text('Bus Name $index'),
-  //                     Text('Destination $index'),
-  //                   ],
-  //                 ),
-  //               ),
-  //               Column(
-  //                 children: [
-  //                   const Text('10:30 AM'), // Replace with actual time logic
-  //                   ElevatedButton(
-  //                     onPressed: () {}, // Handle track button logic
-  //                     child: const Text('Track'),
-  //                   ),
-  //                 ],
-  //               ),
-  //             ],
-  //           ),
-  //         );
-  //       },
-  //     ),
-  //   );
-  // }
 
   void _onItemTapped(int index) {
     setState(() {

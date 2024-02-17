@@ -1,5 +1,3 @@
-// If the details entered by the user is of admin, edit_bus.dart will be opened else my_bus.dart
-
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -22,8 +20,28 @@ class AdminAuthScreen extends StatefulWidget {
 class _AdminAuthScreenState extends State<AdminAuthScreen> {
   final _form = GlobalKey<FormState>();
 
+  final _busNameController = TextEditingController();
+  List<String> busNameSuggestions = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchBusNames(); // Fetch bus names initially
+  }
+
+  _fetchBusNames() async {
+    final busNamesSnapshot = await FirebaseFirestore.instance
+        .collection('Bus')
+        .orderBy('bus_name') // Order alphabetically
+        .get();
+    setState(() {
+      busNameSuggestions = busNamesSnapshot.docs
+          .map((doc) => doc.get('bus_name') as String)
+          .toList();
+    });
+  }
+
   var _isLogin = false;
-  // var _isLogin = false;
   var _enteredEmail = '';
   var _enteredPassword = '';
   File? _selectedImage;
@@ -33,10 +51,6 @@ class _AdminAuthScreenState extends State<AdminAuthScreen> {
 
   void _submit() async {
     final isValid = _form.currentState!.validate();
-
-    // if (!isValid) {
-    //   return;
-    // }
 
     void showErrorMessage() {
     showDialog(
@@ -57,13 +71,9 @@ class _AdminAuthScreenState extends State<AdminAuthScreen> {
 
     if (!isValid || !_isLogin && _selectedImage == null) {
       showErrorMessage();
-      // shows error message ...
       return;
     }
 
-    // if (!_isLogin && _selectedImage == null) {
-    //   return;
-    // }
 
     _form.currentState!.save();
 
@@ -71,14 +81,6 @@ class _AdminAuthScreenState extends State<AdminAuthScreen> {
       setState(() {
         _isAuthenticating = true;
       });
-      // if (_isLogin) {
-      //   final userCredentials = await _firebase.signInWithEmailAndPassword(
-      //       email: _enteredEmail, password: _enteredPassword);
-      // }
-
-      // Check this part
-
-
       if (!_isLogin) {
         final userCredentials = await _firebase.createUserWithEmailAndPassword(
             email: _enteredEmail, password: _enteredPassword);
@@ -87,7 +89,6 @@ class _AdminAuthScreenState extends State<AdminAuthScreen> {
             .ref()
             .child('user_images')
             .child('${userCredentials.user!.uid}.jpg');
-        // creating new sub class in firebase storage
 
         await storageRef.putFile(_selectedImage!);
         final imageUrl = await storageRef.getDownloadURL();
@@ -95,14 +96,12 @@ class _AdminAuthScreenState extends State<AdminAuthScreen> {
         await FirebaseFirestore.instance
             .collection('SPusers')
             .doc(userCredentials.user!.uid)
-            // currently the usercredential is the basis for database storing, may want to change that to a bus credential 
             .set({
           'bus_name': _enteredBusname,
           'username': _enteredUsername,
           'email': _enteredEmail,
           'image_url': imageUrl,
         });
-        // creating firebase firestore database elements
       }
     } on FirebaseAuthException catch (error) {
       if (error.code == 'email-already-in-use') {
@@ -141,9 +140,6 @@ class _AdminAuthScreenState extends State<AdminAuthScreen> {
                 ),
                 width: 200,
                 child: Image.asset('assets/images/signup.webp'),
-                // child: Image.asset(_isLogin
-                //     ? 'assets/images/login.webp'
-                //     : 'assets/images/signup.webp'),
               ),
               Card(
                 margin: const EdgeInsets.all(20),
@@ -162,22 +158,37 @@ class _AdminAuthScreenState extends State<AdminAuthScreen> {
                               },
                             ),
                             if (!_isLogin)
-                            TextFormField(
-                              decoration:
-                                  const InputDecoration(labelText: 'Bus name'),
-                              enableSuggestions: false,
-                              validator: (value) {
-                                if (value == null ||
-                                    value.isEmpty ||
-                                    value.trim().length < 3) {
-                                  return 'Please enter at least 3 characters.';
-                                }
-                                return null;
-                              },
-                              onSaved: (value) {
-                                _enteredBusname = value!;
-                              },
-                            ),
+                            Autocomplete<String>(
+                fieldViewBuilder: (context, controller, focusNode, onEditingComplete) =>
+                    TextFormField(
+                      controller: controller,
+                      decoration: const InputDecoration(labelText: 'Bus name'),
+                      validator: (value) {
+                        if (value == null ||
+                            value.isEmpty ||
+                            value.trim().length < 3) {
+                          return 'Please enter at least 3 characters.';
+                        }
+                        return null;
+                      },
+                      onSaved: (value) {
+                        _enteredBusname = value!;
+                      },
+                    ),
+                optionsBuilder: (TextEditingValue text) async {
+                  if (text.text.isEmpty) {
+                    return [];
+                  }
+                  return busNameSuggestions
+                      .where((name) =>
+                          name.toLowerCase().startsWith(text.text.toLowerCase()))
+                      .toList();
+                },
+                displayStringForOption: (suggestion) => suggestion,
+                onSelected: (suggestion) {
+                  _enteredBusname = suggestion;
+                },
+              ),
                             if (!_isLogin)
                             TextFormField(
                               decoration: InputDecoration(labelText: 'Username'),
@@ -233,7 +244,6 @@ class _AdminAuthScreenState extends State<AdminAuthScreen> {
                           ),
                           if (_isAuthenticating)
                             const CircularProgressIndicator(),
-                            // Non stop spinning but the thing works.
                           if (!_isAuthenticating)
                             ElevatedButton(
                               onPressed: _submit,
@@ -244,17 +254,6 @@ class _AdminAuthScreenState extends State<AdminAuthScreen> {
                               ),
                               child: const Text('Sign up'),
                             ),
-                          // if (!_isAuthenticating)
-                          //   TextButton(
-                          //     onPressed: () {
-                          //       setState(() {
-                          //         _isLogin = !_isLogin;
-                          //       });
-                          //     },
-                          //     child: Text(!_isLogin
-                          //         ? 'Create an account'
-                          //         : 'Already have an account'),
-                          //   ),
                         ],
                       ),
                     ),
