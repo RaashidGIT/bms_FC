@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class MyBusAvailability extends StatefulWidget {
   const MyBusAvailability({super.key});
@@ -9,16 +12,51 @@ class MyBusAvailability extends StatefulWidget {
 class _MyBusAvailabilityState extends State<MyBusAvailability> {
   bool _isSelected = false;
 
+  final user = FirebaseAuth.instance.currentUser; // Get current user
+
   String get statusText => _isSelected ? 'Online' : 'Offline';
+
+  // Replace these with actual data fetching logic
+    String busName = "";
+    String username = "";
+    String email = "";
+    String imageUrl = "";
+    // String sourceDestination = "";
+    // String finalDestination = "";
+
+    @override
+  void initState() {
+    super.initState();
+    // Fetch data from Firestore here
+    fetchBusData();
+  }
+
+  Future<void> fetchBusData() async {
+    // Assuming a bus identifier or user credentials are available
+    // Replace with your actual logic for fetching data
+    final docSnapshot = await FirebaseFirestore.instance
+        .collection('SPusers')
+        .doc(user!.uid)
+        .get();
+
+    if (docSnapshot.exists) {
+      setState(() {
+        busName = docSnapshot.get('bus_name');
+        username = docSnapshot.get('username');
+        email = docSnapshot.get('email');
+        imageUrl = docSnapshot.get('image_url');
+        // sourceDestination = docSnapshot.get('sourceDestination'); // If available
+        // finalDestination = docSnapshot.get('finalDestination'); // If available
+        // timeA = docSnapshot.get('timeA'); // If available
+        // timeB = docSnapshot.get('timeB'); // If available
+      });
+    } else {
+      // Handle the case where the document doesn't exist
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    // Replace these with actual data fetching logic
-    String busName = "Example Bus 123"; // Placeholder bus name
-    String username = "user@example.com"; // Placeholder username
-    String email = "user@example.com"; // Placeholder email
-    // ... other data placeholders
-
     return Scaffold(
       body: Stack(
         children: [
@@ -53,25 +91,25 @@ class _MyBusAvailabilityState extends State<MyBusAvailability> {
                             style: const TextStyle(fontSize: 20),
                           ),
                           const SizedBox(height: 20),
-                          Text(
-                            'Source: {sourceDestination}', // Replace with actual data
-                            style: const TextStyle(fontSize: 20),
-                          ),
+                          // Text(
+                          //   'Source: {sourceDestination}', // Replace with actual data
+                          //   style: const TextStyle(fontSize: 20),
+                          // ),
+                          // const SizedBox(height: 20),
+                          // Text(
+                          //   'Destination: {finalDestination}', // Replace with actual data
+                          //   style: const TextStyle(fontSize: 20),
+                          // ),
                           const SizedBox(height: 20),
-                          Text(
-                            'Destination: {finalDestination}', // Replace with actual data
-                            style: const TextStyle(fontSize: 20),
-                          ),
-                          const SizedBox(height: 20),
-                          Text(
-                            'Time A: {timeA}', // Replace with actual data
-                            style: const TextStyle(fontSize: 20),
-                          ),
-                          const SizedBox(height: 20),
-                          Text(
-                            'Time B: {timeB}', // Replace with actual data
-                            style: const TextStyle(fontSize: 20),
-                          ),
+                          // Text(
+                          //   'Time A: {timeA}', // Replace with actual data
+                          //   style: const TextStyle(fontSize: 20),
+                          // ),
+                          // const SizedBox(height: 20),
+                          // Text(
+                          //   'Time B: {timeB}', // Replace with actual data
+                          //   style: const TextStyle(fontSize: 20),
+                          // ),
                         ],
                       ),
                     ),
@@ -79,18 +117,24 @@ class _MyBusAvailabilityState extends State<MyBusAvailability> {
                     Align(
                       alignment: Alignment.topRight,
                       child: Container(
-                        width: 75,
-                        height: 75,
+                        width: 100,
+                        height: 120,
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.grey[300]!, width: 2), // Dummy image border
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        child: Center(
-                          child: Text(
-                            "User Image", // Replace with your image loading logic
-                            style: TextStyle(fontSize: 12, color: Colors.grey[500]),
-                          ),
-                        ),
+                        child: imageUrl.isNotEmpty
+                  ? CachedNetworkImage( // Use CachedNetworkImage for efficient loading
+                      imageUrl: imageUrl,
+                      placeholder: (context, url) => CircularProgressIndicator(),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
+                    )
+                  : Center(
+                      child: Text(
+                        "User Image",
+                        style: TextStyle(fontSize: 12, color: Colors.grey[500]),
+                      ),
+                    ),
                       ),
                     ),
                   ],
