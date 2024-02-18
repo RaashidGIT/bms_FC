@@ -120,128 +120,128 @@ class _AdminAuthScreenState extends State<DelSpScreen> {
         title: const Text('Delete existing users'),
       ),
       backgroundColor: Theme.of(context).colorScheme.primary,
-      body: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                margin: const EdgeInsets.only(
-                  top: 30,
-                  bottom: 20,
-                  left: 20,
-                  right: 20,
-                ),
-                width: 200,
-                child: Image.asset('assets/images/delete.webp'),
-              ),
-              Card(
-                margin: const EdgeInsets.all(20),
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Form(
-                      key: _form,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          if (!_isLogin)
-                            SpImagePicker(
-                              onPickImage: (pickedImage) {
-                                _selectedImage = pickedImage;
-                              },
-                            ),
-                            if (!_isLogin)
-                            TextFormField(
-                              decoration:
-                                  const InputDecoration(labelText: 'Bus name'),
-                              enableSuggestions: false,
-                              validator: (value) {
-                                if (value == null ||
-                                    value.isEmpty ||
-                                    value.trim().length < 3) {
-                                  return 'Please enter at least 3 characters.';
-                                }
-                                return null;
-                              },
-                              onSaved: (value) {
-                                _enteredBusname = value!;
-                              },
-                            ),
-                            if (!_isLogin)
-                            TextFormField(
-                              decoration: InputDecoration(labelText: 'Username'),
-                              enableSuggestions: false,
-                              validator: (value) {
-                                if (value == null || value.trim().length<4) {
-                                  return 'Please enter atleast 4 characters.';
-                                }
-                                return null;
-                              },
-                              onSaved: (value) {
-                                _enteredUsername = value!;
-                              },
-                            ),
-                          if (!_isLogin)
-                            TextFormField(
-                              decoration: const InputDecoration(
-                                  labelText: 'Email Address'),
-                              keyboardType: TextInputType.emailAddress,
-                              autocorrect: false,
-                              textCapitalization: TextCapitalization.none,
-                              validator: (value) {
-                                if (value == null ||
-                                    value.trim().isEmpty ||
-                                    !value.contains('@')) {
-                                  return 'Please enter a valid email address.';
-                                }
-                                return null;
-                              },
-                              onSaved: (value) {
-                                _enteredEmail = value!;
-                              },
-                            ),
-                          if (!_isLogin)
-                            TextFormField(
-                              decoration:
-                                  const InputDecoration(labelText: 'Password'),
-                              obscureText: true,
-                              validator: (value) {
-                                if (value == null || value.trim().length < 6) {
-                                  return 'Password must be at least 6 characters long';
-                                }
-                                return null;
-                              },
-                              onSaved: (value) {
-                                _enteredPassword = value!;
-                              },
-                            ),
-                          const SizedBox(
-                            height: 12,
-                          ),
-                          if (_isAuthenticating)
-                            const CircularProgressIndicator(),
-                            // Non stop spinning but the thing works.
-                          if (!_isAuthenticating)
-                            ElevatedButton(
-                              onPressed: _submit,
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Theme.of(context)
-                                    .colorScheme
-                                    .primaryContainer,
-                              ),
-                              child: const Text('Sign up'),
-                            ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
+      // body: Center(
+      //   child: SingleChildScrollView(
+      //     child: Column(
+      //       mainAxisAlignment: MainAxisAlignment.center,
+      //       children: [
+      //         Container(
+      //           margin: const EdgeInsets.only(
+      //             top: 30,
+      //             bottom: 20,
+      //             left: 20,
+      //             right: 20,
+      //           ),
+      //           width: 200,
+      //           child: Image.asset('assets/images/delete.webp'),
+      //         ),
+      //         Card(
+      //           margin: const EdgeInsets.all(20),
+      //           child: SingleChildScrollView(
+      //             child: Padding(
+      //               padding: const EdgeInsets.all(16),
+      //               child: Form(
+      //                 key: _form,
+      //                 child: Column(
+      //                   mainAxisSize: MainAxisSize.min,
+      //                   children: [
+      //                     if (!_isLogin)
+      //                       SpImagePicker(
+      //                         onPickImage: (pickedImage) {
+      //                           _selectedImage = pickedImage;
+      //                         },
+      //                       ),
+      //                       if (!_isLogin)
+      //                       TextFormField(
+      //                         decoration:
+      //                             const InputDecoration(labelText: 'Bus name'),
+      //                         enableSuggestions: false,
+      //                         validator: (value) {
+      //                           if (value == null ||
+      //                               value.isEmpty ||
+      //                               value.trim().length < 3) {
+      //                             return 'Please enter at least 3 characters.';
+      //                           }
+      //                           return null;
+      //                         },
+      //                         onSaved: (value) {
+      //                           _enteredBusname = value!;
+      //                         },
+      //                       ),
+      //                       if (!_isLogin)
+      //                       TextFormField(
+      //                         decoration: InputDecoration(labelText: 'Username'),
+      //                         enableSuggestions: false,
+      //                         validator: (value) {
+      //                           if (value == null || value.trim().length<4) {
+      //                             return 'Please enter atleast 4 characters.';
+      //                           }
+      //                           return null;
+      //                         },
+      //                         onSaved: (value) {
+      //                           _enteredUsername = value!;
+      //                         },
+      //                       ),
+      //                     if (!_isLogin)
+      //                       TextFormField(
+      //                         decoration: const InputDecoration(
+      //                             labelText: 'Email Address'),
+      //                         keyboardType: TextInputType.emailAddress,
+      //                         autocorrect: false,
+      //                         textCapitalization: TextCapitalization.none,
+      //                         validator: (value) {
+      //                           if (value == null ||
+      //                               value.trim().isEmpty ||
+      //                               !value.contains('@')) {
+      //                             return 'Please enter a valid email address.';
+      //                           }
+      //                           return null;
+      //                         },
+      //                         onSaved: (value) {
+      //                           _enteredEmail = value!;
+      //                         },
+      //                       ),
+      //                     if (!_isLogin)
+      //                       TextFormField(
+      //                         decoration:
+      //                             const InputDecoration(labelText: 'Password'),
+      //                         obscureText: true,
+      //                         validator: (value) {
+      //                           if (value == null || value.trim().length < 6) {
+      //                             return 'Password must be at least 6 characters long';
+      //                           }
+      //                           return null;
+      //                         },
+      //                         onSaved: (value) {
+      //                           _enteredPassword = value!;
+      //                         },
+      //                       ),
+      //                     const SizedBox(
+      //                       height: 12,
+      //                     ),
+      //                     if (_isAuthenticating)
+      //                       const CircularProgressIndicator(),
+      //                       // Non stop spinning but the thing works.
+      //                     if (!_isAuthenticating)
+      //                       ElevatedButton(
+      //                         onPressed: _submit,
+      //                         style: ElevatedButton.styleFrom(
+      //                           backgroundColor: Theme.of(context)
+      //                               .colorScheme
+      //                               .primaryContainer,
+      //                         ),
+      //                         child: const Text('Sign up'),
+      //                       ),
+      //                   ],
+      //                 ),
+      //               ),
+      //             ),
+      //           ),
+      //         ),
+      //       ],
+      //     ),
+      //   ),
+      // ),
     );
   }
 }

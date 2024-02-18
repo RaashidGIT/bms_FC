@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:bms_sample/Sp_page/models/invoice.dart';
+import 'package:intl/intl.dart'; // Include this import to properly format date
 
 class MyInvoiceScreen extends StatefulWidget {
   const MyInvoiceScreen({Key? key}) : super(key: key);
@@ -9,33 +11,61 @@ class MyInvoiceScreen extends StatefulWidget {
 
 class _MyInvoiceScreenState extends State<MyInvoiceScreen> {
   List<Invoice> invoices = [];
+  DateTime selectedDate = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Bus Invoice"),
-      ),
       body: ListView.builder(
         itemCount: invoices.length,
         itemBuilder: (context, index) {
-          return ListTile(
-            title: Text("Trip No: ${invoices[index].tripNo}"),
-            subtitle: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text("From: ${invoices[index].from} - To: ${invoices[index].to}"),
-                Text("Income: ${(invoices[index].totalTickets - invoices[index].remainingTickets) * invoices[index].price}"),
-              ],
+          return Dismissible(
+          key: UniqueKey(),
+          direction: DismissDirection.endToStart,
+          onDismissed: (direction) {
+              final dismissedInvoice = invoices.removeAt(index);
+
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('Invoice deleted'),
+                  action: SnackBarAction(
+                    label: 'Undo',
+                    onPressed: () {
+                      setState(() {
+                        invoices.insert(index, dismissedInvoice);
+                      });
+                    },
+                  ),
+                ),
+              );
+            },
+          background: Container(
+            color: Colors.red,
+            padding: EdgeInsets.all(16),
+            child: Icon(
+              Icons.delete,
+              color: Colors.white,
             ),
-            trailing: IconButton(
-              icon: Icon(Icons.delete),
-              onPressed: () {
-                setState(() {
-                  invoices.removeAt(index);
-                });
-              },
+          ),
+          child: Card(
+            child: SingleChildScrollView(
+            child: ListTile(
+              title: Text("Trip No: ${invoices[index].tripNo}"),
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("Date: ${DateFormat.yMd().format(invoices[index].date)}"), // Added date display
+                  Text("From: ${invoices[index].from} - To: ${invoices[index].to}"),
+                  Text("Income: ${(invoices[index].totalTickets - invoices[index].remainingTickets) * invoices[index].price}"),
+                ],
+              ),
+              trailing: IconButton(
+                icon: Icon(Icons.delete, color: Colors.red),
+                onPressed: () {},
+              ),
             ),
+            ),
+          ),
           );
         },
       ),
@@ -117,6 +147,7 @@ class _MyInvoiceScreenState extends State<MyInvoiceScreen> {
                       totalTickets: totalTickets,
                       remainingTickets: remainingTickets,
                       price: price,
+                      date: selectedDate,
                     ));
                   });
                   Navigator.of(context).pop();
@@ -137,20 +168,4 @@ class _MyInvoiceScreenState extends State<MyInvoiceScreen> {
   }
 }
 
-class Invoice {
-  final String tripNo;
-  final String from;
-  final String to;
-  final int totalTickets;
-  final int remainingTickets;
-  final double price;
 
-  Invoice({
-    required this.tripNo,
-    required this.from,
-    required this.to,
-    required this.totalTickets,
-    required this.remainingTickets,
-    required this.price,
-  });
-}

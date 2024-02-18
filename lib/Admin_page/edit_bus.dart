@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 
 import 'package:bms_sample/Admin_page/add_sp.dart';
+import 'package:bms_sample/Admin_page/del_sp.dart';
 import 'package:bms_sample/Admin_page/new_bus.dart';
 import 'package:bms_sample/Admin_page/widgets/buses_list/edit_bus_list.dart';
 import 'package:bms_sample/login_page/auth.dart';
@@ -203,13 +204,13 @@ class _AdminPageState extends State<AdminPage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const AdminAuthScreen(),
+                  builder: (context) => const DelSpScreen(),
                 ),
               );
             },
             icon: Icon(
               Icons.person_remove_alt_1,
-              color: Theme.of(context).colorScheme.primary,
+              color: Colors.red,
             ),
           ),
           IconButton(
