@@ -17,10 +17,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -28,10 +25,7 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return macos;
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -49,11 +43,23 @@ class DefaultFirebaseOptions {
     }
   }
 
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyD2-jP9bl91DbqZuRnqB5p70wEybuEv4AY',
+    appId: '1:1080188885419:web:2d6c2ebdddbdaf55015aee',
+    messagingSenderId: '1080188885419',
+    projectId: 'bms-sample-c79d5',
+    authDomain: 'bms-sample-c79d5.firebaseapp.com',
+    databaseURL: 'https://bms-sample-c79d5-default-rtdb.firebaseio.com',
+    storageBucket: 'bms-sample-c79d5.appspot.com',
+    measurementId: 'G-9ZZYSEJGQP',
+  );
+
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyD4Sn3JuophTvviBI7Juy978um3dpqw5Js',
     appId: '1:1080188885419:android:bc145f01594d02c4015aee',
     messagingSenderId: '1080188885419',
     projectId: 'bms-sample-c79d5',
+    databaseURL: 'https://bms-sample-c79d5-default-rtdb.firebaseio.com',
     storageBucket: 'bms-sample-c79d5.appspot.com',
   );
 
@@ -62,7 +68,18 @@ class DefaultFirebaseOptions {
     appId: '1:1080188885419:ios:a32917620f0d4948015aee',
     messagingSenderId: '1080188885419',
     projectId: 'bms-sample-c79d5',
+    databaseURL: 'https://bms-sample-c79d5-default-rtdb.firebaseio.com',
     storageBucket: 'bms-sample-c79d5.appspot.com',
     iosBundleId: 'com.example.bmsSample',
+  );
+
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyAAq6vxLTwG6s4yfR5Xu0z-AA30Wq06A2I',
+    appId: '1:1080188885419:ios:f2b22259d2cf33bc015aee',
+    messagingSenderId: '1080188885419',
+    projectId: 'bms-sample-c79d5',
+    databaseURL: 'https://bms-sample-c79d5-default-rtdb.firebaseio.com',
+    storageBucket: 'bms-sample-c79d5.appspot.com',
+    iosBundleId: 'com.example.bmsSample.RunnerTests',
   );
 }
