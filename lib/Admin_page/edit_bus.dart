@@ -200,6 +200,20 @@ class _AdminPageState extends State<AdminPage> {
           ),
           IconButton(
             onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const AdminAuthScreen(),
+                ),
+              );
+            },
+            icon: Icon(
+              Icons.person_remove_alt_1,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+          ),
+          IconButton(
+            onPressed: () {
               FirebaseAuth.instance.signOut();
             },
             icon: Icon(Icons.logout_sharp),
