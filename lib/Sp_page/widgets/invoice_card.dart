@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:bms_sample/Sp_page/models/invoice.dart';
-import 'package:bms_sample/Sp_page/invoice_view.dart';
 
 class InvoiceCard extends StatelessWidget {
   const InvoiceCard(
@@ -16,14 +15,14 @@ class InvoiceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => InvoiceView(
-                  invoice: invoice,
-                  index: index,
-                  onInvoiceDeleted: onInvoiceDeleted,
-                )));
-      },
+      // onTap: () {
+      //   Navigator.of(context).push(MaterialPageRoute(
+      //       builder: (context) => InvoiceView(
+      //             invoice: invoice,
+      //             index: index,
+      //             onInvoiceDeleted: onInvoiceDeleted,
+      //           )));
+      // },
       child: Card(
         child: Padding(
           padding: const EdgeInsets.all(10),

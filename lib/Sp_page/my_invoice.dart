@@ -13,9 +13,6 @@ class _MyInvoiceScreenState extends State<MyInvoiceScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Bus Invoice"),
-      ),
       body: ListView.builder(
         itemCount: invoices.length,
         itemBuilder: (context, index) {
@@ -24,8 +21,10 @@ class _MyInvoiceScreenState extends State<MyInvoiceScreen> {
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("From: ${invoices[index].from} - To: ${invoices[index].to}"),
-                Text("Income: ${(invoices[index].totalTickets - invoices[index].remainingTickets) * invoices[index].price}"),
+                Text(
+                    "From: ${invoices[index].from} - To: ${invoices[index].to}"),
+                Text(
+                    "Income: ${(invoices[index].totalTickets - invoices[index].remainingTickets) * invoices[index].price}"),
               ],
             ),
             trailing: IconButton(
@@ -83,7 +82,8 @@ class _MyInvoiceScreenState extends State<MyInvoiceScreen> {
                 TextField(
                   decoration: InputDecoration(labelText: 'Remaining Tickets'),
                   keyboardType: TextInputType.number,
-                  onChanged: (value) => remainingTickets = int.tryParse(value) ?? 0,
+                  onChanged: (value) =>
+                      remainingTickets = int.tryParse(value) ?? 0,
                 ),
                 TextField(
                   decoration: InputDecoration(labelText: 'Price'),
