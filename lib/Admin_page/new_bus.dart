@@ -3,6 +3,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:bms_sample/models/bus.dart';
 
@@ -59,9 +60,9 @@ class _NewBusState extends State<NewBus> {
 
   final _firestore = FirebaseFirestore.instance;
 
-  CollectionReference get busesRef {
-    return _firestore.collection('Bus');
-  }
+  CollectionReference get busesRef => _firestore.collection('Bus');
+  CollectionReference get spUsersRef => _firestore.collection('SPusers');
+
 
   Future<void> _submitBusData() async {
     // Here we show error messages, if any appeared
@@ -92,8 +93,12 @@ class _NewBusState extends State<NewBus> {
     await busesRef.add({
       'bus_name': _BusNameController.text,
       'route_AB': _sourceController.text,
-      'route_BA': _destinationController.text, // Assuming same route for BA
+      'route_BA': _destinationController.text,
       'bustype': _selectedBustype.name,
+    });
+
+    spUsersRef.doc(FirebaseAuth.instance.currentUser!.uid).update({
+      'busId': busesRef.id,
     });
 
     widget.onAddBus(
