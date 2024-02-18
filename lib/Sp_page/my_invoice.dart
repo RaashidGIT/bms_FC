@@ -19,23 +19,56 @@ class _MyInvoiceScreenState extends State<MyInvoiceScreen> {
       body: ListView.builder(
         itemCount: invoices.length,
         itemBuilder: (context, index) {
-          return ListTile(
-            title: Text("Trip No: ${invoices[index].tripNo}"),
-            subtitle: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text("From: ${invoices[index].from} - To: ${invoices[index].to}"),
-                Text("Income: ${(invoices[index].totalTickets - invoices[index].remainingTickets) * invoices[index].price}"),
-              ],
+          return Dismissible(
+          key: UniqueKey(),
+          direction: DismissDirection.endToStart,
+          onDismissed: (direction) {
+            // Temporarily remove the invoice
+            final dismissedInvoice = invoices.removeAt(index);
+
+            // Show a Snackbar with undo button
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('Invoice deleted'),
+                action: SnackBarAction(
+                  label: 'Undo',
+                  onPressed: () {
+                    // Add the invoice back to the list
+                    setState(() {
+                      invoices.insert(index, dismissedInvoice);
+                    });
+                  },
+                ),
+              ),
+            );
+          },
+          background: Container(
+            color: Colors.red,
+            padding: EdgeInsets.all(16),
+            child: Icon(
+              Icons.delete,
+              color: Colors.white,
             ),
-            trailing: IconButton(
-              icon: Icon(Icons.delete),
-              onPressed: () {
-                setState(() {
-                  invoices.removeAt(index);
-                });
-              },
+          ),
+          child: Card(
+            child: SingleChildScrollView(
+            child: ListTile(
+              title: Text("Trip No: ${invoices[index].tripNo}"),
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("Date: ${DateFormat.yMd().format(invoices[index].date)}"), // Added date display
+                  Text("From: ${invoices[index].from} - To: ${invoices[index].to}"),
+                  Text("Income: ${(invoices[index].totalTickets - invoices[index].remainingTickets) * invoices[index].price}"),
+                ],
+              ),
+              trailing: IconButton(
+                icon: Icon(Icons.delete, color: Colors.red),
+                onPressed: () {},
+              ),
             ),
+            ),
+          ),
           );
         },
       ),
@@ -83,8 +116,7 @@ class _MyInvoiceScreenState extends State<MyInvoiceScreen> {
                 TextField(
                   decoration: InputDecoration(labelText: 'Remaining Tickets'),
                   keyboardType: TextInputType.number,
-                  onChanged: (value) =>
-                      remainingTickets = int.tryParse(value) ?? 0,
+                  onChanged: (value) => remainingTickets = int.tryParse(value) ?? 0,
                 ),
                 TextField(
                   decoration: InputDecoration(labelText: 'Price'),
@@ -138,5 +170,3 @@ class _MyInvoiceScreenState extends State<MyInvoiceScreen> {
     );
   }
 }
-
-
