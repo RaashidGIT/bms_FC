@@ -55,7 +55,7 @@ void main() async {
       ),
       themeMode: ThemeMode.system, //default
       debugShowCheckedModeBanner: false,
-      home: const Buses(onSelectScreen: 'Bus Management System'),
+      home: Buses(onSelectScreen: 'Bus Management System'),
     ),
   );
 }
