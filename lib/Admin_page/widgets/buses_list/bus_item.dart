@@ -12,46 +12,67 @@ class BusItem extends StatelessWidget {
 
   final Bus bus;
 
-  @override
-  Widget build(BuildContext context) {
-    // puts the content passed to the card a card design
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 20,
-          vertical: 16,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              bus.bus_name,
-              style: TextStyle(fontWeight: FontWeight.bold),
+// puts the content passed to the card a card design
+@override
+Widget build(BuildContext context) {
+  return Card(
+    child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8), // Adjusted padding
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Expanded(
+            flex: 1,
+            child: Align(
+              alignment: Alignment.centerLeft,
+               child: BustypeIcons[bus.bustype] ?? Image.asset('assets/images/default_bus.png'), // Use default if Bustype not mapped
             ),
-            // const SizedBox(height: 4),
-            // .....
-            Row(
-              children: [
-                // Image.asset('assets/images/ordinary_black.png'),
-                // Text(
-                //   DateFormat('h:mm a').format(bus.time_AB.last),
-                // ),
-                // Text(bus.time_AB[0].toString()),
-
-                const Spacer(), Text('To: ${bus.route_BA}'),
-                // Row(
-                //   children: [
-                //     (bus.available)
-                //         ? Icon(Icons.circle_rounded)
-                //         : Icon(Icons.circle_outlined),
-                //     Text('To: ${bus.route_AB.last}'),
-                //   ],
-                // ),
-              ],
-            )
-          ],
-        ),
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            flex: 7,
+            child: SingleChildScrollView( // Consider this if content has variable length
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    bus.bus_name,
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, overflow: TextOverflow.ellipsis), // Truncate long text
+                  ),
+                  const SizedBox(height: 4),
+                  Row(
+                    // Reduce spacing between To: and From:
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'To: ${bus.route_BA}',
+                        style: TextStyle(fontSize: 14),
+                      ),
+                      // const SizedBox(width: 5), // Reduced spacing
+                    ],
+                  ),
+                  const SizedBox(height: 4),
+                  Row(
+                    // Move Track button to the right
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'From: ${bus.route_AB}',
+                        style: TextStyle(fontSize: 14),
+                      ),
+                      ElevatedButton(
+                        onPressed: () => print('Track button pressed!'),
+                        child: Text('Track'),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
-    );
-  }
+    ),
+  );
+}
 }
