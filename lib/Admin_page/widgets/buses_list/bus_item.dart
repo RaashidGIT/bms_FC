@@ -48,7 +48,12 @@ Widget build(BuildContext context) {
                         'To: ${bus.route_BA}',
                         style: TextStyle(fontSize: 14),
                       ),
-                      // const SizedBox(width: 5), // Reduced spacing
+                      const SizedBox(width: 5), // Reduced spacing
+                      //   Text(
+                      //   // DateFormat('h:mm a').format(bus.time_AB.last),
+                      // last accesses the latest departure time
+                      //   style: TextStyle(fontSize: 14), // Increased text size
+                      // ),
                     ],
                   ),
                   const SizedBox(height: 4),
@@ -60,10 +65,10 @@ Widget build(BuildContext context) {
                         'From: ${bus.route_AB}',
                         style: TextStyle(fontSize: 14),
                       ),
-                      ElevatedButton(
-                        onPressed: () => print('Track button pressed!'),
-                        child: Text('Track'),
-                      ),
+                      // ElevatedButton(
+                      //   onPressed: () => print('Track button pressed!'),
+                      //   child: Text('Track'),
+                      // ),
                     ],
                   ),
                 ],
