@@ -168,27 +168,32 @@ class _NewBusState extends State<NewBus> {
           ),
           Row(
             children: [
-              DropdownButton(
-                value: _selectedBustype,
-                items: Bustype.values
-                    .map(
-                      (bustype) => DropdownMenuItem(
-                        value: bustype,
-                        child: Text(
-                          bustype.name.toUpperCase(),
+              Expanded(
+                child: DropdownButton(
+                  value: _selectedBustype,
+                  items: Bustype.values
+                      .map(
+                        (bustype) => DropdownMenuItem(
+                          value: bustype,
+                          child: Text(
+                            bustype.name.toUpperCase(),
+                          ),
                         ),
-                      ),
-                    )
-                    .toList(),
-                onChanged: (value) {
-                  if (value == null) {
-                    return;
-                  }
-                  setState(() {
-                    _selectedBustype = value;
-                  });
-                },
+                      )
+                      .toList(),
+                  onChanged: (value) {
+                    if (value == null) {
+                      return;
+                    }
+                    setState(() {
+                      _selectedBustype = value;
+                    });
+                  },
+                ),
               ),
+              const SizedBox(width: 10),
+              // Expanded(child: ),
+              // Add the time
               const Spacer(),
               Expanded(
                 child: Row(
