@@ -186,6 +186,17 @@ class _BusesState extends State<Buses> {
                             if (snapshot.docs.isNotEmpty) {
                               // Handle found buses here
                               print('Bus found');
+                            // Replace with actual bus data from snapshot
+                          Bus bus = Bus(
+                            bus_name: "Sample Bus Name",
+                            bustype: Bustype.Ordinary, // Assuming "Ac" is a valid Bustype
+                            route_AB: "Starting Point",
+                            route_BA: "Ending Point",
+                            // time_AB: DateTime.now(), // Assuming time_AB is a DateTime
+                          );
+
+                          // Display bus card
+                              showBusCard(context, bus);
                             } else {
                               _noBusFound = true;
                             }
@@ -229,151 +240,231 @@ class _BusesState extends State<Buses> {
           ),
         ],
       ),
-      // drawer: Drawer(
-      //   child: ListView(
-      //     // Important: Remove any padding from the ListView.
-      //     padding: EdgeInsets.zero,
-      //     children: [
-      //       DrawerHeader(
-      //         padding: const EdgeInsets.all(20),
-      //         decoration: BoxDecoration(
-      //           gradient: LinearGradient(colors: [
-      //             Theme.of(context).colorScheme.primaryContainer,
-      //             Theme.of(context)
-      //                 .colorScheme
-      //                 .primaryContainer
-      //                 .withOpacity(0.8),
-      //           ], begin: Alignment.topLeft, end: Alignment.bottomRight),
-      //         ),
-      //         child: Row(
-      //           children: [
-      //             Icon(
-      //               Icons.directions_bus,
-      //               size: 48,
-      //               color: Theme.of(context).colorScheme.primary,
-      //             ),
-      //             const SizedBox(
-      //               width: 18,
-      //             ),
-      //             Text(
-      //               'Bus Management System',
-      //               style: Theme.of(context).textTheme.titleLarge!.copyWith(
-      //                     color: Theme.of(context).colorScheme.primary,
-      //                     fontSize: 17,
-      //                   ),
-      //             ),
-      //           ],
-      //         ),
-      //       ),
-      //       ListTile(
-      //         leading: Icon(
-      //           Icons.access_time,
-      //           size: 26,
-      //           color: Theme.of(context).colorScheme.onBackground,
-      //         ),
-      //         title: Text(
-      //           'Bus Schedule',
-      //           style: Theme.of(context).textTheme.titleSmall!.copyWith(
-      //                 color: Theme.of(context).colorScheme.onBackground,
-      //                 fontSize: 18,
-      //               ),
-      //         ),
-      //         selected: _selectedIndex == 0,
-      //         onTap: () {
-      //           // Update the state of the app
-      //           _onItemTapped(0);
-      //           // _widgetOptions;
-      //           // Then close the drawer
-      //           Navigator.pop(context);
-      //         },
-      //       ),
-      //       ListTile(
-      //         leading: Icon(
-      //           Icons.map_outlined,
-      //           size: 26,
-      //           color: Theme.of(context).colorScheme.onBackground,
-      //         ),
-      //         title: Text(
-      //           'Map',
-      //           style: Theme.of(context).textTheme.titleSmall!.copyWith(
-      //                 color: Theme.of(context).colorScheme.onBackground,
-      //                 fontSize: 18,
-      //               ),
-      //         ),
-      //         selected: _selectedIndex == 1,
-      //         onTap: () {
-      //           // Update the state of the app
-      //           _onItemTapped(1);
+      drawer: Drawer(
+        child: ListView(
+          // Important: Remove any padding from the ListView.
+          padding: EdgeInsets.zero,
+          children: [
+            DrawerHeader(
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(colors: [
+                  Theme.of(context).colorScheme.primaryContainer,
+                  Theme.of(context)
+                      .colorScheme
+                      .primaryContainer
+                      .withOpacity(0.8),
+                ], begin: Alignment.topLeft, end: Alignment.bottomRight),
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.directions_bus,
+                    size: 48,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                  const SizedBox(
+                    width: 18,
+                  ),
+                  Text(
+                    'Bus Management System',
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                          color: Theme.of(context).colorScheme.primary,
+                          fontSize: 17,
+                        ),
+                  ),
+                ],
+              ),
+            ),
+            ListTile(
+              leading: Icon(
+                Icons.access_time,
+                size: 26,
+                color: Theme.of(context).colorScheme.onBackground,
+              ),
+              title: Text(
+                'Bus Schedule',
+                style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                      color: Theme.of(context).colorScheme.onBackground,
+                      fontSize: 18,
+                    ),
+              ),
+              selected: _selectedIndex == 0,
+              onTap: () {
+                // Update the state of the app
+                _onItemTapped(0);
+                // _widgetOptions;
+                // Then close the drawer
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: Icon(
+                Icons.map_outlined,
+                size: 26,
+                color: Theme.of(context).colorScheme.onBackground,
+              ),
+              title: Text(
+                'Map',
+                style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                      color: Theme.of(context).colorScheme.onBackground,
+                      fontSize: 18,
+                    ),
+              ),
+              selected: _selectedIndex == 1,
+              onTap: () {
+                // Update the state of the app
+                _onItemTapped(1);
 
-      //           // Then close the drawer
-      //           Navigator.pop(context);
-      //           Navigator.push(
-      //             context,
-      //             MaterialPageRoute(
-      //               builder: (context) => const MyLocationMap(),
-      //             ),
-      //           );
-      //         },
-      //       ),
-      //       ListTile(
-      //         leading: Icon(
-      //           Icons.info_outline,
-      //           size: 26,
-      //           color: Theme.of(context).colorScheme.onBackground,
-      //         ),
-      //         title: Text(
-      //           'About',
-      //           style: Theme.of(context).textTheme.titleSmall!.copyWith(
-      //                 color: Theme.of(context).colorScheme.onBackground,
-      //                 fontSize: 18,
-      //               ),
-      //         ),
-      //         selected: _selectedIndex == 2,
-      //         onTap: () {
-      //           // Update the state of the app
-      //           _onItemTapped(2);
+                // Then close the drawer
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const MyLocationMap(),
+                  ),
+                );
+              },
+            ),
+            ListTile(
+              leading: Icon(
+                Icons.info_outline,
+                size: 26,
+                color: Theme.of(context).colorScheme.onBackground,
+              ),
+              title: Text(
+                'About',
+                style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                      color: Theme.of(context).colorScheme.onBackground,
+                      fontSize: 18,
+                    ),
+              ),
+              selected: _selectedIndex == 2,
+              onTap: () {
+                // Update the state of the app
+                _onItemTapped(2);
 
-      //           // Then close the drawer
-      //           Navigator.pop(context);
-      //           Navigator.push(
-      //             context,
-      //             MaterialPageRoute(
-      //               builder: (context) => const AboutPage(),
-      //             ),
-      //           );
-      //         },
-      //       ),
-      //       ListTile(
-      //         leading: Icon(
-      //           Icons.help_outline_outlined,
-      //           size: 26,
-      //           color: Theme.of(context).colorScheme.onBackground,
-      //         ),
-      //         title: Text(
-      //           'Help',
-      //           style: Theme.of(context).textTheme.titleSmall!.copyWith(
-      //                 color: Theme.of(context).colorScheme.onBackground,
-      //                 fontSize: 18,
-      //               ),
-      //         ),
-      //         selected: _selectedIndex == 3,
-      //         onTap: () {
-      //           // Update the state of the app
-      //           _onItemTapped(3);
+                // Then close the drawer
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const AboutPage(),
+                  ),
+                );
+              },
+            ),
+            ListTile(
+              leading: Icon(
+                Icons.help_outline_outlined,
+                size: 26,
+                color: Theme.of(context).colorScheme.onBackground,
+              ),
+              title: Text(
+                'Help',
+                style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                      color: Theme.of(context).colorScheme.onBackground,
+                      fontSize: 18,
+                    ),
+              ),
+              selected: _selectedIndex == 3,
+              onTap: () {
+                // Update the state of the app
+                _onItemTapped(3);
 
-      //           // Then close the drawer
-      //           Navigator.pop(context);
-      //           Navigator.push(
-      //             context,
-      //             MaterialPageRoute(
-      //               builder: (context) => const HelpPage(),
-      //             ),
-      //           );
-      //         },
-      //       ),
-      //     ],
-      //   ),
-      // ),
+                // Then close the drawer
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const HelpPage(),
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
     );
   }
+
+  void showBusCard(BuildContext context, Bus bus) {
+  showModalBottomSheet(
+    context: context,
+    builder: (context) => Card(
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Expanded(
+              flex: 1,
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: BustypeIcons[bus.bustype] ??
+                    Image.asset('assets/images/default_bus.png'),
+              ),
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              flex: 7,
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      bus.bus_name,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'To: ${bus.route_BA}',
+                          style: TextStyle(fontSize: 14),
+                        ),
+                        const SizedBox(width: 5),
+                        // Assuming last element of time_AB represents latest departure time
+                        // Text(
+                        //   DateFormat('h:mm a').format(bus.time_AB.last),
+                        //   style: TextStyle(fontSize: 14),
+                        // ),
+                      ],
+                    ),
+                    const SizedBox(height: 4),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'From: ${bus.route_AB}',
+                          style: TextStyle(fontSize: 14),
+                        ),
+                        // Replace with actual track logic and button design
+                        ElevatedButton(
+                          onPressed: () => print('Track button pressed!'),
+                          child: Text('Track'),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.teal,
+                            foregroundColor: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
+}
+
 }
