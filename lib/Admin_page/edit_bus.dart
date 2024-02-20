@@ -113,7 +113,7 @@ class _AdminPageState extends State<AdminPage> {
               );
             },
             icon: Icon(
-              Icons.person_add_alt_1,
+              Icons.directions_bus_sharp,
               color: Theme.of(context).colorScheme.primary,
             ),
           ),
@@ -127,7 +127,7 @@ class _AdminPageState extends State<AdminPage> {
               );
             },
             icon: Icon(
-              Icons.person_remove_alt_1,
+              Icons.delete_outline_outlined,
               color: Colors.red,
             ),
           ),

@@ -221,6 +221,15 @@ class _NewBusState extends State<NewBus> {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
+              Expanded(
+                child: Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Text(
+                    'Add a new bus instance',
+                    style: TextStyle(fontSize: 14, color: Colors.teal[900]),
+                  ),
+                ),
+              ),
               TextButton(
                 onPressed: () {
                   Navigator.pop(context);

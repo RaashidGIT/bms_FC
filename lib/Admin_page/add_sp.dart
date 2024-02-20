@@ -28,6 +28,9 @@ class _AdminAuthScreenState extends State<AdminAuthScreen> {
   var _isAuthenticating = false;
   var _enteredBusname = '';
   var _enteredUsername = '';
+  var _enteredRgno = '';
+  var _enteredRouteA = '';
+  var _enteredRouteB = '';
 
   void _submit() async {
     final isValid = _form.currentState!.validate();
@@ -68,7 +71,7 @@ class _AdminAuthScreenState extends State<AdminAuthScreen> {
 
         final storageRef = FirebaseStorage.instance
             .ref()
-            .child('user_images')
+            .child('bus_images')
             .child('${userCredentials.user!.uid}.jpg');
 
         await storageRef.putFile(_selectedImage!);
@@ -82,9 +85,13 @@ class _AdminAuthScreenState extends State<AdminAuthScreen> {
         .doc(userCredentials.user!.uid)
         .set({
           'bus_ref': busRef, // Store the reference
+          'bus_name':_enteredBusname,
           'username': _enteredUsername,
           'email': _enteredEmail,
           'image_url': imageUrl,
+          'RouteA' : _enteredRouteA,
+          'RouteB' : _enteredRouteB,
+          'Rgno' : _enteredRgno,
         });
 
         // await FirebaseFirestore.instance
@@ -117,7 +124,7 @@ class _AdminAuthScreenState extends State<AdminAuthScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Sign up new users'),
+        title: const Text('Sign up new bus'),
       ),
       backgroundColor: Theme.of(context).colorScheme.primary,
       body: Center(
@@ -170,6 +177,20 @@ class _AdminAuthScreenState extends State<AdminAuthScreen> {
                             ),
                             if (!_isLogin)
                             TextFormField(
+                              decoration: InputDecoration(labelText: 'Registration no.'),
+                              enableSuggestions: false,
+                              validator: (value) {
+                                if (value == null || value.trim().length<4) {
+                                  return 'Please enter atleast 4 characters.';
+                                }
+                                return null;
+                              },
+                              onSaved: (value) {
+                                _enteredRgno = value!;
+                              },
+                            ),
+                            if (!_isLogin)
+                            TextFormField(
                               decoration: InputDecoration(labelText: 'Username'),
                               enableSuggestions: false,
                               validator: (value) {
@@ -216,6 +237,48 @@ class _AdminAuthScreenState extends State<AdminAuthScreen> {
                                 _enteredPassword = value!;
                               },
                             ),
+                            if (!_isLogin)
+                            TextFormField(
+                              decoration: InputDecoration(labelText: 'Route A'),
+                              enableSuggestions: false,
+                              validator: (value) {
+                                if (value == null || value.trim().length<2) {
+                                  return 'Please enter atleast 4 characters.';
+                                }
+                                return null;
+                              },
+                              onSaved: (value) {
+                                _enteredRouteA = value!;
+                              },
+                            ),
+                            if (!_isLogin)
+                            TextFormField(
+                              decoration: InputDecoration(labelText: 'Route B'),
+                              enableSuggestions: false,
+                              validator: (value) {
+                                if (value == null || value.trim().length<2) {
+                                  return 'Please enter atleast 4 characters.';
+                                }
+                                return null;
+                              },
+                              onSaved: (value) {
+                                _enteredRouteB = value!;
+                              },
+                            ),
+                            // TextFormField(
+                            //   decoration: InputDecoration(labelText: 'Time'),
+                            //   enableSuggestions: false,
+                            //   validator: (value) {
+                            //     if (value == null || value.trim().length<4) {
+                            //       return 'Please enter atleast 4 characters.';
+                            //     }
+                            //     return null;
+                            //   },
+                            //   onSaved: (value) {
+                            //     _enteredUsername = value!;
+                            //   },
+                            // ),
+                            // Add a 24 hour timePicker here
                           const SizedBox(
                             height: 12,
                           ),
