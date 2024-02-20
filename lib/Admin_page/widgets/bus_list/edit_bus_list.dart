@@ -1,7 +1,7 @@
 // widget file for the edit_bus.dart
 
-import 'package:bms_sample/Admin_page/widgets/buses_list/bus_item.dart';
-import 'package:bms_sample/models/bus.dart';
+import 'package:bms_sample/Admin_page/widgets/bus_list/bus_item.dart';
+import 'package:bms_sample/Admin_page/models/bus.dart';
 import 'package:flutter/material.dart';
 
 class BusesList extends StatelessWidget {

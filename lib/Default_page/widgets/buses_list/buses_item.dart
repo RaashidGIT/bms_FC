@@ -4,14 +4,13 @@
 
 // import 'package:intl/intl.dart';
 
-// import 'package:bms_sample/models/bus.dart';
+// import 'package:bms_sample/models/buses.dart';
 // import 'package:flutter/material.dart';
-// import 'package:bms_sample/Default_page/buses.dart';
 
 // class BusesItem extends StatelessWidget {
-//   const BusesItem(this.bus, {super.key});
+//   const BusesItem(this.buses, {super.key});
 
-//   final Bus bus;
+//   final Buses buses;
 
 // // puts the content passed to the card a card design
 // @override
@@ -26,7 +25,7 @@
 //             flex: 1,
 //             child: Align(
 //               alignment: Alignment.centerLeft,
-//                child: BustypeIcons[bus.bustype] ?? Image.asset('assets/images/default_bus.png'), // Use default if Bustype not mapped
+//                child: BustypeIcons[buses.busestype] ?? Image.asset('assets/images/default_bus.png'), // Use default if Bustype not mapped
 //             ),
 //           ),
 //           const SizedBox(width: 10),
@@ -37,7 +36,7 @@
 //                 crossAxisAlignment: CrossAxisAlignment.start,
 //                 children: [
 //                   Text(
-//                     bus.bus_name,
+//                     buses.buses_name,
 //                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, overflow: TextOverflow.ellipsis), // Truncate long text
 //                   ),
 //                   const SizedBox(height: 4),
@@ -46,7 +45,7 @@
 //                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
 //                     children: [
 //                       Text(
-//                         'To: ${bus.route_BA}',
+//                         'To: ${buses.route_BA}',
 //                         style: TextStyle(fontSize: 14),
 //                       ),
 //                       const SizedBox(width: 5), // Reduced spacing
@@ -63,13 +62,13 @@
 //                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
 //                     children: [
 //                       Text(
-//                         'From: ${bus.route_AB}',
+//                         'From: ${buses.route_AB}',
 //                         style: TextStyle(fontSize: 14),
 //                       ),
-//                       // ElevatedButton(
-//                       //   onPressed: () => print('Track button pressed!'),
-//                       //   child: Text('Track'),
-//                       // ),
+//                       ElevatedButton(
+//                         onPressed: () => print('Track button pressed!'),
+//                         child: Text('Track'),
+//                       ),
 //                     ],
 //                   ),
 //                 ],

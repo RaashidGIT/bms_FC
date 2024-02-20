@@ -5,9 +5,9 @@
 import 'package:bms_sample/Admin_page/add_sp.dart';
 import 'package:bms_sample/Admin_page/del_sp.dart';
 import 'package:bms_sample/Admin_page/new_bus.dart';
-import 'package:bms_sample/Admin_page/widgets/buses_list/edit_bus_list.dart';
+import 'package:bms_sample/Admin_page/widgets/bus_list/edit_bus_list.dart';
 import 'package:bms_sample/login_page/auth.dart';
-import 'package:bms_sample/models/bus.dart';
+import 'package:bms_sample/Admin_page/models/bus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -48,7 +48,7 @@ class _AdminPageState extends State<AdminPage> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         duration: const Duration(seconds: 3),
-        content: const Text('Bus deleted.'),
+        content: const Text('Bus instance deleted.'),
         action: SnackBarAction(
           label: 'Undo',
           onPressed: () {
@@ -119,12 +119,12 @@ class _AdminPageState extends State<AdminPage> {
           ),
           IconButton(
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const DelSpScreen(),
-                ),
-              );
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(
+              //     builder: (context) => const DelSpPage(),
+              //   ),
+              // );
             },
             icon: Icon(
               Icons.delete_outline_outlined,

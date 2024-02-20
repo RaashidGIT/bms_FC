@@ -8,7 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:bms_sample/login_page/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:bms_sample/models/bus.dart';
+import 'package:bms_sample/Admin_page/models/bus.dart';
 class Buses extends StatefulWidget {
   Buses({
     super.key,

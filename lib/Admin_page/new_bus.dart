@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'package:bms_sample/models/bus.dart';
+import 'package:bms_sample/Admin_page/models/bus.dart';
 
 class NewBus extends StatefulWidget {
   const NewBus({super.key, required this.onAddBus});

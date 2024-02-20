@@ -4,7 +4,7 @@
 
 import 'package:intl/intl.dart';
 
-import 'package:bms_sample/models/bus.dart';
+import 'package:bms_sample/Admin_page/models/bus.dart';
 import 'package:flutter/material.dart';
 
 class BusItem extends StatelessWidget {

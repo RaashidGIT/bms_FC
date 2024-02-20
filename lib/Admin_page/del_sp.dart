@@ -1,58 +1,112 @@
-import 'dart:io';
+// // The first page admins see after loggin in
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/material.dart';
-import 'package:bms_sample/Admin_page/sp_image_picker.dart';
+// // ignore_for_file: unused_import
 
-class DelSpScreen extends StatefulWidget {
-  const DelSpScreen({super.key});
+// import 'package:bms_sample/Admin_page/del_sp.dart';
+// import 'package:bms_sample/Admin_page/widgets/delSp_list/edit_delSp_list.dart';
+// import 'package:bms_sample/Admin_page/widgets/delSp_list/del_sp_item.dart';
+// import 'package:bms_sample/Admin_page/models/delSp.dart';
+// import 'package:flutter/material.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
 
-  @override
-  State<DelSpScreen> createState() {
-    return _AdminAuthScreenState();
-  }
-}
+// class DelSpPage extends StatefulWidget {
+//   const DelSpPage({super.key});
 
-class _AdminAuthScreenState extends State<DelSpScreen> {
-  final _form = GlobalKey<FormState>();
+//   @override
+//   State<DelSpPage> createState() => _DelSpPageState();
+// }
 
-  Future<void> getSPusersData() async {
-    // Get a reference to the SPusers collection
-    final collection = FirebaseFirestore.instance.collection('SPusers');
+// class _DelSpPageState extends State<DelSpPage> {
+//   final List<DelSp> _registeredDelSps = []; // Empty list to store fetched buses
 
-    // Fetch all documents (adjust query as needed)
-    final querySnapshot = await collection.get();
+  //  void _removeDelSp(DelSp delsp) async {
+  //   final delspIndex = _registeredDelSps.indexOf(delsp);
 
-    // Process each document
-    for (final document in querySnapshot.docs) {
-      final data = document.data();
-      final Regno = data['Regno'];
-      final busRef = data['bus_ref'];
-      // ... extract other fields
+  //   // UI update
+  //   setState(() {
+  //     _registeredDelSps.remove(delsp);
+  //   });
 
-      // Display or use the retrieved data
-    }
-  }
+  //   ScaffoldMessenger.of(context).clearSnackBars();
+  //   ScaffoldMessenger.of(context).showSnackBar(
+  //     SnackBar(
+  //       duration: const Duration(seconds: 3),
+  //       content: const Text('Bus deleted.'),
+  //       action: SnackBarAction(
+  //         label: 'Undo',
+  //         onPressed: () {
+  //           setState(() {
+  //             _registeredDelSps.insert(delspIndex, delsp);
+  //           });
+  //         },
+  //       ),
+  //     ),
+  //   );
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Delete existing bus'),
-      ),
-      // Set backgroundColor to your preference (optional)
-      backgroundColor: Colors.white,
-      body: Center(
-        child: Text(
-          "Hi",
-          style: TextStyle(
-            fontSize: 30, // Adjust font size as desired
-            fontWeight: FontWeight.bold, // Optional
-            color: Colors.black, // Change text color if needed
-          ),
-        ),
-      ),
-    );
-  }
-}
+  //   // Delete from Firestore in the background
+  // Future.delayed(const Duration(seconds: 3), () async {
+  //   try {
+  //     await FirebaseFirestore.instance.collection('SPusers').doc(delsp.id).delete();
+  //     // Success message or visual cue if desired
+  //   } catch (error) {
+  //     // Handle errors gracefully (e.g., retry, log, show an error message)
+  //     print(error);
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       SnackBar(
+  //         content: Text('Error deleting bus: ${error.toString()}'),
+  //         duration: const Duration(seconds: 5),
+  //         action: SnackBarAction(
+  //           label: 'Retry',
+  //           onPressed: () => _removeDelSp(delsp), // Retry deletion on tap
+  //         ),
+  //       ),
+  //     );
+  //   }
+  // });
+  // }
+
+  // @override
+  // Widget build(BuildContext context) {
+  //   Widget mainContent = Center(
+  //     child: Text('No buses to delete.'),
+  //   );
+
+    // if (_registeredDelSps.isNotEmpty) {
+    //   mainContent = DelSpsList(
+    //     delsps: _registeredDelSps,
+    //     onRemoveDelSp: _removeDelSp,
+    //   );
+    // }
+
+    // return Scaffold(
+    //   appBar: AppBar(
+    //     title: const Text('Delete existing bus'),
+    //   ),
+      // body: Column(
+      //   children: [
+      //     Expanded(
+      //       child: FutureBuilder<QuerySnapshot>(
+      //         future: FirebaseFirestore.instance.collection('SPusers').get(),
+      //         builder: (context, snapshot) {
+      //           if (snapshot.hasError) {
+      //             return Center(child: Text('Error: ${snapshot.error}'));
+      //           }
+      //           if (snapshot.hasData) {
+      //             _registeredDelSps.clear(); 
+      //             for (var doc in snapshot.data!.docs) {
+      //             _registeredDelSps.add(DelSp.fromMap(doc.data() as Map<String, dynamic>));
+      //           }
+      //             return DelSpsList(
+      //               delsps: _registeredDelSps,
+      //               onRemoveDelSp: _removeDelSp,
+      //             );
+      //           }
+      //           return const Center(child: CircularProgressIndicator());
+      //         },
+      //       ),
+      //     ),
+      //   ],
+      // ),
+//     );
+//   }
+// }
