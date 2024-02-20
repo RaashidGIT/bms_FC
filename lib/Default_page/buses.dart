@@ -189,7 +189,7 @@ class _BusesState extends State<Buses> {
                             // Replace with actual bus data from snapshot
                           Bus bus = Bus(
                             bus_name: "Sample Bus Name",
-                            bustype: Bustype.Ordinary, // Assuming "Ac" is a valid Bustype
+                            bustype: Bustype.Ordinary,
                             route_AB: "Starting Point",
                             route_BA: "Ending Point",
                             // time_AB: DateTime.now(), // Assuming time_AB is a DateTime
@@ -240,151 +240,151 @@ class _BusesState extends State<Buses> {
           ),
         ],
       ),
-      drawer: Drawer(
-        child: ListView(
-          // Important: Remove any padding from the ListView.
-          padding: EdgeInsets.zero,
-          children: [
-            DrawerHeader(
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(colors: [
-                  Theme.of(context).colorScheme.primaryContainer,
-                  Theme.of(context)
-                      .colorScheme
-                      .primaryContainer
-                      .withOpacity(0.8),
-                ], begin: Alignment.topLeft, end: Alignment.bottomRight),
-              ),
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.directions_bus,
-                    size: 48,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                  const SizedBox(
-                    width: 18,
-                  ),
-                  Text(
-                    'Bus Management System',
-                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                          color: Theme.of(context).colorScheme.primary,
-                          fontSize: 17,
-                        ),
-                  ),
-                ],
-              ),
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.access_time,
-                size: 26,
-                color: Theme.of(context).colorScheme.onBackground,
-              ),
-              title: Text(
-                'Bus Schedule',
-                style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                      color: Theme.of(context).colorScheme.onBackground,
-                      fontSize: 18,
-                    ),
-              ),
-              selected: _selectedIndex == 0,
-              onTap: () {
-                // Update the state of the app
-                _onItemTapped(0);
-                // _widgetOptions;
-                // Then close the drawer
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.map_outlined,
-                size: 26,
-                color: Theme.of(context).colorScheme.onBackground,
-              ),
-              title: Text(
-                'Map',
-                style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                      color: Theme.of(context).colorScheme.onBackground,
-                      fontSize: 18,
-                    ),
-              ),
-              selected: _selectedIndex == 1,
-              onTap: () {
-                // Update the state of the app
-                _onItemTapped(1);
+      // drawer: Drawer(
+      //   child: ListView(
+      //     // Important: Remove any padding from the ListView.
+      //     padding: EdgeInsets.zero,
+      //     children: [
+      //       DrawerHeader(
+      //         padding: const EdgeInsets.all(20),
+      //         decoration: BoxDecoration(
+      //           gradient: LinearGradient(colors: [
+      //             Theme.of(context).colorScheme.primaryContainer,
+      //             Theme.of(context)
+      //                 .colorScheme
+      //                 .primaryContainer
+      //                 .withOpacity(0.8),
+      //           ], begin: Alignment.topLeft, end: Alignment.bottomRight),
+      //         ),
+      //         child: Row(
+      //           children: [
+      //             Icon(
+      //               Icons.directions_bus,
+      //               size: 48,
+      //               color: Theme.of(context).colorScheme.primary,
+      //             ),
+      //             const SizedBox(
+      //               width: 18,
+      //             ),
+      //             Text(
+      //               'Bus Management System',
+      //               style: Theme.of(context).textTheme.titleLarge!.copyWith(
+      //                     color: Theme.of(context).colorScheme.primary,
+      //                     fontSize: 17,
+      //                   ),
+      //             ),
+      //           ],
+      //         ),
+      //       ),
+      //       ListTile(
+      //         leading: Icon(
+      //           Icons.access_time,
+      //           size: 26,
+      //           color: Theme.of(context).colorScheme.onBackground,
+      //         ),
+      //         title: Text(
+      //           'Bus Schedule',
+      //           style: Theme.of(context).textTheme.titleSmall!.copyWith(
+      //                 color: Theme.of(context).colorScheme.onBackground,
+      //                 fontSize: 18,
+      //               ),
+      //         ),
+      //         selected: _selectedIndex == 0,
+      //         onTap: () {
+      //           // Update the state of the app
+      //           _onItemTapped(0);
+      //           // _widgetOptions;
+      //           // Then close the drawer
+      //           Navigator.pop(context);
+      //         },
+      //       ),
+      //       ListTile(
+      //         leading: Icon(
+      //           Icons.map_outlined,
+      //           size: 26,
+      //           color: Theme.of(context).colorScheme.onBackground,
+      //         ),
+      //         title: Text(
+      //           'Map',
+      //           style: Theme.of(context).textTheme.titleSmall!.copyWith(
+      //                 color: Theme.of(context).colorScheme.onBackground,
+      //                 fontSize: 18,
+      //               ),
+      //         ),
+      //         selected: _selectedIndex == 1,
+      //         onTap: () {
+      //           // Update the state of the app
+      //           _onItemTapped(1);
 
-                // Then close the drawer
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const MyLocationMap(),
-                  ),
-                );
-              },
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.info_outline,
-                size: 26,
-                color: Theme.of(context).colorScheme.onBackground,
-              ),
-              title: Text(
-                'About',
-                style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                      color: Theme.of(context).colorScheme.onBackground,
-                      fontSize: 18,
-                    ),
-              ),
-              selected: _selectedIndex == 2,
-              onTap: () {
-                // Update the state of the app
-                _onItemTapped(2);
+      //           // Then close the drawer
+      //           Navigator.pop(context);
+      //           Navigator.push(
+      //             context,
+      //             MaterialPageRoute(
+      //               builder: (context) => const MyLocationMap(),
+      //             ),
+      //           );
+      //         },
+      //       ),
+      //       ListTile(
+      //         leading: Icon(
+      //           Icons.info_outline,
+      //           size: 26,
+      //           color: Theme.of(context).colorScheme.onBackground,
+      //         ),
+      //         title: Text(
+      //           'About',
+      //           style: Theme.of(context).textTheme.titleSmall!.copyWith(
+      //                 color: Theme.of(context).colorScheme.onBackground,
+      //                 fontSize: 18,
+      //               ),
+      //         ),
+      //         selected: _selectedIndex == 2,
+      //         onTap: () {
+      //           // Update the state of the app
+      //           _onItemTapped(2);
 
-                // Then close the drawer
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const AboutPage(),
-                  ),
-                );
-              },
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.help_outline_outlined,
-                size: 26,
-                color: Theme.of(context).colorScheme.onBackground,
-              ),
-              title: Text(
-                'Help',
-                style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                      color: Theme.of(context).colorScheme.onBackground,
-                      fontSize: 18,
-                    ),
-              ),
-              selected: _selectedIndex == 3,
-              onTap: () {
-                // Update the state of the app
-                _onItemTapped(3);
+      //           // Then close the drawer
+      //           Navigator.pop(context);
+      //           Navigator.push(
+      //             context,
+      //             MaterialPageRoute(
+      //               builder: (context) => const AboutPage(),
+      //             ),
+      //           );
+      //         },
+      //       ),
+      //       ListTile(
+      //         leading: Icon(
+      //           Icons.help_outline_outlined,
+      //           size: 26,
+      //           color: Theme.of(context).colorScheme.onBackground,
+      //         ),
+      //         title: Text(
+      //           'Help',
+      //           style: Theme.of(context).textTheme.titleSmall!.copyWith(
+      //                 color: Theme.of(context).colorScheme.onBackground,
+      //                 fontSize: 18,
+      //               ),
+      //         ),
+      //         selected: _selectedIndex == 3,
+      //         onTap: () {
+      //           // Update the state of the app
+      //           _onItemTapped(3);
 
-                // Then close the drawer
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const HelpPage(),
-                  ),
-                );
-              },
-            ),
-          ],
-        ),
-      ),
+      //           // Then close the drawer
+      //           Navigator.pop(context);
+      //           Navigator.push(
+      //             context,
+      //             MaterialPageRoute(
+      //               builder: (context) => const HelpPage(),
+      //             ),
+      //           );
+      //         },
+      //       ),
+      //     ],
+      //   ),
+      // ),
     );
   }
 
