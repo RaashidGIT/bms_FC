@@ -21,6 +21,7 @@ class _NewBusState extends State<NewBus> {
   final _BusNameController = TextEditingController();
   final _sourceController = TextEditingController();
   final _destinationController = TextEditingController();
+  final _regController = TextEditingController();
   Bustype _selectedBustype = Bustype.Ordinary;
 
   // Controller for the selected time
@@ -69,6 +70,7 @@ class _NewBusState extends State<NewBus> {
     if (_destinationController.text.trim().isEmpty ||
         _sourceController.text.trim().isEmpty ||
         _destinationController.text.trim().isEmpty ||
+        _regController.text.trim().isEmpty ||
         _BusNameController.text.trim().isEmpty) {
       showDialog(
         context: context,
@@ -95,6 +97,7 @@ class _NewBusState extends State<NewBus> {
       'route_AB': _sourceController.text,
       'route_BA': _destinationController.text,
       'bustype': _selectedBustype.name,
+      'Regno' : _regController.text,
     });
 
     spUsersRef.doc(FirebaseAuth.instance.currentUser!.uid).update({
@@ -104,6 +107,7 @@ class _NewBusState extends State<NewBus> {
     widget.onAddBus(
       Bus(
         bus_name: _BusNameController.text,
+        Regno: _regController.text,
         // route_AB: _sourceController,
         // route_BA: _destinationController,
         // time_AB: _selectedTime,
@@ -169,6 +173,19 @@ class _NewBusState extends State<NewBus> {
           Row(
             children: [
               Expanded(
+                child: TextField(
+                  controller: _regController,
+                  maxLength: 20,
+                  decoration: InputDecoration(
+                    label: Text('Registration no.'),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Expanded(
                 child: DropdownButton(
                   value: _selectedBustype,
                   items: Bustype.values
@@ -200,6 +217,7 @@ class _NewBusState extends State<NewBus> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
+                    
                     // Text(_selectedTime != null
                     //     ? '${_selectedTime!.format(context)}'
                     //     : 'Select Time'),

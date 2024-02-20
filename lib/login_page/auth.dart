@@ -30,6 +30,7 @@ class _AuthScreenState extends State<AuthScreen> {
   var _enteredPassword = '';
   File? _selectedImage;
   var _isAuthenticating = false;
+  // var _enteredRegno = '';
   // var _enteredBusname = '';
 
   void _submit() async {

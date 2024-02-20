@@ -28,7 +28,7 @@ class _AdminAuthScreenState extends State<AdminAuthScreen> {
   var _isAuthenticating = false;
   var _enteredBusname = '';
   var _enteredUsername = '';
-  var _enteredRgno = '';
+  var _enteredRegno = '';
   var _enteredRouteA = '';
   var _enteredRouteB = '';
 
@@ -91,18 +91,9 @@ class _AdminAuthScreenState extends State<AdminAuthScreen> {
           'image_url': imageUrl,
           'RouteA' : _enteredRouteA,
           'RouteB' : _enteredRouteB,
-          'Rgno' : _enteredRgno,
+          'Regno' : _enteredRegno,
         });
 
-        // await FirebaseFirestore.instance
-        //     .collection('SPusers')
-        //     .doc(userCredentials.user!.uid)
-        //     .set({
-        //   'bus_name': _enteredBusname,
-        //   'username': _enteredUsername,
-        //   'email': _enteredEmail,
-        //   'image_url': imageUrl,
-        // });
       }
     } on FirebaseAuthException catch (error) {
       if (error.code == 'email-already-in-use') {
@@ -186,7 +177,7 @@ class _AdminAuthScreenState extends State<AdminAuthScreen> {
                                 return null;
                               },
                               onSaved: (value) {
-                                _enteredRgno = value!;
+                                _enteredRegno = value!;
                               },
                             ),
                             if (!_isLogin)

@@ -27,7 +27,7 @@ class _AdminAuthScreenState extends State<DelSpScreen> {
     // Process each document
     for (final document in querySnapshot.docs) {
       final data = document.data();
-      final rgno = data['Rgno'];
+      final Regno = data['Regno'];
       final busRef = data['bus_ref'];
       // ... extract other fields
 

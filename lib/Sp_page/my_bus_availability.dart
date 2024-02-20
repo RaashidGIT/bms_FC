@@ -22,10 +22,9 @@ class _MyBusAvailabilityState extends State<MyBusAvailability> {
     String username = "";
     String email = "";
     String imageUrl = "";
-    String sourceDestination = "";
-    String finalDestination = "";
-    String route_AB = "";
-    String route_BA = "";
+    String regNo = "";
+    String route_A = "";
+    String route_B = "";
 
   @override
   void initState() {
@@ -35,44 +34,25 @@ class _MyBusAvailabilityState extends State<MyBusAvailability> {
   }
 
   Future<void> fetchBusData() async {
-  // Assuming a user identifier is available
   final userId = user!.uid;
 
-  // Fetch SPuser data
+  // Fetch SPuser data directly
   final spUserDocSnapshot = await FirebaseFirestore.instance
       .collection('SPusers')
       .doc(userId)
       .get();
 
   if (spUserDocSnapshot.exists) {
-    // Get bus reference from SPuser document
-    final busRef = spUserDocSnapshot.get('bus_ref');
-
-    // Check if bus reference exists
-    if (busRef != null) {
-      // Fetch bus data
-      final busDocSnapshot = await busRef.get();
-
-      if (busDocSnapshot.exists) {
-        // Update state with fetched data
-        setState(() {
-          busName = busDocSnapshot.get('bus_name');
-          route_AB = busDocSnapshot.get('route_AB'); // assuming the field name is 'route_AB'
-          route_BA = busDocSnapshot.get('route_BA');
-          username = spUserDocSnapshot.get('username');
-          email = spUserDocSnapshot.get('email');
-          imageUrl = spUserDocSnapshot.get('image_url');
-        });
-      } else {
-        // Handle case where bus document doesn't exist
-        print('Bus document not found for bus_ref: $busRef');
-      }
-    } else {
-      // Handle case where bus reference is missing in SPuser document
-      print('Bus reference not found in SPuser document for user: $userId');
-    }
+    setState(() {
+      busName = spUserDocSnapshot.get('bus_name');
+      route_A = spUserDocSnapshot.get('RouteA');
+      route_B = spUserDocSnapshot.get('RouteB');
+      regNo = spUserDocSnapshot.get('Regno');
+      username = spUserDocSnapshot.get('username');
+      email = spUserDocSnapshot.get('email');
+      imageUrl = spUserDocSnapshot.get('image_url');
+    });
   } else {
-    // Handle case where SPuser document doesn't exist
     print('SPuser document not found for user: $userId');
   }
 }
@@ -104,6 +84,11 @@ class _MyBusAvailabilityState extends State<MyBusAvailability> {
                           ),
                           const SizedBox(height: 20), // Increased gap
                           Text(
+                            'Reg no.: $regNo',
+                            style: const TextStyle(fontSize: 20),
+                          ),
+                          const SizedBox(height: 20),
+                          Text(
                             'Username: $username',
                             style: const TextStyle(fontSize: 20),
                           ),
@@ -114,12 +99,12 @@ class _MyBusAvailabilityState extends State<MyBusAvailability> {
                           ),
                           const SizedBox(height: 20),
                           Text(
-                            'Route A: $sourceDestination', // Replace with actual data
+                            'Route A: $route_A', // Replace with actual data
                             style: const TextStyle(fontSize: 20),
                           ),
                           const SizedBox(height: 20),
                           Text(
-                            'Route B: $finalDestination', // Replace with actual data
+                            'Route B: $route_B', // Replace with actual data
                             style: const TextStyle(fontSize: 20),
                           ),
                           const SizedBox(height: 20),

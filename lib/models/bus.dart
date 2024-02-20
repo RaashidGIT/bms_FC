@@ -20,6 +20,7 @@ class Bus {
   final String route_AB;
   final String route_BA;
   final Bustype bustype;
+  final String Regno;
   // final String time;
 
   // Constructor to create a new Bus
@@ -29,6 +30,7 @@ class Bus {
     required this.route_AB,
     required this.route_BA,
     required this.bustype,
+    required this.Regno,
     // required this.time,
   });
 
@@ -43,6 +45,7 @@ class Bus {
       bus_name: data['bus_name'] as String,
       route_AB: data['route_AB'] as String,
       route_BA: data['route_BA'] as String,
+      Regno: data['Regno'] as String,
       bustype: Bustype.values.firstWhere((type) => type.toString() == data['bustype'], orElse: () => Bustype.SF),
       // time: data['time'] as String,
     );
@@ -52,7 +55,7 @@ class Bus {
 
   @override
   String toString() {
-    return 'Bus(id: $id, bus_name: $bus_name, route_AB: $route_AB, route_BA: $route_BA, bustype: $bustype,)';
+    return 'Bus(id: $id, bus_name: $bus_name, route_AB: $route_AB, route_BA: $route_BA, bustype: $bustype, Regno: $Regno,)';
     // return 'Bus(id: $id, bus_name: $bus_name, route_AB: $route_AB, route_BA: $route_BA, bustype: $bustype, time: $time,)';
   }
 }
