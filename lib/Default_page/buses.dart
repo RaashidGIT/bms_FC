@@ -118,9 +118,7 @@ class _BusesState extends State<Buses> {
                           vertical: 4, horizontal: 6),
                       child: TextFormField(
                         decoration: const InputDecoration(labelText: 'From'),
-                        // enableSuggestions: AutofillHints.,
                         controller: _fromController,
-                        // Other TextFormField properties here
                       ),
                     ),
                     const SizedBox(height: 4),
@@ -129,9 +127,7 @@ class _BusesState extends State<Buses> {
                           vertical: 4, horizontal: 6),
                       child: TextFormField(
                         decoration: const InputDecoration(labelText: 'To'),
-                        // enableSuggestions: AutofillHints.,
                         controller: _toController,
-                        // Other TextFormField properties here
                       ),
                     ),
 
@@ -155,13 +151,11 @@ class _BusesState extends State<Buses> {
                       width: MediaQuery.of(context).size.width * 0.9,
                       child: ElevatedButton(
                         onPressed: () async {                         
-                          // Handle button press logic here
                             // Get values from the TextFields
                             String from = _fromController.text;
                             String to = _toController.text;
 
                             if (from.isEmpty || to.isEmpty) {
-                          // Use ScaffoldMessenger to show Snackbar
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                               content: Text('Please enter both origin and destination.'),
@@ -174,7 +168,6 @@ class _BusesState extends State<Buses> {
                               _isLoading = true;
                               _noBusFound = false; // Reset on every search
                             });
-                            // Perform the Firestore query
                             QuerySnapshot<Map<String, dynamic>> snapshot = await _firestore
                                 .collection('Bus')
                                 .where('route_AB', isEqualTo: from)
@@ -184,29 +177,21 @@ class _BusesState extends State<Buses> {
                             setState(() {
                           _isLoading = false;
                             if (snapshot.docs.isNotEmpty) {
-                              // Handle found buses here
                               print('Bus found');
-                            // Replace with actual bus data from snapshot
-                          Bus bus = Bus(
-                            bus_name: "Sample Bus Name",
-                            bustype: Bustype.Ordinary,
-                            route_AB: "Starting Point",
-                            route_BA: "Ending Point",
-                            // time_AB: DateTime.now(), // Assuming time_AB is a DateTime
-                          );
-
-                          // Display bus card
-                              showBusCard(context, bus);
                             } else {
                               _noBusFound = true;
                             }
                           });
-                            // Handle the query results
                                 if (snapshot.docs.isNotEmpty) {
                                   // Found buses matching the route
                                   for (QueryDocumentSnapshot<Map<String, dynamic>> doc in snapshot.docs) {
                                     Bus bus = Bus.fromMap(doc.data());
-                                    // Process the bus data here, e.g., display it on the screen
+                                    showBusCard(context, bus);
+                                    
+                                print('Bus name: ${bus.bus_name}');
+                                print('Bustype: ${bus.bustype}');
+                                print('Route from: ${bus.route_AB}');
+                                print('Route to: ${bus.route_BA}');
                                   }
                                 } else {
                                   // No buses found for the route
@@ -221,13 +206,9 @@ class _BusesState extends State<Buses> {
                                     });
                                   });
                                 }
-
-                          // Build the ListView with the data
-                          // _buildListView(from, to);
                         },
                         child: Text('Find Bus'),
                         style: ElevatedButton.styleFrom(
-                          // Change the background color to green
                           backgroundColor: Color.fromARGB(255, 8, 51, 9),
                           foregroundColor: Colors.teal[400],
                         ),
@@ -430,11 +411,6 @@ class _BusesState extends State<Buses> {
                           style: TextStyle(fontSize: 14),
                         ),
                         const SizedBox(width: 5),
-                        // Assuming last element of time_AB represents latest departure time
-                        // Text(
-                        //   DateFormat('h:mm a').format(bus.time_AB.last),
-                        //   style: TextStyle(fontSize: 14),
-                        // ),
                       ],
                     ),
                     const SizedBox(height: 4),
@@ -445,7 +421,6 @@ class _BusesState extends State<Buses> {
                           'From: ${bus.route_AB}',
                           style: TextStyle(fontSize: 14),
                         ),
-                        // Replace with actual track logic and button design
                         ElevatedButton(
                           onPressed: () => print('Track button pressed!'),
                           child: Text('Track'),
@@ -466,5 +441,4 @@ class _BusesState extends State<Buses> {
     ),
   );
 }
-
 }
