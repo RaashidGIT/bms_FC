@@ -1,6 +1,5 @@
 // modal screen used to add new buses into the listView
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -23,47 +22,25 @@ class _NewBusState extends State<NewBus> {
   final _destinationController = TextEditingController();
   final _regController = TextEditingController();
   Bustype _selectedBustype = Bustype.Ordinary;
-
-  // Controller for the selected time
-  // DateTime? _selectedTime;
-
-  // Future<void> _presentTimePicker() async {
-  //   final newDateTime = await showDatePicker(
-  //     context: context,
-  //     initialDate: _selectedTime ?? DateTime.now(),
-  //     firstDate: DateTime(2000), // Optional: Set a minimum date
-  //     lastDate: DateTime(2100), // Optional: Set a maximum date
-  //   );
-  //   if (newDateTime != null) {
-  //     setState(() {
-  //       _selectedTime = newDateTime;
-  //     });
-  //   }
-  // }
-
-  // TimeOfDay? _selectedTime;
-
-  // Future<void> _presentTimePicker() async {
-  //   final newTime = await showTimePicker(
-  //     context: context,
-  //     initialTime: _selectedTime ?? TimeOfDay.now(),
-  //   );
-  //   if (newTime != null) {
-  //     setState(() {
-  //       _selectedTime = newTime;
-  //     });
-  //   }
-  // }
-
-  // Add Firestore instance and collection reference
-  // final FirebaseFirestore firestore = FirebaseFirestore.instance;
-  // final CollectionReference busesRef = firestore.collection('Bus');
+  TimeOfDay _selectedTime = const TimeOfDay(hour: 0, minute: 0); // Initialize time
 
   final _firestore = FirebaseFirestore.instance;
 
   CollectionReference get busesRef => _firestore.collection('Bus');
   CollectionReference get spUsersRef => _firestore.collection('SPusers');
 
+  Future<void> _selectTime() async {
+    final TimeOfDay? pickedTime = await showTimePicker(
+      context: context,
+      initialTime: _selectedTime,
+    );
+    if (pickedTime != null && pickedTime != _selectedTime) {
+      setState(() {
+        _selectedTime = pickedTime;
+      });
+    }
+  }
+  
 
   Future<void> _submitBusData() async {
     // Here we show error messages, if any appeared
@@ -77,7 +54,7 @@ class _NewBusState extends State<NewBus> {
         builder: (ctx) => AlertDialog(
           title: const Text('Invalid input'),
           content: const Text(
-              'Please make sure a valid name, place, time and category was entered.'),
+              'Please make sure a valid name, place and category was entered.'),
           actions: [
             TextButton(
               onPressed: () {
@@ -91,6 +68,8 @@ class _NewBusState extends State<NewBus> {
       return;
     }
 
+    final formattedTime = _selectedTime.format(context); // Format time using context
+
      // Add bus data to Firestore
     await busesRef.add({
       'bus_name': _BusNameController.text,
@@ -98,6 +77,7 @@ class _NewBusState extends State<NewBus> {
       'route_BA': _destinationController.text,
       'bustype': _selectedBustype.name,
       'Regno' : _regController.text,
+      'time' : formattedTime,
     });
 
     spUsersRef.doc(FirebaseAuth.instance.currentUser!.uid).update({
@@ -108,12 +88,10 @@ class _NewBusState extends State<NewBus> {
       Bus(
         bus_name: _BusNameController.text,
         Regno: _regController.text,
-        // route_AB: _sourceController,
-        // route_BA: _destinationController,
-        // time_AB: _selectedTime,
         route_AB: _sourceController.text,
         route_BA: _destinationController.text,
         bustype: _selectedBustype,
+        time: formattedTime,
       ),
     );
     Navigator.pop(context);
@@ -134,9 +112,6 @@ class _NewBusState extends State<NewBus> {
       padding: const EdgeInsets.fromLTRB(16, 48, 16, 16),
       child: Column(
         children: [
-          // Add a bus icon that dynamically changes depending on the category type inputted by
-          // the user here
-          //,
           TextField(
             controller: _BusNameController,
             maxLength: 24,
@@ -209,27 +184,19 @@ class _NewBusState extends State<NewBus> {
                 ),
               ),
               const SizedBox(width: 10),
-              // Expanded(child: ),
-              // Add the time
-              const Spacer(),
               Expanded(
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    
-                    // Text(_selectedTime != null
-                    //     ? '${_selectedTime!.format(context)}'
-                    //     : 'Select Time'),
-                    // Text(
-                    //   _selectedTime == null
-                    //       ? 'No Time selected'
-                    //       : formatter.format(_selectedTime!),
-                    // ),
-                    // IconButton(
-                    //   onPressed: _presentTimePicker,
-                    //   icon: Icon(Icons.access_time_rounded),
-                    // ),
+                    Expanded(
+                      child: Text(
+                        'Time: ${_selectedTime.format(context)}', // Display selected time
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    IconButton(
+                      icon: const Icon(Icons.access_time),
+                      onPressed: _selectTime,
+                    ),
                   ],
                 ),
               ),

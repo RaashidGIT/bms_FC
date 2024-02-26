@@ -99,12 +99,12 @@ class _MyBusAvailabilityState extends State<MyBusAvailability> {
                           ),
                           const SizedBox(height: 20),
                           Text(
-                            'Route A: $route_A', // Replace with actual data
+                            'Source : $route_A', // Replace with actual data
                             style: const TextStyle(fontSize: 20),
                           ),
                           const SizedBox(height: 20),
                           Text(
-                            'Route B: $route_B', // Replace with actual data
+                            'Destination : $route_B', // Replace with actual data
                             style: const TextStyle(fontSize: 20),
                           ),
                           const SizedBox(height: 20),

@@ -21,7 +21,7 @@ class Buses {
   final String route_B;
   final Busestype busestype;
   // final String Regno;
-  // final String time;
+  final String time;
 
   // Constructor to create a new Bus
   Buses({
@@ -31,7 +31,7 @@ class Buses {
     required this.route_B,
     required this.busestype,
     // required this.Regno,
-    // required this.time,
+    required this.time,
   });
 
   // Constructor to create a Bus from a Firestore document
@@ -47,7 +47,7 @@ class Buses {
       route_B: data['route_BA'] as String,
       // Regno: data['Regno'] as String,
       busestype: Busestype.values.firstWhere((type) => type.toString() == data['bustype'], orElse: () => Busestype.SF),
-      // time: data['time'] as String,
+      time: data['time'] as String,
     );
   }
 
@@ -55,7 +55,7 @@ class Buses {
 
   @override
   String toString() {
-    return 'Buses(id: $id, bus_name: $buses_name, route_AB: $route_A, route_BA: $route_B, bustype: $busestype,)';
-    // return 'Bus(id: $id, bus_name: $bus_name, route_AB: $route_AB, route_BA: $route_BA, bustype: $bustype, time: $time,)';
+    // return 'Buses(id: $id, bus_name: $buses_name, route_AB: $route_A, route_BA: $route_B, bustype: $busestype,)';
+    return 'Buses(id: $id, bus_name: $buses_name, route_AB: $route_A, route_BA: $route_B, bustype: $busestype, time: $time,)';
   }
 }

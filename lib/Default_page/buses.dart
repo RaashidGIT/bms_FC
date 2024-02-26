@@ -174,6 +174,7 @@ class _BusesState extends State<Buses> {
                                 print('Bustype: ${bus.bustype}');
                                 print('Route from: ${bus.route_AB}');
                                 print('Route to: ${bus.route_BA}');
+                                print('time: ${bus.time}');
                                   }
                                 } else {
                                   // No buses found for the route
@@ -347,6 +348,7 @@ class _BusesState extends State<Buses> {
       ),
     );
   }
+}
 
   void showBusCard(BuildContext context, Bus bus) {
   showModalBottomSheet(
@@ -355,72 +357,81 @@ class _BusesState extends State<Buses> {
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Expanded(
-              flex: 1,
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: BustypeIcons[bus.bustype] ??
-                    Image.asset('assets/images/default_bus.png'),
-              ),
-            ),
-            const SizedBox(width: 10),
-            Expanded(
-              flex: 7,
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      bus.bus_name,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'To: ${bus.route_BA}',
-                          style: TextStyle(fontSize: 14),
-                        ),
-                        const SizedBox(width: 5),
-                      ],
-                    ),
-                    const SizedBox(height: 4),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'From: ${bus.route_AB}',
-                          style: TextStyle(fontSize: 14),
-                        ),
-                        ElevatedButton(
-                          onPressed: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => TrackBusPage()),
-                          ),
-                          child: Text('Track'),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.teal,
-                            foregroundColor: Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
+            // Bus Image and Details
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: BustypeIcons[bus.bustype] ??
+                        Image.asset('assets/images/default_bus.png'),
+                  ),
                 ),
-              ),
+                const SizedBox(width: 10),
+                Expanded(
+                  flex: 7,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            bus.bus_name,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          Text(
+                            // Assuming you have the time to display
+                            // 'Time: ',
+                            'Time: ${bus.time}', // Replace with your time string
+                            style: TextStyle(fontSize: 12),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        'To: ${bus.route_BA}',
+                        style: TextStyle(fontSize: 14),
+                      ),
+                      const SizedBox(height: 4),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'From: ${bus.route_AB}',
+                            style: TextStyle(fontSize: 14),
+                          ),
+                          const SizedBox(width: 10), // Optional spacing between text and button
+                          ElevatedButton(
+                            onPressed: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => TrackBusPage()),
+                            ),
+                            child: Text('Track'),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.teal,
+                              foregroundColor: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ],
         ),
       ),
     ),
   );
-}
 }
