@@ -78,7 +78,7 @@ class _AdminAuthScreenState extends State<AdminAuthScreen> {
         final imageUrl = await storageRef.getDownloadURL();
 
         // Store reference to the Bus document
-      final busRef = FirebaseFirestore.instance.collection('Bus').doc(_enteredBusname);
+      final busRef = FirebaseFirestore.instance.collection('Bus').doc(_enteredRegno);
 
       await FirebaseFirestore.instance
         .collection('SPusers')
@@ -256,20 +256,6 @@ class _AdminAuthScreenState extends State<AdminAuthScreen> {
                                 _enteredRouteB = value!;
                               },
                             ),
-                            // TextFormField(
-                            //   decoration: InputDecoration(labelText: 'Time'),
-                            //   enableSuggestions: false,
-                            //   validator: (value) {
-                            //     if (value == null || value.trim().length<4) {
-                            //       return 'Please enter atleast 4 characters.';
-                            //     }
-                            //     return null;
-                            //   },
-                            //   onSaved: (value) {
-                            //     _enteredUsername = value!;
-                            //   },
-                            // ),
-                            // Add a 24 hour timePicker here
                           const SizedBox(
                             height: 12,
                           ),
