@@ -143,7 +143,7 @@ class _AdminPageState extends State<AdminPage> {
         children: [
           Expanded(
             child: FutureBuilder<QuerySnapshot>(
-              future: FirebaseFirestore.instance.collection('Bus').get(),
+              future: FirebaseFirestore.instance.collection('Bus').orderBy('Regno').get(),
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
                   return Center(child: Text('Error: ${snapshot.error}'));

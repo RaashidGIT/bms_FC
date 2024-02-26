@@ -49,11 +49,11 @@ Widget build(BuildContext context) {
                         style: TextStyle(fontSize: 14),
                       ),
                       const SizedBox(width: 5), // Reduced spacing
-                      //   Text(
-                      //   // DateFormat('h:mm a').format(bus.time_AB.last),
-                      // last accesses the latest departure time
-                      //   style: TextStyle(fontSize: 14), // Increased text size
-                      // ),
+                      Text(
+                            // 'Time: ',
+                            'Time: ${bus.time}', // Replace with your time string
+                            style: TextStyle(fontSize: 14),
+                          ),
                     ],
                   ),
                   const SizedBox(height: 4),

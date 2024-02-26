@@ -390,10 +390,9 @@ class _BusesState extends State<Buses> {
                             ),
                           ),
                           Text(
-                            // Assuming you have the time to display
                             // 'Time: ',
                             'Time: ${bus.time}', // Replace with your time string
-                            style: TextStyle(fontSize: 12),
+                            style: TextStyle(fontSize: 14),
                           ),
                         ],
                       ),
