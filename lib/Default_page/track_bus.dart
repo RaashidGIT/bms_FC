@@ -9,7 +9,7 @@ class TrackBusPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('My Location'), // Set your desired title here
+        title: const Text('Bus Location'), // Set your desired title here
       ),
       body: FlutterMap(
         options: MapOptions(

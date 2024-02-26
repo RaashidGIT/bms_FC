@@ -34,25 +34,6 @@ class _BusesState extends State<Buses> {
   
 
   int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Index 0: Bus Schedule',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 1: Map',
-    ),
-    Text(
-      'Index 2: About',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 3: Help',
-      style: optionStyle,
-    ),
-  ];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -297,41 +278,12 @@ class _BusesState extends State<Buses> {
               onTap: () {
                 // Update the state of the app
                 _onItemTapped(1);
-
                 // Then close the drawer
                 Navigator.pop(context);
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => const MyLocationMap(),
-                  ),
-                );
-              },
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.info_outline,
-                size: 26,
-                color: Theme.of(context).colorScheme.onBackground,
-              ),
-              title: Text(
-                'About',
-                style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                      color: Theme.of(context).colorScheme.onBackground,
-                      fontSize: 18,
-                    ),
-              ),
-              selected: _selectedIndex == 2,
-              onTap: () {
-                // Update the state of the app
-                _onItemTapped(2);
-
-                // Then close the drawer
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const AboutPage(),
                   ),
                 );
               },
@@ -363,6 +315,33 @@ class _BusesState extends State<Buses> {
                 );
               },
             ),
+            ListTile(
+              leading: Icon(
+                Icons.info_outline,
+                size: 26,
+                color: Theme.of(context).colorScheme.onBackground,
+              ),
+              title: Text(
+                'About',
+                style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                      color: Theme.of(context).colorScheme.onBackground,
+                      fontSize: 18,
+                    ),
+              ),
+              selected: _selectedIndex == 2,
+              onTap: () {
+                // Update the state of the app
+                _onItemTapped(2);
+                // Then close the drawer
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const AboutPage(),
+                  ),
+                );
+              },
+            ),           
           ],
         ),
       ),
