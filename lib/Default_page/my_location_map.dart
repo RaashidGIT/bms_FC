@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
@@ -12,13 +14,23 @@ class MyLocationMap extends StatefulWidget {
 }
 
 class _MyLocationMapState extends State<MyLocationMap> {
+  late AlignOnUpdate _followOnLocationUpdate;
+  late StreamController<double?> _followCurrentLocationStreamController;
   final String _title = 'My Location';
   latLng.LatLng? _userLocation;
 
   @override
   void initState() {
     super.initState();
+     _followOnLocationUpdate = AlignOnUpdate.always;
+    _followCurrentLocationStreamController = StreamController<double?>();
     _requestLocationPermission();
+  }
+
+  @override
+  void dispose() {
+    _followCurrentLocationStreamController.close();
+    super.dispose();
   }
 
   Future<void> _requestLocationPermission() async {
@@ -61,10 +73,20 @@ class _MyLocationMapState extends State<MyLocationMap> {
         title: Text(_title),
       ),
       body: _userLocation != null
-          ? FlutterMap(
-              options: MapOptions(
-                initialCenter: _userLocation!,
-                initialZoom: 13.0,
+          ? Stack(
+              children: [
+                FlutterMap(
+                  options: MapOptions(
+                  initialCenter: _userLocation!,
+                  initialZoom: 13.0,
+                  // Stop following the location marker on the map if user interacted with the map.
+                  onPositionChanged: (MapPosition position, bool hasGesture) {
+                  if (hasGesture && _followOnLocationUpdate != AlignOnUpdate.never) {
+                    setState(
+                      () => _followOnLocationUpdate = AlignOnUpdate.never,
+                    );
+                  }
+                },
               ),
               children: [
                 TileLayer(
@@ -74,7 +96,21 @@ class _MyLocationMapState extends State<MyLocationMap> {
                     'id': 'mapbox.mapbox-streets-v8',
                   },
                 ),
-                CurrentLocationLayer(),
+                CurrentLocationLayer(
+                  alignPositionStream:
+                      _followCurrentLocationStreamController.stream,
+                  alignPositionOnUpdate: _followOnLocationUpdate,
+                  style: LocationMarkerStyle(
+                    marker: const DefaultLocationMarker(
+                      child: Icon(
+                        Icons.navigation,
+                        color: Colors.white,
+                      ),
+                    ),
+                    markerSize: const Size(40, 40),
+                    markerDirection: MarkerDirection.heading,
+                  ),
+                ),
                 // MarkerLayer(
                 //   markers: [
                 //     Marker(
@@ -86,6 +122,25 @@ class _MyLocationMapState extends State<MyLocationMap> {
                 //   ],
                 // ),
               ],
+                ),
+              // Add the FAB as a non-rotated child
+                Positioned(
+                  right: 20,
+                  bottom: 20,
+                  child: FloatingActionButton(
+                    // Modify this onPressed logic to control the FAB's behavior
+                    onPressed: () {
+                      setState(() {
+                        _followOnLocationUpdate =
+                            _followOnLocationUpdate == AlignOnUpdate.never
+                                ? AlignOnUpdate.always
+                                : AlignOnUpdate.never;
+                      });
+                    },
+                    child: const Icon(Icons.my_location),
+                  ),
+                ),
+              ],
             )
           : const Center(
               child: CircularProgressIndicator(),
@@ -93,3 +148,4 @@ class _MyLocationMapState extends State<MyLocationMap> {
     );
   }
 }
+
