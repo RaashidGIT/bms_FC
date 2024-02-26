@@ -3,6 +3,7 @@ import 'package:bms_sample/Default_page/about.dart';
 import 'package:bms_sample/Default_page/help.dart';
 import 'package:bms_sample/Default_page/my_location_map.dart';
 import 'package:bms_sample/Default_page/splash.dart';
+import 'package:bms_sample/Default_page/track_bus.dart';
 import 'package:bms_sample/Sp_page/my_bus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -352,7 +353,6 @@ class _BusesState extends State<Buses> {
               onTap: () {
                 // Update the state of the app
                 _onItemTapped(3);
-
                 // Then close the drawer
                 Navigator.pop(context);
                 Navigator.push(
@@ -422,7 +422,10 @@ class _BusesState extends State<Buses> {
                           style: TextStyle(fontSize: 14),
                         ),
                         ElevatedButton(
-                          onPressed: () => print('Track button pressed!'),
+                          onPressed: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => TrackBusPage()),
+                          ),
                           child: Text('Track'),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.teal,
