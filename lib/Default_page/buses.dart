@@ -423,6 +423,16 @@ class _BusesState extends State<Buses> {
                           ),
                         ],
                       ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('Availabilty : '),
+                          // Text(
+                          //   'Available: ${bus.availability}',
+                          //   style: TextStyle(fontSize: 14),
+                          // ),
+                        ],
+                      ),
                     ],
                   ),
                 ),

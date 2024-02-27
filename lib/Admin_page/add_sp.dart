@@ -31,6 +31,7 @@ class _AdminAuthScreenState extends State<AdminAuthScreen> {
   var _enteredRegno = '';
   var _enteredRouteA = '';
   var _enteredRouteB = '';
+  bool availability = false;
 
   void _submit() async {
     final isValid = _form.currentState!.validate();
@@ -92,6 +93,7 @@ class _AdminAuthScreenState extends State<AdminAuthScreen> {
           'RouteA' : _enteredRouteA,
           'RouteB' : _enteredRouteB,
           'Regno' : _enteredRegno,
+          'availability' : availability,
         });
 
       }

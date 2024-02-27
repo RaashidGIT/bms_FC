@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
@@ -22,6 +24,7 @@ class Bus {
   final Bustype bustype;
   final String Regno;
   final String time;
+  // final Bool availability;
 
   // Constructor to create a new Bus
   Bus({
@@ -32,6 +35,7 @@ class Bus {
     required this.bustype,
     required this.Regno,
     required this.time,
+    // required this.availability,
   });
 
   // Constructor to create a Bus from a Firestore document
@@ -48,6 +52,7 @@ class Bus {
       Regno: data['Regno'] as String,
       bustype: Bustype.values.firstWhere((type) => type.toString() == data['bustype'], orElse: () => Bustype.SF),
       time: data['time'] as String,
+      // availability: data['availability'] as Bool,
     );
   }
 
@@ -56,6 +61,7 @@ class Bus {
   @override
   String toString() {
     // return 'Bus(id: $id, bus_name: $bus_name, route_AB: $route_AB, route_BA: $route_BA, bustype: $bustype, Regno: $Regno,)';
+    // return 'Bus(id: $id, bus_name: $bus_name, route_AB: $route_AB, route_BA: $route_BA, bustype: $bustype, time: $time, availabilty: $availability,)';
     return 'Bus(id: $id, bus_name: $bus_name, route_AB: $route_AB, route_BA: $route_BA, bustype: $bustype, time: $time,)';
   }
 }

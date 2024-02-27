@@ -78,45 +78,101 @@ class _MyBusAvailabilityState extends State<MyBusAvailability> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            'Bus Name: $busName',
-                            style: const TextStyle(fontSize: 20),
+                          RichText(
+                            text: TextSpan(
+                              children: [
+                                const TextSpan(
+                                  text: 'Bus Name: ',
+                                  style: TextStyle(fontSize: 20, color: Colors.teal),
+                                ),
+                                TextSpan(
+                                  text: busName,
+                                  style: const TextStyle(fontSize: 20, color: Colors.black),
+                                ),
+                              ],
+                            ),
                           ),
                           const SizedBox(height: 20), // Increased gap
-                          Text(
-                            'Reg no.: $regNo',
-                            style: const TextStyle(fontSize: 20),
+
+                          RichText(
+                            text: TextSpan(
+                              children: [
+                                const TextSpan(
+                                  text: 'Reg no.: ',
+                                  style: TextStyle(fontSize: 20, color: Colors.teal),
+                                ),
+                                TextSpan(
+                                  text: regNo,
+                                  style: const TextStyle(fontSize: 20, color: Colors.black),
+                                ),
+                              ],
+                            ),
                           ),
                           const SizedBox(height: 20),
-                          Text(
-                            'Username: $username',
-                            style: const TextStyle(fontSize: 20),
+
+                          RichText(
+                            text: TextSpan(
+                              children: [
+                                const TextSpan(
+                                  text: 'Username: ',
+                                  style: TextStyle(fontSize: 20, color: Colors.teal),
+                                ),
+                                TextSpan(
+                                  text: username,
+                                  style: const TextStyle(fontSize: 20, color: Colors.black),
+                                ),
+                              ],
+                            ),
                           ),
                           const SizedBox(height: 20),
-                          Text(
-                            'Email: $email',
-                            style: const TextStyle(fontSize: 20),
+
+                          RichText(
+                            text: TextSpan(
+                              children: [
+                                const TextSpan(
+                                  text: 'Email: ',
+                                  style: TextStyle(fontSize: 20, color: Colors.teal),
+                                ),
+                                TextSpan(
+                                  text: email,
+                                  style: const TextStyle(fontSize: 20, color: Colors.black),
+                                ),
+                              ],
+                            ),
                           ),
                           const SizedBox(height: 20),
-                          Text(
-                            'Source : $route_A', // Replace with actual data
-                            style: const TextStyle(fontSize: 20),
+
+                          RichText(
+                            text: TextSpan(
+                              children: [
+                                const TextSpan(
+                                  text: 'Source : ',
+                                  style: TextStyle(fontSize: 20, color: Colors.teal),
+                                ),
+                                TextSpan(
+                                  text: route_A, // Replace with actual data
+                                  style: const TextStyle(fontSize: 20, color: Colors.black),
+                                ),
+                              ],
+                            ),
                           ),
                           const SizedBox(height: 20),
-                          Text(
-                            'Destination : $route_B', // Replace with actual data
-                            style: const TextStyle(fontSize: 20),
+
+                          RichText(
+                            text: TextSpan(
+                              children: [
+                                const TextSpan(
+                                  text: 'Destination : ',
+                                  style: TextStyle(fontSize: 20, color: Colors.teal),
+                                ),
+                                TextSpan(
+                                  text: route_B, // Replace with actual data
+                                  style: const TextStyle(fontSize: 20, color: Colors.black),
+                                ),
+                              ],
+                            ),
                           ),
                           const SizedBox(height: 20),
-                          // Text(
-                          //   'Time A: {timeA}', // Replace with actual data
-                          //   style: const TextStyle(fontSize: 20),
-                          // ),
-                          // const SizedBox(height: 20),
-                          // Text(
-                          //   'Time B: {timeB}', // Replace with actual data
-                          //   style: const TextStyle(fontSize: 20),
-                          // ),
                         ],
                       ),
                     ),
@@ -162,6 +218,13 @@ class _MyBusAvailabilityState extends State<MyBusAvailability> {
                     setState(() {
                       _isSelected = !_isSelected;
                       availability = _isSelected; // Update availability based on _isSelected
+
+                      FirebaseFirestore.instance
+                      .collection('SPusers')
+                      .doc(user!.uid)
+                      .update({
+                        'availability': availability,
+                      });
                     });
                   },
                   child: Container(

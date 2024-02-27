@@ -117,20 +117,20 @@ class _AdminPageState extends State<AdminPage> {
               color: Theme.of(context).colorScheme.primary,
             ),
           ),
-          IconButton(
-            onPressed: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //     builder: (context) => const DelSpPage(),
-              //   ),
-              // );
-            },
-            icon: Icon(
-              Icons.delete_outline_outlined,
-              color: Colors.red,
-            ),
-          ),
+          // IconButton(
+          //   onPressed: () {
+          //     // Navigator.push(
+          //     //   context,
+          //     //   MaterialPageRoute(
+          //     //     builder: (context) => const DelSpPage(),
+          //     //   ),
+          //     // );
+          //   },
+          //   icon: Icon(
+          //     Icons.delete_outline_outlined,
+          //     color: Colors.red,
+          //   ),
+          // ),
           IconButton(
             onPressed: () {
               FirebaseAuth.instance.signOut();
