@@ -262,8 +262,7 @@ class _AdminAuthScreenState extends State<AdminAuthScreen> {
                             height: 12,
                           ),
                           if (_isAuthenticating)
-                            const CircularProgressIndicator(),
-                            // Non stop spinning but the thing works.
+                            const Text('Signed up'),
                           if (!_isAuthenticating)
                             ElevatedButton(
                               onPressed: _submit,
