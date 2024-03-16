@@ -51,6 +51,8 @@ class _MyBusAvailabilityState extends State<MyBusAvailability> {
       username = spUserDocSnapshot.get('username');
       email = spUserDocSnapshot.get('email');
       imageUrl = spUserDocSnapshot.get('image_url');
+      // Update _isSelected based on availability field
+      _isSelected = spUserDocSnapshot.get('availability') ?? false; // Default to offline if not found
     });
   } else {
     print('SPuser document not found for user: $userId');

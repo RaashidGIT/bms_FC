@@ -1,6 +1,8 @@
 // model used by the card stored as invoice
 
 import 'package:bms_sample/Sp_page/my_invoice.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 
 class Invoice {
   final String tripNo;
@@ -20,4 +22,18 @@ class Invoice {
     required this.price,
     required this.date,
   });
+
+    // Add a 'fromMap' constructor/factory method
+  factory Invoice.fromMap(Map<String, dynamic> data) {
+    return Invoice(
+      tripNo: data['tripNo'] as String,
+      from: data['from'] as String,
+      to: data['to'] as String,
+      totalTickets: data['totalTickets'] as int,
+      remainingTickets: data['remainingTickets'] as int,
+      price: data['price'] as double,
+      date: (data['date'] as Timestamp).toDate(), // Assuming date is stored as Timestamp
+    );
+  }
+
 }
