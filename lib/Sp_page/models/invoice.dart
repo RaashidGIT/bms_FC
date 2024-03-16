@@ -12,6 +12,7 @@ class Invoice {
   final int remainingTickets;
   final double price;
   final DateTime date;
+  final String id;
 
   Invoice({
     required this.tripNo,
@@ -21,6 +22,7 @@ class Invoice {
     required this.remainingTickets,
     required this.price,
     required this.date,
+    this.id = '',
   });
 
     // Add a 'fromMap' constructor/factory method

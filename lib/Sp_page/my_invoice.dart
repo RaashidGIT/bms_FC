@@ -60,6 +60,20 @@ class MyFirestoreService {
       debugPrint('No user signed in, cannot add invoice to Firestore');
     }
   }
+
+  static Future<void> deleteInvoice(String invoiceId) async {
+    final currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser != null) {
+      await FirebaseFirestore.instance
+          .collection('SPusers')
+          .doc(currentUser.uid)
+          .collection('invoices')
+          .doc(invoiceId)
+          .delete();
+    } else {
+      debugPrint('No user signed in, cannot delete invoice');
+    }
+  }
 }
 
 
@@ -92,6 +106,27 @@ class _MyInvoiceScreenState extends State<MyInvoiceScreen> {
     }
   }
 
+  Future<void> _deleteInvoice(String invoiceId) async {
+    try {
+      await MyFirestoreService.deleteInvoice(invoiceId);
+      setState(() {
+        invoices.removeWhere((invoice) => invoice.id == invoiceId);
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Invoice deleted successfully'),
+        ),
+      );
+    } catch (error) {
+      debugPrint('Error deleting invoice: $error');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Failed to delete invoice'),
+        ),
+      );
+    }
+  }
+
     @override
   void initState() {
     super.initState();
@@ -115,7 +150,6 @@ class _MyInvoiceScreenState extends State<MyInvoiceScreen> {
           onDismissed: (direction) {
             // Temporarily remove the invoice
             final dismissedInvoice = invoices.removeAt(index);
-
             // Show a Snackbar with undo button
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
@@ -131,6 +165,7 @@ class _MyInvoiceScreenState extends State<MyInvoiceScreen> {
                 ),
               ),
             );
+            _deleteInvoice(dismissedInvoice.id);
           },
           background: Container(
             color: Colors.red,
@@ -140,6 +175,7 @@ class _MyInvoiceScreenState extends State<MyInvoiceScreen> {
               color: Colors.white,
             ),
           ),
+          // key: Key(invoices.id),
           child: Card(
             child: SingleChildScrollView(
             child: ListTile(
