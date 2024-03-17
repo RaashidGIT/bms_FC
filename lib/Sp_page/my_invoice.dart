@@ -4,8 +4,6 @@ import 'package:intl/intl.dart'; // Include this import to properly format date
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-
-
 class MyInvoiceScreen extends StatefulWidget {
   const MyInvoiceScreen({super.key});
 
@@ -31,6 +29,7 @@ class MyFirestoreService {
        // Check for the existence of the "invoices" subcollection
       final hasInvoicesSubcollection =
           await docRef.collection('invoices').get().then((snapshot) => snapshot.docs.isNotEmpty);
+          
 
        if (hasInvoicesSubcollection) {
         // Add invoice to the existing subcollection
@@ -69,7 +68,7 @@ class MyFirestoreService {
           .doc(currentUser.uid)
           .collection('invoices')
           .doc(invoiceId)
-          .delete();
+          .delete();          
     } else {
       debugPrint('No user signed in, cannot delete invoice');
     }
