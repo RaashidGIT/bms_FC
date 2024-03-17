@@ -150,6 +150,7 @@ class _BusesState extends State<Buses> {
                               _isLoading = true;
                               _noBusFound = false; // Reset on every search
                             });
+                            
                             QuerySnapshot<Map<String, dynamic>> snapshot = await _firestore
                                 .collection('Bus')
                                 .where('route_AB', isEqualTo: from)
