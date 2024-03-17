@@ -31,7 +31,6 @@ class _BusesState extends State<Buses> {
   bool _isLoading = false; // Track if the search is in progress
 
   final _firestore = FirebaseFirestore.instance; // Initialize here
-  
 
   int _selectedIndex = 0;
 
@@ -351,11 +350,11 @@ class _BusesState extends State<Buses> {
   }
 }
 
-  void showBusCard(BuildContext context, Bus bus) {
+  Future <void> showBusCard(BuildContext context, Bus bus) async {
   showDialog(
     context: context,
     builder: (context) => AlertDialog(
-      title: Text('Bus Details'),
+      title: Text('Available Bus'),
       content: SingleChildScrollView(
         child: Card(
           margin: const EdgeInsets.all(8),
@@ -426,10 +425,6 @@ class _BusesState extends State<Buses> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text('Availabilty : '),
-                            // Text(
-                            // 'Available: ${bus.availability}',
-                            // style: TextStyle(fontSize: 14),
-                            // ),
                           ],
                         ),
                       ],
