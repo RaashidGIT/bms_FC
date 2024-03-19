@@ -3,8 +3,9 @@ import 'package:bms_sample/Default_page/about.dart';
 import 'package:bms_sample/Default_page/help.dart';
 import 'package:bms_sample/Default_page/my_location_map.dart';
 import 'package:bms_sample/Default_page/splash.dart';
-import 'package:bms_sample/Default_page/track_bus.dart';
+// import 'package:bms_sample/Default_page/track_bus.dart';
 import 'package:bms_sample/Sp_page/my_bus.dart';
+import 'package:bms_sample/Default_page/location.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:bms_sample/Default_page/availability.dart';
@@ -371,10 +372,26 @@ class _BusesState extends State<Buses> {
                               Text('From: ${bus.route_AB}', style: TextStyle(fontSize: 14)),
                               const SizedBox(width: 10),
                               ElevatedButton(
-                                onPressed: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => TrackBusPage()),
-                                ),
+                                onPressed: () async {
+                                  Map<String, double> locationData = await fetchLatLon(bus.Regno);
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => Center(
+                                      child: AlertDialog(
+                                        title: Text('Location Data'),
+                                        content: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          mainAxisSize: MainAxisSize.min, // Adjusts height based on content
+                                          children: [
+                                            Text('Latitude: ${locationData['latitude']}'),
+                                            SizedBox(height: 8), // Adjust spacing as needed
+                                            Text('Longitude: ${locationData['longitude']}'),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
                                 child: Text('Track'),
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.teal,
