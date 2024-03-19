@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:geolocator/geolocator.dart';
 
 class MyBusAvailability extends StatefulWidget {
   const MyBusAvailability({super.key});
@@ -58,6 +59,32 @@ class _MyBusAvailabilityState extends State<MyBusAvailability> {
     print('SPuser document not found for user: $userId');
   }
 }
+
+void updateLocation(bool available) async {
+    if (available) {
+      Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+      double latitude = position.latitude;
+      double longitude = position.longitude;
+
+      FirebaseFirestore.instance
+          .collection('SPusers')
+          .doc(user!.uid)
+          .update({
+            'availability': available,
+            'latitude': latitude, // Store latitude 
+            'longitude': longitude, // Store longitude 
+          });
+    } else {
+      FirebaseFirestore.instance
+          .collection('SPusers')
+          .doc(user!.uid)
+          .update({
+            'availability': available,
+            'latitude': null, // Clear latitude data when not available
+            'longitude': null, // Clear longitude data when not available
+          });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -205,33 +232,27 @@ class _MyBusAvailabilityState extends State<MyBusAvailability> {
                   ],
                 ),
               ),
-              // ... other widgets for invoice page (if applicable)
+              // ... other widgets for invoice page
             ],
           ),
           Positioned(
-            bottom: 20, // Adjust offset as needed
-            right: 20, // Adjust offset as needed
+            bottom: 20,
+            right: 20,
             child: Row(
               children: [
-                Text(statusText, style: TextStyle(fontSize: 16, color: _isSelected ? Colors.green : Colors.red,)),
+                Text(statusText, style: TextStyle(fontSize: 16, color: _isSelected ? Colors.green : Colors.red)),
                 SizedBox(width: 10),
                 InkWell(
                   onTap: () {
                     setState(() {
                       _isSelected = !_isSelected;
-                      availability = _isSelected; // Update availability based on _isSelected
-
-                      FirebaseFirestore.instance
-                      .collection('SPusers')
-                      .doc(user!.uid)
-                      .update({
-                        'availability': availability,
-                      });
+                      availability = _isSelected;
+                      updateLocation(availability); // Call function to update location based on availability
                     });
                   },
                   child: Container(
-                    width: 50, // Adjust width as needed
-                    height: 50, // Adjust height as needed
+                    width: 50,
+                    height: 50,
                     padding: EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       color: _isSelected ? Colors.red : Colors.green,

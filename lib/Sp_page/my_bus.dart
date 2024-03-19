@@ -13,7 +13,6 @@ class MyBus extends StatefulWidget {
 
 class _MyBusState extends State<MyBus> {
   int _selectedPageIndex = 0;
-  String? _busName; // Store dynamic bus name
 
   List<Widget> _pages = [
     MyBusAvailability(key: UniqueKey()), // Use UniqueKey for each page
