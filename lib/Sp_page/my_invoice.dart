@@ -89,7 +89,7 @@ class _MyInvoiceScreenState extends State<MyInvoiceScreen> {
       try {
         // final userData = await firestore.collection('SPusers').doc(user.uid).get();
         final invoiceRef = firestore.collection('SPusers').doc(user.uid).collection('invoices');
-        final snapshot = await invoiceRef.get();
+        final snapshot = await invoiceRef.orderBy('tripNo', descending: true).get();
         final fetchedInvoices = snapshot.docs
             .map((doc) => Invoice.fromMap(doc.data()))
             .toList();
@@ -133,77 +133,71 @@ class _MyInvoiceScreenState extends State<MyInvoiceScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(child: invoices.isEmpty?
-      Text("No invoices found.",
-      style: TextStyle(fontSize: 18),
-      )
-      :
-      ListView.builder(
-        itemCount: invoices.length,
-        itemBuilder: (context, index) {
-          return Dismissible(
-          key: UniqueKey(),
-          direction: DismissDirection.endToStart,
-          onDismissed: (direction) {
-            // Temporarily remove the invoice
-            final dismissedInvoice = invoices.removeAt(index);
-            // Show a Snackbar with undo button
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text('Invoice deleted'),
-                action: SnackBarAction(
-                  label: 'Undo',
-                  onPressed: () {
-                    // Add the invoice back to the list
-                    setState(() {
-                      invoices.insert(index, dismissedInvoice);
-                    });
+Widget build(BuildContext context) {
+  return Scaffold(
+    body: Center(
+      child: invoices.isEmpty
+          ? Text("No invoices found.", style: TextStyle(fontSize: 18))
+          : ListView.builder(
+              itemCount: invoices.length,
+              itemBuilder: (context, index) {
+                return Dismissible(
+                  key: UniqueKey(),
+                  direction: DismissDirection.endToStart,
+                  onDismissed: (direction) {
+                    final dismissedInvoice = invoices.removeAt(index);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Invoice deleted'),
+                        action: SnackBarAction(
+                          label: 'Undo',
+                          onPressed: () {
+                            setState(() {
+                              invoices.insert(index, dismissedInvoice);
+                            });
+                          },
+                        ),
+                      ),
+                    );
+                    _deleteInvoice(dismissedInvoice.id);
                   },
-                ),
-              ),
-            );
-            _deleteInvoice(dismissedInvoice.id);
-          },
-          background: Container(
-            color: Colors.red,
-            padding: EdgeInsets.all(16),
-            child: Icon(
-              Icons.delete,
-              color: Colors.white,
+                  background: Container(
+                    color: Colors.red,
+                    padding: EdgeInsets.all(16),
+                    child: Icon(
+                      Icons.delete,
+                      color: Colors.white,
+                    ),
+                  ),
+                  child: Card(
+                    child: SingleChildScrollView(
+                      child: ListTile(
+                        title: Text("Trip No: ${invoices[index].tripNo}"),
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("Date: ${DateFormat.yMd().format(invoices[index].date)}"),
+                            Text("From: ${invoices[index].from} - To: ${invoices[index].to}"),
+                            Text("Income: ${(invoices[index].totalTickets - invoices[index].remainingTickets) * invoices[index].price}"),
+                          ],
+                        ),
+                        // trailing: IconButton(
+                        //   icon: Icon(Icons.delete, color: Colors.red),
+                        //   onPressed: () {},
+                        // ),
+                      ),
+                    ),
+                  ),
+                );
+              },
             ),
-          ),
-          // key: Key(invoices.id),
-          child: Card(
-            child: SingleChildScrollView(
-            child: ListTile(
-              title: Text("Trip No: ${invoices[index].tripNo}"),
-              subtitle: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("Date: ${DateFormat.yMd().format(invoices[index].date)}"), // Added date display
-                  Text("From: ${invoices[index].from} - To: ${invoices[index].to}"),
-                  Text("Income: ${(invoices[index].totalTickets - invoices[index].remainingTickets) * invoices[index].price}"),
-                ],
-              ),
-              trailing: IconButton(
-                icon: Icon(Icons.delete, color: Colors.red),
-                onPressed: () {},
-              ),
-            ),
-            ),
-          ),
-          );
-        },
-      ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _showAddInvoiceDialog,
-        child: Icon(Icons.add),
-      ),
-    );
-  }
+    ),
+    floatingActionButton: FloatingActionButton(
+      onPressed: _showAddInvoiceDialog,
+      child: Icon(Icons.add),
+    ),
+  );
+}
 
   void _showAddInvoiceDialog() {
     String tripNo = "";

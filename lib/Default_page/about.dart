@@ -17,51 +17,37 @@ class AboutPage extends StatelessWidget {
             height: 100.0,
             width: 100.0,
           ),
-          SizedBox(height: 16.0),
-          Text(
+          const SizedBox(height: 16.0),
+          const Text(
             'Bus Management App',
             style: TextStyle(
               fontSize: 24.0,
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: 8.0),
-          Text(
-            'Version 1.0.0',
+          const SizedBox(height: 8.0),
+          const Text(
+            'Demo Version', // Updated version number
             style: TextStyle(
               fontSize: 16.0,
               color: Colors.grey,
             ),
           ),
-          SizedBox(height: 16.0),
-          Text(
-            'This app helps you manage buses efficiently. '
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. '
-            'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+          const SizedBox(height: 16.0),
+          const Text(
+            "Developed by students from the Farook College Computer Science Department for their final year project submission (2021 - 2024).",
             style: TextStyle(fontSize: 16.0),
           ),
-          SizedBox(height: 16.0),
-          ElevatedButton(
-            onPressed: () {
-              showAboutDialog(
-                context: context,
-                applicationIcon: Image.asset(
-                  'assets/images/mini_black.png', // Replace with your logo image asset path
-                  height: 50.0,
-                  width: 50.0,
-                ),
-                applicationVersion: '1.0.0',
-                applicationLegalese:
-                    '© 2024 Your Company. All rights reserved.',
-                children: [
-                  Text(
-                    'Developed by Your Team',
-                    style: TextStyle(fontSize: 16.0),
-                  ),
-                ],
-              );
-            },
-            child: Text('View Licenses'),
+          const SizedBox(height: 16.0),
+          const Center(
+            child: Column(
+              children: [
+                Text('Athira (Leader & Co-Ordinator)', style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold)),
+                Text('Raashid (Main Programmer)', style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold)),
+                Text('Hafeefa (Main Designer)', style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold)),
+                Text('Irfan (Software Architect)', style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold)),
+              ],
+            ),
           ),
         ],
       ),

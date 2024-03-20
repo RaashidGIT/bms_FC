@@ -27,7 +27,7 @@ class HelpPage extends StatelessWidget {
           ),
           SizedBox(height: 8.0),
           Text(
-            'How to use?',
+            'What is Bus Management App?',
             style: TextStyle(
               fontSize: 16.0,
               color: Colors.grey,
