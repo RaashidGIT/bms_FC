@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -27,11 +28,18 @@ class _MyBusAvailabilityState extends State<MyBusAvailability> {
     String route_A = "";
     String route_B = "";
 
+    void startLocationUpdates() {
+  Timer.periodic(Duration(minutes: 5), (timer) {
+    updateLocation(true); // Update location every 5 minutes
+  });
+}
+
   @override
   void initState() {
     super.initState();
     // Fetch data from Firestore here
     fetchBusData();
+    startLocationUpdates(); // Start periodic location updates
   }
 
   Future<void> fetchBusData() async {
@@ -60,8 +68,20 @@ class _MyBusAvailabilityState extends State<MyBusAvailability> {
   }
 }
 
+void showPermissionDeniedSnackbar(BuildContext context) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text('Permission Denied'),
+    ),
+  );
+}
+
 void updateLocation(bool available) async {
     if (available) {
+      if (!await Geolocator.isLocationServiceEnabled()) {
+      showPermissionDeniedSnackbar(context);
+      return;
+    }
       Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
       double latitude = position.latitude;
       double longitude = position.longitude;
