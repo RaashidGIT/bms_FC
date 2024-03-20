@@ -3,6 +3,7 @@ import 'package:bms_sample/Default_page/about.dart';
 import 'package:bms_sample/Default_page/help.dart';
 import 'package:bms_sample/Default_page/my_location_map.dart';
 import 'package:bms_sample/Default_page/splash.dart';
+import 'package:bms_sample/Default_page/track_bus.dart';
 // import 'package:bms_sample/Default_page/track_bus.dart';
 import 'package:bms_sample/Sp_page/my_bus.dart';
 import 'package:bms_sample/Default_page/location.dart';
@@ -388,6 +389,17 @@ class _BusesState extends State<Buses> {
                                             Text('Longitude: ${locationData['longitude']}'),
                                           ],
                                         ),
+                                        actions: [
+                                          ElevatedButton( // Use TextButton for a flatter button style
+                                            onPressed: () {
+                                              Navigator.push(context, MaterialPageRoute(builder: (context) => TrackBusPage(
+                                                latitude: locationData['latitude']?.toDouble() ?? 0.0, // Pass latitude value
+                                                longitude: locationData['longitude']?.toDouble() ?? 0.0, // Pass longitude value
+                                              )));
+                                            },
+                                            child: Text('Map'),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                   );
