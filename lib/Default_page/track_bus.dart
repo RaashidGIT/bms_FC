@@ -30,7 +30,7 @@ class _TrackBusPageState extends State<TrackBusPage> {
     } else {
       return Scaffold(
         appBar: AppBar(
-          title: const Text('Bus Location'), // Set your desired title here
+          title: const Text('Bus Location'),
         ),
         body: Stack(
           children: [

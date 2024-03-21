@@ -1,6 +1,3 @@
-import 'dart:ffi';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
@@ -40,8 +37,6 @@ class Bus {
 
   // Constructor to create a Bus from a Firestore document
   factory Bus.fromMap(Map<String, dynamic> data) {
-    // Handle potential errors here, e.g., check for required fields
-    // Check for 'id' and generate if missing
   final String id = data['id'] as String? ?? uuid.v4();
 
     return Bus(
@@ -52,16 +47,11 @@ class Bus {
       Regno: data['Regno'] as String,
       bustype: Bustype.values.firstWhere((type) => type.toString() == data['bustype'], orElse: () => Bustype.SF),
       time: data['time'] as String,
-      // availability: data['availability'] as Bool,
     );
   }
 
-  // Add other methods as needed, e.g., to handle route calculations, timetables, etc.
-
   @override
   String toString() {
-    // return 'Bus(id: $id, bus_name: $bus_name, route_AB: $route_AB, route_BA: $route_BA, bustype: $bustype, Regno: $Regno,)';
-    // return 'Bus(id: $id, bus_name: $bus_name, route_AB: $route_AB, route_BA: $route_BA, bustype: $bustype, time: $time, availabilty: $availability,)';
     return 'Bus(id: $id, bus_name: $bus_name, route_AB: $route_AB, route_BA: $route_BA, bustype: $bustype, time: $time,)';
   }
 }

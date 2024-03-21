@@ -19,7 +19,6 @@ class _MyBusAvailabilityState extends State<MyBusAvailability> {
 
   String get statusText => _isSelected ? 'Online' : 'Offline';
 
-  // Replace these with actual data fetching logic
     String busName = "";
     String username = "";
     String email = "";

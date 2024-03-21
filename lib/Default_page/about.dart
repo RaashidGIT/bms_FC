@@ -13,7 +13,7 @@ class AboutPage extends StatelessWidget {
         padding: EdgeInsets.all(16.0),
         children: [
           Image.asset(
-            'assets/images/mini_black.png', // Replace with your logo image asset path
+            'assets/images/mini_black.png',
             height: 100.0,
             width: 100.0,
           ),
@@ -27,7 +27,7 @@ class AboutPage extends StatelessWidget {
           ),
           const SizedBox(height: 8.0),
           const Text(
-            'Demo Version', // Updated version number
+            'Demo Version',
             style: TextStyle(
               fontSize: 16.0,
               color: Colors.grey,

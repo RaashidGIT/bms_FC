@@ -111,16 +111,6 @@ class _MyLocationMapState extends State<MyLocationMap> {
                     markerDirection: MarkerDirection.heading,
                   ),
                 ),
-                // MarkerLayer(
-                //   markers: [
-                //     Marker(
-                //       width: 40.0,
-                //       height: 40.0,
-                //       point: _userLocation!,
-                //       builder: (ctx) => const Icon(Icons.location_on, color: Colors.blue), // Define and use the 'builder' parameter
-                //     ),
-                //   ],
-                // ),
               ],
                 ),
               // Add the FAB as a non-rotated child
@@ -128,7 +118,6 @@ class _MyLocationMapState extends State<MyLocationMap> {
                   right: 20,
                   bottom: 20,
                   child: FloatingActionButton(
-                    // Modify this onPressed logic to control the FAB's behavior
                     onPressed: () {
                       setState(() {
                         _followOnLocationUpdate =

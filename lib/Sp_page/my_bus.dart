@@ -36,12 +36,6 @@ class _MyBusState extends State<MyBus> {
               : 'Invoice Management',
         ),
         actions: [
-          // IconButton(
-          //   onPressed: () {},
-          //   icon: Icon(Icons.delete_outline_outlined,
-          //   color: Colors.red),
-          // ),
-          // This needs blaze plan activated.
           IconButton(
             onPressed: () => FirebaseAuth.instance.signOut(),
             icon: Icon(Icons.logout_sharp, color: Theme.of(context).colorScheme.primary),

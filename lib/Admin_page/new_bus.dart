@@ -92,7 +92,6 @@ class _NewBusState extends State<NewBus> {
         route_BA: _destinationController.text,
         bustype: _selectedBustype,
         time: formattedTime,
-        // availability: ,
       ),
     );
     Navigator.pop(context);

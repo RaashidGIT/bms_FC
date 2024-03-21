@@ -57,7 +57,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           _isLoading = true;
                         });
 
-                        // Simulate authentication (replace with your actual logic)
+                        // Simulate authentication
                         final isAuthorized = await _authenticateUser(
                             _usernameController.text, _passwordController.text);
 
@@ -88,8 +88,6 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<bool> _authenticateUser(String username, String password) async {
-    // Replace with your actual authentication logic (e.g., Firebase Authentication)
-    // For now, return a hardcoded value for demonstration
     return username == 'test' && password == 'password';
   }
 }

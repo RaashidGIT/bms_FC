@@ -25,7 +25,6 @@ class Invoice {
     this.id = '',
   });
 
-    // Add a 'fromMap' constructor/factory method
   factory Invoice.fromMap(Map<String, dynamic> data) {
     return Invoice(
       tripNo: data['tripNo'] as String,
@@ -34,7 +33,7 @@ class Invoice {
       totalTickets: data['totalTickets'] as int,
       remainingTickets: data['remainingTickets'] as int,
       price: data['price'] as double,
-      date: (data['date'] as Timestamp).toDate(), // Assuming date is stored as Timestamp
+      date: (data['date'] as Timestamp).toDate(),
     );
   }
 

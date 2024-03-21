@@ -1,12 +1,8 @@
 // If the details entered by the user is of admin, edit_bus.dart will be opened else my_bus.dart
 
 import 'dart:io';
-
-// import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:max_project_8/widgets/user_image_picker.dart';
 
 final _firebase = FirebaseAuth.instance;
 
@@ -19,7 +15,7 @@ class AuthScreen extends StatefulWidget {
   }
 }
 
-bool AdminEmail = false; // edit this soon, else admin can't stay logged in.
+bool AdminEmail = false;
 bool AdminPass = false;
 
 class _AuthScreenState extends State<AuthScreen> {
@@ -30,24 +26,15 @@ class _AuthScreenState extends State<AuthScreen> {
   var _enteredPassword = '';
   File? _selectedImage;
   var _isAuthenticating = false;
-  // var _enteredRegno = '';
-  // var _enteredBusname = '';
 
   void _submit() async {
     final isValid = _form.currentState!.validate();
 
-    // if (!isValid) {
-    //   return;
-    // }
 
     if (!isValid || !_isLogin && _selectedImage == null) {
       // show error message ...
       return;
     }
-
-    // if (!_isLogin && _selectedImage == null) {
-    //   return;
-    // }
 
     _form.currentState!.save();
 
@@ -55,31 +42,6 @@ class _AuthScreenState extends State<AuthScreen> {
       setState(() {
         _isAuthenticating = true;
       });
-      if (_isLogin) {
-        final userCredentials = await _firebase.signInWithEmailAndPassword(
-            email: _enteredEmail, password: _enteredPassword);
-      } else {
-        final userCredentials = await _firebase.createUserWithEmailAndPassword(
-            email: _enteredEmail, password: _enteredPassword);
-
-        // final storageRef = FirebaseStorage.instance
-        //     .ref()
-        //     .child('user_images')
-        //     .child('${userCredentials.user!.uid}.jpg');
-
-        // await storageRef.putFile(_selectedImage!);
-        // final imageUrl = await storageRef.getDownloadURL();
-
-        // await FirebaseFirestore.instance
-        //     .collection('users')
-        //     .doc(userCredentials.user!.uid)
-        //     .set({
-        //   'username': _enteredUsername,
-        //   //'busname': _enteredBusname,
-        //   'email': _enteredEmail,
-        //   'image_url': imageUrl,
-        // });
-      }
     } on FirebaseAuthException catch (error) {
       if (error.code == 'email-already-in-use') {
         // ...
@@ -128,12 +90,6 @@ class _AuthScreenState extends State<AuthScreen> {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          // if (!_isLogin)
-                          //   UserImagePicker(
-                          //     onPickImage: (pickedImage) {
-                          //       _selectedImage = pickedImage;
-                          //     },
-                          //   ),
                           TextFormField(
                             decoration: const InputDecoration(
                                 labelText: 'Email Address'),
@@ -157,23 +113,6 @@ class _AuthScreenState extends State<AuthScreen> {
                               }
                             },
                           ),
-                          // if (!_isLogin)
-                          //   TextFormField(
-                          //     decoration:
-                          //         const InputDecoration(labelText: 'Bus name'),
-                          //     enableSuggestions: false,
-                          //     validator: (value) {
-                          //       if (value == null ||
-                          //           value.isEmpty ||
-                          //           value.trim().length < 3) {
-                          //         return 'Please enter at least 3 characters.';
-                          //       }
-                          //       return null;
-                          //     },
-                          //     onSaved: (value) {
-                          //       _enteredUsername = value!;
-                          //     },
-                          //   ),
                           TextFormField(
                             decoration:
                                 const InputDecoration(labelText: 'Password'),
@@ -208,17 +147,6 @@ class _AuthScreenState extends State<AuthScreen> {
                               ),
                               child: Text(_isLogin ? 'Log in' : 'Sign up'),
                             ),
-                          // if (!_isAuthenticating)
-                          //   TextButton(
-                          //     onPressed: () {
-                          //       setState(() {
-                          //         _isLogin = !_isLogin;
-                          //       });
-                          //     },
-                          //     child: Text(_isLogin
-                          //         ? 'Create an account'
-                          //         : 'I already have an account'),
-                          //   ),
                         ],
                       ),
                     ),

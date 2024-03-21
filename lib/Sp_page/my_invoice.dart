@@ -40,7 +40,7 @@ class MyFirestoreService {
           'totalTickets': totalTickets,
           'remainingTickets': remainingTickets,
           'price': price,
-          'date': selectedDate, // Include date field
+          'date': selectedDate,
         });
       } else {
         // Create the "invoices" subcollection and add the first invoice
@@ -51,7 +51,7 @@ class MyFirestoreService {
           'totalTickets': totalTickets,
           'remainingTickets': remainingTickets,
           'price': price,
-          'date': selectedDate, // Include date field
+          'date': selectedDate,
         });
       }
     } else {
@@ -87,7 +87,6 @@ class _MyInvoiceScreenState extends State<MyInvoiceScreen> {
     final user = auth.currentUser; // Use the created 'auth' instance
     if (user != null) {
       try {
-        // final userData = await firestore.collection('SPusers').doc(user.uid).get();
         final invoiceRef = firestore.collection('SPusers').doc(user.uid).collection('invoices');
         final snapshot = await invoiceRef.orderBy('tripNo', descending: true).get();
         final fetchedInvoices = snapshot.docs
@@ -97,7 +96,6 @@ class _MyInvoiceScreenState extends State<MyInvoiceScreen> {
           invoices = fetchedInvoices;
         });
       } catch (error) {
-        // Handle potential errors during fetching
         print('Error fetching invoices: $error');
       }
     } else {
@@ -181,10 +179,6 @@ Widget build(BuildContext context) {
                             Text("Income: ${(invoices[index].totalTickets - invoices[index].remainingTickets) * invoices[index].price}"),
                           ],
                         ),
-                        // trailing: IconButton(
-                        //   icon: Icon(Icons.delete, color: Colors.red),
-                        //   onPressed: () {},
-                        // ),
                       ),
                     ),
                   ),
