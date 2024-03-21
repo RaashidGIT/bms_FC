@@ -92,7 +92,6 @@ class _NewBusState extends State<NewBus> {
         route_BA: _destinationController.text,
         bustype: _selectedBustype,
         time: formattedTime,
-        // availability: ,
       ),
     );
     Navigator.pop(context);
@@ -116,7 +115,7 @@ class _NewBusState extends State<NewBus> {
           TextField(
             controller: _BusNameController,
             maxLength: 24,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               label: Text('Bus Name'),
             ),
           ),
@@ -126,7 +125,7 @@ class _NewBusState extends State<NewBus> {
                 child: TextField(
                   controller: _sourceController,
                   maxLength: 20,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     prefix: Text('From: '),
                     label: Text('Source'),
                   ),
@@ -138,7 +137,7 @@ class _NewBusState extends State<NewBus> {
                   controller: _destinationController,
                   keyboardType: TextInputType.name,
                   maxLength: 20,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     prefix: Text('To: '),
                     label: Text('Destination'),
                   ),
@@ -152,7 +151,7 @@ class _NewBusState extends State<NewBus> {
                 child: TextField(
                   controller: _regController,
                   maxLength: 20,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     label: Text('Registration no.'),
                   ),
                 ),
@@ -220,11 +219,11 @@ class _NewBusState extends State<NewBus> {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: Text('Cancel'),
+                child: const Text('Cancel'),
               ),
               ElevatedButton(
                 onPressed: _submitBusData,
-                child: Text('Save Bus'),
+                child: const Text('Save Bus'),
               ),
             ],
           ),

@@ -83,7 +83,7 @@ class _AdminPageState extends State<AdminPage> {
 
   @override
   Widget build(BuildContext context) {
-    Widget mainContent = Center(
+    Widget mainContent = const Center(
       child: Text('No buses found. Start adding some!'),
     );
 
@@ -100,7 +100,7 @@ class _AdminPageState extends State<AdminPage> {
         actions: [
           IconButton(
             onPressed: _openAddBusOverlay,
-            icon: Icon(Icons.add_box_outlined),
+            icon: const Icon(Icons.add_box_outlined),
           ),
           IconButton(
             onPressed: () {
@@ -120,7 +120,7 @@ class _AdminPageState extends State<AdminPage> {
             onPressed: () {
               FirebaseAuth.instance.signOut();
             },
-            icon: Icon(Icons.logout_sharp),
+            icon: const Icon(Icons.logout_sharp),
           ),
         ],
       ),

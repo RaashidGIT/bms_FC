@@ -107,14 +107,14 @@ class _MyInvoiceScreenState extends State<MyInvoiceScreen> {
         invoices.removeWhere((invoice) => invoice.id == invoiceId);
       });
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text('Invoice deleted successfully'),
         ),
       );
     } catch (error) {
       debugPrint('Error deleting invoice: $error');
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text('Failed to delete invoice'),
         ),
       );
@@ -132,7 +132,7 @@ Widget build(BuildContext context) {
   return Scaffold(
     body: Center(
       child: invoices.isEmpty
-          ? Text("No invoices found.", style: TextStyle(fontSize: 18))
+          ? const Text("No invoices found.", style: TextStyle(fontSize: 18))
           : ListView.builder(
               itemCount: invoices.length,
               itemBuilder: (context, index) {
@@ -158,8 +158,8 @@ Widget build(BuildContext context) {
                   },
                   background: Container(
                     color: Colors.red,
-                    padding: EdgeInsets.all(16),
-                    child: Icon(
+                    padding: const EdgeInsets.all(16),
+                    child: const Icon(
                       Icons.delete,
                       color: Colors.white,
                     ),
@@ -185,7 +185,7 @@ Widget build(BuildContext context) {
     ),
     floatingActionButton: FloatingActionButton(
       onPressed: _showAddInvoiceDialog,
-      child: Icon(Icons.add),
+      child: const Icon(Icons.add),
     ),
   );
 }
@@ -203,35 +203,35 @@ Widget build(BuildContext context) {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Add New Invoice"),
+          title: const Text("Add New Invoice"),
           content: SingleChildScrollView(
             child: Column(
               children: [
                 TextField(
-                  decoration: InputDecoration(labelText: 'Trip No'),
+                  decoration: const InputDecoration(labelText: 'Trip No'),
                   keyboardType: TextInputType.number,
                   onChanged: (value) => tripNo = value,
                 ),
                 TextField(
-                  decoration: InputDecoration(labelText: 'From'),
+                  decoration: const InputDecoration(labelText: 'From'),
                   onChanged: (value) => from = value,
                 ),
                 TextField(
-                  decoration: InputDecoration(labelText: 'To'),
+                  decoration: const InputDecoration(labelText: 'To'),
                   onChanged: (value) => to = value,
                 ),
                 TextField(
-                  decoration: InputDecoration(labelText: 'Total Tickets'),
+                  decoration: const InputDecoration(labelText: 'Total Tickets'),
                   keyboardType: TextInputType.number,
                   onChanged: (value) => totalTickets = int.tryParse(value) ?? 0,
                 ),
                 TextField(
-                  decoration: InputDecoration(labelText: 'Remaining Tickets'),
+                  decoration: const InputDecoration(labelText: 'Remaining Tickets'),
                   keyboardType: TextInputType.number,
                   onChanged: (value) => remainingTickets = int.tryParse(value) ?? 0,
                 ),
                 TextField(
-                  decoration: InputDecoration(labelText: 'Price'),
+                  decoration: const InputDecoration(labelText: 'Price'),
                   keyboardType: TextInputType.number,
                   onChanged: (value) => price = double.tryParse(value) ?? 0.0,
                 ),
@@ -243,7 +243,7 @@ Widget build(BuildContext context) {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('Cancel'),
+              child: const Text('Cancel'),
             ),
             TextButton(
               onPressed: () async {
@@ -271,13 +271,13 @@ Widget build(BuildContext context) {
                   Navigator.of(context).pop();
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
+                    const SnackBar(
                       content: Text('Please fill in all fields correctly.'),
                     ),
                   );
                 }
               },
-              child: Text('OK'),
+              child: const Text('OK'),
             ),
           ],
         );

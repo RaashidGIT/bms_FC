@@ -21,7 +21,7 @@ class BusesList extends StatelessWidget {
           key: ValueKey(buses[index]),
           background: Container(
             color: Theme.of(context).colorScheme.error.withOpacity(0.85),
-            margin: EdgeInsets.symmetric(horizontal: 16),
+            margin: const EdgeInsets.symmetric(horizontal: 16),
           ),
           onDismissed: (direction) {
             onRemoveBus(buses[index]);

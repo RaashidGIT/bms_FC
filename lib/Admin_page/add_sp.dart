@@ -169,7 +169,7 @@ class _AdminAuthScreenState extends State<AdminAuthScreen> {
                             ),
                             if (!_isLogin)
                             TextFormField(
-                              decoration: InputDecoration(labelText: 'Registration no.'),
+                              decoration: const InputDecoration(labelText: 'Registration no.'),
                               enableSuggestions: false,
                               validator: (value) {
                                 if (value == null || value.trim().length<4) {
@@ -183,7 +183,7 @@ class _AdminAuthScreenState extends State<AdminAuthScreen> {
                             ),
                             if (!_isLogin)
                             TextFormField(
-                              decoration: InputDecoration(labelText: 'Username'),
+                              decoration: const InputDecoration(labelText: 'Username'),
                               enableSuggestions: false,
                               validator: (value) {
                                 if (value == null || value.trim().length<4) {
@@ -231,7 +231,7 @@ class _AdminAuthScreenState extends State<AdminAuthScreen> {
                             ),
                             if (!_isLogin)
                             TextFormField(
-                              decoration: InputDecoration(labelText: 'Route A'),
+                              decoration: const InputDecoration(labelText: 'Route A'),
                               enableSuggestions: false,
                               validator: (value) {
                                 if (value == null || value.trim().length<2) {
@@ -245,7 +245,7 @@ class _AdminAuthScreenState extends State<AdminAuthScreen> {
                             ),
                             if (!_isLogin)
                             TextFormField(
-                              decoration: InputDecoration(labelText: 'Route B'),
+                              decoration: const InputDecoration(labelText: 'Route B'),
                               enableSuggestions: false,
                               validator: (value) {
                                 if (value == null || value.trim().length<2) {

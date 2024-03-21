@@ -1,6 +1,4 @@
 // model used by the card stored as invoice
-
-import 'package:bms_sample/Sp_page/my_invoice.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 

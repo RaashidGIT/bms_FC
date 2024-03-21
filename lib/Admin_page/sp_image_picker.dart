@@ -33,12 +33,12 @@ class _UserImagePickerState extends State<SpImagePicker> {
             children: [
               ElevatedButton(
                 onPressed: () => Navigator.pop(context, true),
-                child: Text("Camera"),
+                child: const Text("Camera"),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () => Navigator.pop(context, false),
-                child: Text("Gallery"),
+                child: const Text("Gallery"),
               ),
             ],
           ),
@@ -88,7 +88,7 @@ class _UserImagePickerState extends State<SpImagePicker> {
         ),
         TextButton.icon(
           onPressed: getImage,
-          icon: Icon(Icons.image),
+          icon: const Icon(Icons.image),
           label: Text(
             'Add Image',
             style: TextStyle(color: Theme.of(context).colorScheme.primary),

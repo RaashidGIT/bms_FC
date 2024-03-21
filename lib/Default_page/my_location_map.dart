@@ -100,14 +100,14 @@ class _MyLocationMapState extends State<MyLocationMap> {
                   alignPositionStream:
                       _followCurrentLocationStreamController.stream,
                   alignPositionOnUpdate: _followOnLocationUpdate,
-                  style: LocationMarkerStyle(
-                    marker: const DefaultLocationMarker(
+                  style: const LocationMarkerStyle(
+                    marker: DefaultLocationMarker(
                       child: Icon(
                         Icons.navigation,
                         color: Colors.white,
                       ),
                     ),
-                    markerSize: const Size(40, 40),
+                    markerSize: Size(40, 40),
                     markerDirection: MarkerDirection.heading,
                   ),
                 ),

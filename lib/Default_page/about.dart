@@ -10,7 +10,7 @@ class AboutPage extends StatelessWidget {
         title: const Text('About Bus Management'),
       ),
       body: ListView(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         children: [
           Image.asset(
             'assets/images/mini_black.png', // Replace with your logo image asset path

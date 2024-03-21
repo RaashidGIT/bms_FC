@@ -13,7 +13,7 @@ import 'package:bms_sample/login_page/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:bms_sample/Admin_page/models/bus.dart';
 class Buses extends StatefulWidget {
-  Buses({ super.key, required this.onSelectScreen, });
+  const Buses({ super.key, required this.onSelectScreen, });
   final String onSelectScreen;
 
   @override
@@ -96,7 +96,7 @@ class _BusesState extends State<Buses> {
                       ),
                     ),
                     _isLoading ? const Center(child: CircularProgressIndicator()) : SizedBox(),
-                    _noBusFound ? Center(
+                    _noBusFound ? const Center(
                       child: Text(
                         'No Bus found',
                         style: TextStyle(color: Colors.red),
@@ -189,17 +189,17 @@ class _BusesState extends State<Buses> {
                 children: [
                   Icon(
                     Icons.directions_bus,
-                    size: 48,
+                    size: 64,
                     color: Theme.of(context).colorScheme.primary,
                   ),
                   const SizedBox(
                     width: 18,
                   ),
                   Text(
-                    'Bus Management System',
+                    'NextBus',
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(
                           color: Theme.of(context).colorScheme.primary,
-                          fontSize: 17,
+                          fontSize: 24,
                         ),
                   ),
                 ],
@@ -318,7 +318,7 @@ class _BusesState extends State<Buses> {
   showDialog(
     context: context,
     builder: (context) => AlertDialog(
-      title: Text('Available Bus'),
+      title: const Text('Available Bus'),
       content: SingleChildScrollView(
         child: Card(
           margin: const EdgeInsets.all(8),
@@ -348,7 +348,7 @@ class _BusesState extends State<Buses> {
                             children: [
                               Text(
                                 bus.bus_name,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
                                   overflow: TextOverflow.ellipsis,
@@ -357,17 +357,17 @@ class _BusesState extends State<Buses> {
                               Text(
                                 // 'Time: ',
                                 '${bus.time}',
-                                style: TextStyle(fontSize: 14),
+                                style: const TextStyle(fontSize: 14),
                               ),
                             ],
                           ),
                           const SizedBox(height: 4),
-                          Text('To: ${bus.route_BA}', style: TextStyle(fontSize: 14)),
+                          Text('To: ${bus.route_BA}', style: const TextStyle(fontSize: 14)),
                           const SizedBox(height: 4),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text('From: ${bus.route_AB}', style: TextStyle(fontSize: 14)),
+                              Text('From: ${bus.route_AB}', style: const TextStyle(fontSize: 14)),
                               const SizedBox(width: 10),
                               ElevatedButton(
                                 onPressed: () async {
@@ -376,13 +376,13 @@ class _BusesState extends State<Buses> {
                                     context: context,
                                     builder: (context) => Center(
                                       child: AlertDialog(
-                                        title: Text('Location Data'),
+                                        title: const Text('Location Data'),
                                         content: Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           mainAxisSize: MainAxisSize.min, // Adjusts height based on content
                                           children: [
                                             Text('Latitude: ${locationData['latitude']}'),
-                                            SizedBox(height: 8), // Adjust spacing as needed
+                                            const SizedBox(height: 8), // Adjust spacing as needed
                                             Text('Longitude: ${locationData['longitude']}'),
                                           ],
                                         ),
@@ -394,7 +394,7 @@ class _BusesState extends State<Buses> {
                                                 longitude: locationData['longitude']?.toDouble() ?? 0.0, // Pass longitude value
                                               )));
                                             },
-                                            child: Text('Map'),
+                                            child: const Text('Map'),
                                           ),
                                         ],
                                       ),
@@ -419,13 +419,13 @@ class _BusesState extends State<Buses> {
                                     return Text('Error: ${snapshot.error}');
                                   }
                                   if (snapshot.connectionState == ConnectionState.waiting) {
-                                    return Text('Availability: Loading...');
+                                    return const Text('Availability: Loading...');
                                   } else {
                                     if (snapshot.hasData) {
                                       bool availability = snapshot.data!;
                                       return Text('Availability: ${availability ? "Yes" : "No"}');
                                     } else {
-                                      return Text('Error: Availability data unavailable');
+                                      return const Text('Error: Availability data unavailable');
                                     }
                                   }
                                 },

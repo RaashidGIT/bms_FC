@@ -19,7 +19,6 @@ class _MyBusAvailabilityState extends State<MyBusAvailability> {
 
   String get statusText => _isSelected ? 'Online' : 'Offline';
 
-  // Replace these with actual data fetching logic
     String busName = "";
     String username = "";
     String email = "";
@@ -29,7 +28,7 @@ class _MyBusAvailabilityState extends State<MyBusAvailability> {
     String route_B = "";
 
     void startLocationUpdates() {
-  Timer.periodic(Duration(minutes: 5), (timer) {
+  Timer.periodic(const Duration(minutes: 5), (timer) {
     updateLocation(true); // Update location every 5 minutes
   });
 }
@@ -63,14 +62,12 @@ class _MyBusAvailabilityState extends State<MyBusAvailability> {
       // Update _isSelected based on availability field
       _isSelected = spUserDocSnapshot.get('availability') ?? false; // Default to offline if not found
     });
-  } else {
-    print('SPuser document not found for user: $userId');
   }
 }
 
 void showPermissionDeniedSnackbar(BuildContext context) {
   ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(
+    const SnackBar(
       content: Text('Permission Denied'),
     ),
   );
@@ -233,8 +230,8 @@ void updateLocation(bool available) async {
                         child: imageUrl.isNotEmpty
                   ? CachedNetworkImage( // Use CachedNetworkImage for efficient loading
                       imageUrl: imageUrl,
-                      placeholder: (context, url) => CircularProgressIndicator(),
-                      errorWidget: (context, url, error) => Icon(Icons.error),
+                      placeholder: (context, url) => const CircularProgressIndicator(),
+                      errorWidget: (context, url, error) => const Icon(Icons.error),
                     )
                   : Center(
                       child: Text(
@@ -255,7 +252,7 @@ void updateLocation(bool available) async {
             child: Row(
               children: [
                 Text(statusText, style: TextStyle(fontSize: 16, color: _isSelected ? Colors.green : Colors.red)),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 InkWell(
                   onTap: () {
                     setState(() {
@@ -267,7 +264,7 @@ void updateLocation(bool available) async {
                   child: Container(
                     width: 50,
                     height: 50,
-                    padding: EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       color: _isSelected ? Colors.red : Colors.green,
                       borderRadius: BorderRadius.circular(50),

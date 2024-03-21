@@ -36,7 +36,7 @@ Widget build(BuildContext context) {
                 children: [
                   Text(
                     bus.bus_name,
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, overflow: TextOverflow.ellipsis), // Truncate long text
+                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16, overflow: TextOverflow.ellipsis), // Truncate long text
                   ),
                   const SizedBox(height: 4),
                   Row(
@@ -45,13 +45,13 @@ Widget build(BuildContext context) {
                     children: [
                       Text(
                         'To: ${bus.route_BA}',
-                        style: TextStyle(fontSize: 14),
+                        style: const TextStyle(fontSize: 14),
                       ),
                       const SizedBox(width: 5), // Reduced spacing
                       Text(
                             // 'Time: ',
                             'Time: ${bus.time}',
-                            style: TextStyle(fontSize: 14),
+                            style: const TextStyle(fontSize: 14),
                           ),
                     ],
                   ),
@@ -61,7 +61,7 @@ Widget build(BuildContext context) {
                     children: [
                       Text(
                         'From: ${bus.route_AB}',
-                        style: TextStyle(fontSize: 14),
+                        style: const TextStyle(fontSize: 14),
                       ),
                     ],
                   ),
