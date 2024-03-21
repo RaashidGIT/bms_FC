@@ -70,18 +70,6 @@ class _TrackBusPageState extends State<TrackBusPage> {
                 ),
               ],
             ),
-            Positioned(
-              bottom: 20,
-              right: 20,
-              child: FloatingActionButton(
-                onPressed: () {
-                  setState(() {
-                    initialCenter = latLng.LatLng(widget.latitude, widget.longitude);
-                  });
-                },
-                child: const Icon(Icons.my_location_outlined),
-              ),
-            ),
           ],
         ),
       ),
