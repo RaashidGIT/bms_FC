@@ -19,6 +19,7 @@ class _MyBusAvailabilityState extends State<MyBusAvailability> {
 
   String get statusText => _isSelected ? 'Online' : 'Offline';
 
+  // Replace these with actual data fetching logic
     String busName = "";
     String username = "";
     String email = "";
@@ -141,7 +142,6 @@ void updateLocation(bool available) async {
                             ),
                           ),
                           const SizedBox(height: 20), // Increased gap
-
                           RichText(
                             text: TextSpan(
                               children: [
@@ -157,7 +157,6 @@ void updateLocation(bool available) async {
                             ),
                           ),
                           const SizedBox(height: 20),
-
                           RichText(
                             text: TextSpan(
                               children: [
@@ -173,7 +172,6 @@ void updateLocation(bool available) async {
                             ),
                           ),
                           const SizedBox(height: 20),
-
                           RichText(
                             text: TextSpan(
                               children: [
@@ -189,7 +187,6 @@ void updateLocation(bool available) async {
                             ),
                           ),
                           const SizedBox(height: 20),
-
                           RichText(
                             text: TextSpan(
                               children: [
@@ -198,14 +195,13 @@ void updateLocation(bool available) async {
                                   style: TextStyle(fontSize: 20, color: Colors.teal),
                                 ),
                                 TextSpan(
-                                  text: route_A, // Replace with actual data
+                                  text: route_A, 
                                   style: const TextStyle(fontSize: 20, color: Colors.black),
                                 ),
                               ],
                             ),
                           ),
                           const SizedBox(height: 20),
-
                           RichText(
                             text: TextSpan(
                               children: [
@@ -214,7 +210,7 @@ void updateLocation(bool available) async {
                                   style: TextStyle(fontSize: 20, color: Colors.teal),
                                 ),
                                 TextSpan(
-                                  text: route_B, // Replace with actual data
+                                  text: route_B, 
                                   style: const TextStyle(fontSize: 20, color: Colors.black),
                                 ),
                               ],
@@ -251,7 +247,6 @@ void updateLocation(bool available) async {
                   ],
                 ),
               ),
-              // ... other widgets for invoice page
             ],
           ),
           Positioned(

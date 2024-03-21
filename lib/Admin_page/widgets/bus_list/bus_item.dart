@@ -3,7 +3,6 @@
 // ignore_for_file: unused_import
 
 import 'package:intl/intl.dart';
-
 import 'package:bms_sample/Admin_page/models/bus.dart';
 import 'package:flutter/material.dart';
 
@@ -25,13 +24,13 @@ Widget build(BuildContext context) {
             flex: 1,
             child: Align(
               alignment: Alignment.centerLeft,
-               child: BustypeIcons[bus.bustype] ?? Image.asset('assets/images/default_bus.png'),
+               child: BustypeIcons[bus.bustype] ?? Image.asset('assets/images/default_bus.png'), // Use default if Bustype not mapped
             ),
           ),
           const SizedBox(width: 10),
           Expanded(
             flex: 7,
-            child: SingleChildScrollView(
+            child: SingleChildScrollView( // Consider this if content has variable length
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -50,6 +49,7 @@ Widget build(BuildContext context) {
                       ),
                       const SizedBox(width: 5), // Reduced spacing
                       Text(
+                            // 'Time: ',
                             'Time: ${bus.time}',
                             style: TextStyle(fontSize: 14),
                           ),

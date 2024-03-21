@@ -113,7 +113,6 @@ class _MyLocationMapState extends State<MyLocationMap> {
                 ),
               ],
                 ),
-              // Add the FAB as a non-rotated child
                 Positioned(
                   right: 20,
                   bottom: 20,

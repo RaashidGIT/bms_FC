@@ -51,7 +51,7 @@ class MyFirestoreService {
           'totalTickets': totalTickets,
           'remainingTickets': remainingTickets,
           'price': price,
-          'date': selectedDate,
+          'date': selectedDate, 
         });
       }
     } else {

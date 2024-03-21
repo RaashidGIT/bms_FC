@@ -172,7 +172,6 @@ class _BusesState extends State<Buses> {
       ),
       drawer: Drawer(
         child: ListView(
-          // Important: Remove any padding from the ListView.
           padding: EdgeInsets.zero,
           children: [
             DrawerHeader(
@@ -223,7 +222,6 @@ class _BusesState extends State<Buses> {
               onTap: () {
                 // Update the state of the app
                 _onItemTapped(0);
-                // _widgetOptions;
                 // Then close the drawer
                 Navigator.pop(context);
               },
@@ -415,7 +413,7 @@ class _BusesState extends State<Buses> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               FutureBuilder<bool>(
-                                future: BusService().getAvailability(bus.Regno),
+                                future: BusService().getAvailability(bus.Regno), // Assuming BusService is the class containing getAvailability
                                 builder: (context, snapshot) {
                                   if (snapshot.hasError) {
                                     return Text('Error: ${snapshot.error}');

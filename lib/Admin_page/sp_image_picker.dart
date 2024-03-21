@@ -8,8 +8,8 @@ class SpImagePicker extends StatefulWidget {
   const SpImagePicker({
     super.key,
     required this.onPickImage,
-    this.imageQuality = 80,
-    this.maxWidth = 300,
+    this.imageQuality = 80, // Adjust based on your needs
+    this.maxWidth = 300, // Adjust based on your needs
   });
 
   final void Function(File? pickedImage) onPickImage; // Allow null for handling errors

@@ -30,9 +30,7 @@ class _AuthScreenState extends State<AuthScreen> {
   void _submit() async {
     final isValid = _form.currentState!.validate();
 
-
     if (!isValid || !_isLogin && _selectedImage == null) {
-      // show error message ...
       return;
     }
 
@@ -42,6 +40,13 @@ class _AuthScreenState extends State<AuthScreen> {
       setState(() {
         _isAuthenticating = true;
       });
+      if (_isLogin) {
+        final userCredentials = await _firebase.signInWithEmailAndPassword(
+            email: _enteredEmail, password: _enteredPassword);
+      } else {
+        final userCredentials = await _firebase.createUserWithEmailAndPassword(
+            email: _enteredEmail, password: _enteredPassword);
+      }
     } on FirebaseAuthException catch (error) {
       if (error.code == 'email-already-in-use') {
         // ...

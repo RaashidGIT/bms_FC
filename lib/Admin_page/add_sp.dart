@@ -20,7 +20,6 @@ class AdminAuthScreen extends StatefulWidget {
 class _AdminAuthScreenState extends State<AdminAuthScreen> {
   final _form = GlobalKey<FormState>();
 
-
   var _isLogin = false;
   var _enteredEmail = '';
   var _enteredPassword = '';

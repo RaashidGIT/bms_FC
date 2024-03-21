@@ -10,35 +10,35 @@ class HelpPage extends StatelessWidget {
         title: const Text('Help'),
       ),
       body: ListView(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(16.0),
         children: [
           Image.asset(
-            'assets/images/mini_black.png', // Replace with your logo image asset path
+            'assets/images/mini_black.png',
             height: 100.0,
             width: 100.0,
           ),
-          const SizedBox(height: 16.0),
-          const Text(
+          SizedBox(height: 16.0),
+          Text(
             'Bus Management App',
             style: TextStyle(
               fontSize: 24.0,
               fontWeight: FontWeight.bold,
             ),
           ),
-          const SizedBox(height: 8.0),
-          const Text(
+          SizedBox(height: 8.0),
+          Text(
             'What is Bus Management App?',
             style: TextStyle(
               fontSize: 16.0,
               color: Colors.grey,
             ),
           ),
-          const SizedBox(height: 16.0),
-          const Text(
+          SizedBox(height: 16.0),
+          Text(
             'This app helps you manage buses efficiently. ',
             style: TextStyle(fontSize: 16.0),
           ),
-          const SizedBox(height: 16.0),
+          SizedBox(height: 16.0),
         ],
       ),
     );

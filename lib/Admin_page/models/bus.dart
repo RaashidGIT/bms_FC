@@ -1,3 +1,6 @@
+import 'dart:ffi';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
@@ -21,7 +24,6 @@ class Bus {
   final Bustype bustype;
   final String Regno;
   final String time;
-  // final Bool availability;
 
   // Constructor to create a new Bus
   Bus({
@@ -32,11 +34,12 @@ class Bus {
     required this.bustype,
     required this.Regno,
     required this.time,
-    // required this.availability,
   });
 
   // Constructor to create a Bus from a Firestore document
   factory Bus.fromMap(Map<String, dynamic> data) {
+    // Handle potential errors here, e.g., check for required fields
+    // Check for 'id' and generate if missing
   final String id = data['id'] as String? ?? uuid.v4();
 
     return Bus(

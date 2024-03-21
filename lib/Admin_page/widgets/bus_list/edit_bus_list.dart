@@ -1,9 +1,5 @@
 // widget file for the edit_bus.dart
 
-// The first page admins see after loggin in
-
-// ignore_for_file: unused_import
-
 import 'package:bms_sample/Admin_page/widgets/bus_list/bus_item.dart';
 import 'package:bms_sample/Admin_page/models/bus.dart';
 import 'package:flutter/material.dart';

@@ -79,7 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
               _isLoading
                   ? const CircularProgressIndicator()
                   : const SizedBox
-                      .shrink(), // Hide progress indicator when not loading
+                      .shrink(),
             ],
           ),
         ),

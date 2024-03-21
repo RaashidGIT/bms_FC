@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
 final Uuid uuid = Uuid();
@@ -20,6 +22,7 @@ class DelSp {
 
   // Constructor to create a Bus from a Firestore document
   factory DelSp.fromMap(Map<String, dynamic> data) {
+    // Check for 'id' and generate if missing
   final String id = data['id'] as String? ?? uuid.v4();
 
     return DelSp(

@@ -13,7 +13,7 @@ class AboutPage extends StatelessWidget {
         padding: EdgeInsets.all(16.0),
         children: [
           Image.asset(
-            'assets/images/mini_black.png',
+            'assets/images/mini_black.png', // Replace with your logo image asset path
             height: 100.0,
             width: 100.0,
           ),
