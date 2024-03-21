@@ -11,8 +11,8 @@ Future<Map<String, double>> fetchLatLon(String Regno) async {
   if (snapshot.docs.isNotEmpty) {
     DocumentSnapshot<Map<String, dynamic>> userDoc = snapshot.docs.first;
     if (userDoc.data()?.containsKey('latitude') == true && userDoc.data()?.containsKey('longitude') == true) {
-      location['latitude'] = userDoc.data()!['latitude'];
-      location['longitude'] = userDoc.data()!['longitude'];
+      location['latitude'] = userDoc.data()?['latitude']?.toDouble() ?? 0.0;
+      location['longitude'] = userDoc.data()?['longitude']?.toDouble() ?? 0.0;
     } else {
       print('Document for user ID: $Regno does not have "latitude" or "longitude" field(s)');
     }

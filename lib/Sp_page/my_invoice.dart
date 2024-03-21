@@ -10,9 +10,6 @@ class MyInvoiceScreen extends StatefulWidget {
   @override
   State<MyInvoiceScreen> createState() => _MyInvoiceScreenState();
 }
-
-// MyFirestoreService.dart
-
 class MyFirestoreService {
   static Future<void> addInvoice(String tripNo, String from, String to,
       int totalTickets, int remainingTickets, double price, DateTime selectedDate,) async {

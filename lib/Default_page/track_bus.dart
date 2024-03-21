@@ -24,15 +24,24 @@ class _TrackBusPageState extends State<TrackBusPage> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.latitude == 0.0 && widget.longitude == 0.0) {
-      // Location data not available, show message
-      return Center(child: Text('Location data not available for this bus'));
-    } else {
-      return Scaffold(
-        appBar: AppBar(
-          title: const Text('Bus Location'),
-        ),
-        body: Stack(
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Bus Location'),
+      ),
+      body: Center(
+        child: widget.latitude == 0.0 && widget.longitude == 0.0
+            ? const Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.location_off_outlined, size: 50.0, color: Colors.grey),
+                  SizedBox(height: 16.0),
+                  Text(
+                    'No location data available',
+                    style: TextStyle(color: Colors.grey, fontSize: 18.0),
+                  ),
+                ],
+              )
+        : Stack(
           children: [
             FlutterMap(
               options: MapOptions(
@@ -75,7 +84,7 @@ class _TrackBusPageState extends State<TrackBusPage> {
             ),
           ],
         ),
-      );
-    }
+      ),
+    );
   }
 }
