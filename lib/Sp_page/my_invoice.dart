@@ -184,50 +184,83 @@ class _MyInvoiceScreenState extends State<MyInvoiceScreen> {
             ),
           ),
           floatingActionButton: Row(
-  mainAxisAlignment: MainAxisAlignment.end, // Align buttons to the right
-  children: [
-    FloatingActionButton(
-      onPressed: () {
-        showDatePicker(
+      mainAxisAlignment: MainAxisAlignment.end, // Align buttons to the right
+      children: [
+        Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        FloatingActionButton(
+          onPressed: () {
+            double totalIncome = 0.0;
+            for (var invoice in invoices) {
+              totalIncome += (invoice.totalTickets - invoice.remainingTickets) * invoice.price;
+            }
+            showDialog(
               context: context,
-              initialDate: selectedDate,
-              firstDate: DateTime(2000),
-              lastDate: DateTime(2100),
-            ).then((pickedDate) {
-              if (pickedDate != null) {
-                setState(() {
-                  selectedDate = pickedDate;
-                  // Filter invoices based on the selected date
-                  List<Invoice> filteredInvoices = invoices.where((invoice) => invoice.date.year == pickedDate.year && invoice.date.month == pickedDate.month && invoice.date.day == pickedDate.day).toList();
-                  invoices = filteredInvoices;
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: const Text("Total Income"),
+                  content: Text("Total Income: $totalIncome"),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text('Close'),
+                    ),
+                  ],
+                );
+              },
+            );
+          },
+          child: const Icon(Icons.attach_money),
+          tooltip: 'Calculate Total Income',
+        ),
+        const SizedBox(width: 10), // Add spacing between the buttons
+        FloatingActionButton(
+          onPressed: () {
+            showDatePicker(
+                  context: context,
+                  initialDate: selectedDate,
+                  firstDate: DateTime(2000),
+                  lastDate: DateTime(2100),
+                ).then((pickedDate) {
+                  if (pickedDate != null) {
+                    setState(() {
+                      selectedDate = pickedDate;
+                      // Filter invoices based on the selected date
+                      List<Invoice> filteredInvoices = invoices.where((invoice) => invoice.date.year == pickedDate.year && invoice.date.month == pickedDate.month && invoice.date.day == pickedDate.day).toList();
+                      invoices = filteredInvoices;
+                    });
+                  }
                 });
-              }
-            });
-      },
-      child: const Icon(Icons.date_range),
-      tooltip: 'Select Date',
-    ),
-    const SizedBox(width: 5), // Spacing between buttons
-    FloatingActionButton(
-      onPressed: () {
-        // Reset the list to show all invoices
-            setState(() {
-              _fetchInvoices();
-            });
-      },
-      child: const Icon(Icons.refresh),
-      tooltip: 'Reset List',
-    ),
-    const SizedBox(width: 10), // Slightly larger spacing before "Add Invoice"
-    FloatingActionButton(
-      onPressed: _showAddInvoiceDialog,
-      child: const Icon(Icons.add),
-      tooltip: 'Add Invoice',
-    ),
-  ],
-),
+          },
+          child: const Icon(Icons.tune),
+          tooltip: 'Select Date',
+          ),
+          const SizedBox(width: 5), // Spacing between buttons
+          FloatingActionButton(
+          onPressed: () {
+            // Reset the list to show all invoices
+                setState(() {
+                  _fetchInvoices();
+                });
+              },
+              child: const Icon(Icons.refresh),
+              tooltip: 'Reset List',
+              ),
+              const SizedBox(width: 10), // Slightly larger spacing before "Add Invoice"
+              FloatingActionButton(
+              onPressed: _showAddInvoiceDialog,
+              child: const Icon(Icons.add),
+              tooltip: 'Add Invoice',
+            ),
+          ],
+        ),
+      ]
+    )
   );
-  }
+}
 
 
   void _showAddInvoiceDialog() {
