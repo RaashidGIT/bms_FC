@@ -128,7 +128,7 @@ class _MyInvoiceScreenState extends State<MyInvoiceScreen> {
   }
 
   @override
-Widget build(BuildContext context) {
+  Widget build(BuildContext context) {
   return Scaffold(
     body: Center(
       child: invoices.isEmpty
@@ -183,12 +183,52 @@ Widget build(BuildContext context) {
               },
             ),
           ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: _showAddInvoiceDialog,
-            child: const Icon(Icons.add),
-          ),
-        );
-      }
+          floatingActionButton: Row(
+  mainAxisAlignment: MainAxisAlignment.end, // Align buttons to the right
+  children: [
+    FloatingActionButton(
+      onPressed: () {
+        showDatePicker(
+              context: context,
+              initialDate: selectedDate,
+              firstDate: DateTime(2000),
+              lastDate: DateTime(2100),
+            ).then((pickedDate) {
+              if (pickedDate != null) {
+                setState(() {
+                  selectedDate = pickedDate;
+                  // Filter invoices based on the selected date
+                  List<Invoice> filteredInvoices = invoices.where((invoice) => invoice.date.year == pickedDate.year && invoice.date.month == pickedDate.month && invoice.date.day == pickedDate.day).toList();
+                  invoices = filteredInvoices;
+                });
+              }
+            });
+      },
+      child: const Icon(Icons.date_range),
+      tooltip: 'Select Date',
+    ),
+    const SizedBox(width: 5), // Spacing between buttons
+    FloatingActionButton(
+      onPressed: () {
+        // Reset the list to show all invoices
+            setState(() {
+              _fetchInvoices();
+            });
+      },
+      child: const Icon(Icons.refresh),
+      tooltip: 'Reset List',
+    ),
+    const SizedBox(width: 10), // Slightly larger spacing before "Add Invoice"
+    FloatingActionButton(
+      onPressed: _showAddInvoiceDialog,
+      child: const Icon(Icons.add),
+      tooltip: 'Add Invoice',
+    ),
+  ],
+),
+  );
+  }
+
 
   void _showAddInvoiceDialog() {
     String tripNo = "";
