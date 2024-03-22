@@ -27,9 +27,9 @@ class _MyBusAvailabilityState extends State<MyBusAvailability> {
     String route_A = "";
     String route_B = "";
 
-    void startLocationUpdates() {
+  void startLocationUpdates() {
   Timer.periodic(const Duration(minutes: 5), (timer) {
-    updateLocation(true); // Update location every 5 minutes
+  updateLocation(true); // Update location every 5 minutes
   });
 }
 
@@ -247,27 +247,44 @@ void updateLocation(bool available) async {
             ],
           ),
           Positioned(
-            bottom: 20,
-            right: 20,
+            bottom: 20.0, // Use double for clarity
+            right: 20.0,
+
             child: Row(
               children: [
-                Text(statusText, style: TextStyle(fontSize: 16, color: _isSelected ? Colors.green : Colors.red)),
-                const SizedBox(width: 10),
+                // Text with status (using RichText for flexibility)
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      const TextSpan(
+                        text: 'Bus Status: ',
+                        style: TextStyle(fontSize: 16.0, color: Colors.black),
+                      ),
+                      TextSpan(
+                        text: statusText,
+                        style: TextStyle(fontSize: 16.0, color: _isSelected ? Colors.green : Colors.red),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 10.0), // Spacing between text and button
+                // Toggle button (using InkWell for better accessibility)
                 InkWell(
                   onTap: () {
                     setState(() {
                       _isSelected = !_isSelected;
                       availability = _isSelected;
-                      updateLocation(availability); // Call function to update location based on availability
+                      updateLocation(availability);
                     });
                   },
+                  borderRadius: BorderRadius.circular(50.0), // Consistent rounding
                   child: Container(
-                    width: 50,
-                    height: 50,
-                    padding: const EdgeInsets.all(10),
+                    width: 50.0,
+                    height: 50.0,
+                    padding: const EdgeInsets.all(10.0),
                     decoration: BoxDecoration(
                       color: _isSelected ? Colors.red : Colors.green,
-                      borderRadius: BorderRadius.circular(50),
+                      borderRadius: BorderRadius.circular(50.0),
                     ),
                     child: Icon(
                       _isSelected ? Icons.cancel : Icons.check,

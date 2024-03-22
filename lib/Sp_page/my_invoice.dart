@@ -182,13 +182,13 @@ Widget build(BuildContext context) {
                 );
               },
             ),
-    ),
-    floatingActionButton: FloatingActionButton(
-      onPressed: _showAddInvoiceDialog,
-      child: const Icon(Icons.add),
-    ),
-  );
-}
+          ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: _showAddInvoiceDialog,
+            child: const Icon(Icons.add),
+          ),
+        );
+      }
 
   void _showAddInvoiceDialog() {
     String tripNo = "";
@@ -207,6 +207,25 @@ Widget build(BuildContext context) {
           content: SingleChildScrollView(
             child: Column(
               children: [
+                TextField(
+                  decoration: const InputDecoration(labelText: 'Date'),
+                  readOnly: true,
+                  controller: TextEditingController(text: DateFormat.yMd().format(selectedDate)),
+                  onTap: () {
+                    showDatePicker(
+                      context: context,
+                      initialDate: selectedDate,
+                      firstDate: DateTime(2000),
+                      lastDate: DateTime(2100),
+                    ).then((pickedDate) {
+                      if (pickedDate != null) {
+                        setState(() {
+                          selectedDate = pickedDate;
+                        });
+                      }
+                    });
+                  },
+                ),
                 TextField(
                   decoration: const InputDecoration(labelText: 'Trip No'),
                   keyboardType: TextInputType.number,

@@ -38,7 +38,7 @@ class _BusesState extends State<Buses> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Bus Management System'),
+        title: const Text('NextBus'),
         actions: [
           IconButton(
             icon: const Icon(Icons.account_circle_outlined),
