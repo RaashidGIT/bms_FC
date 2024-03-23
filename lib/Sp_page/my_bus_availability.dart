@@ -247,7 +247,7 @@ void updateLocation(bool available) async {
             ],
           ),
           Positioned(
-            bottom: 20.0, // Use double for clarity
+            bottom: 20.0,
             right: 20.0,
 
             child: Row(
