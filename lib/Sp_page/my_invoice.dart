@@ -247,7 +247,7 @@ class _MyInvoiceScreenState extends State<MyInvoiceScreen> {
               children: [
                 TextField(
                   decoration: const
-                                    InputDecoration(labelText: 'Date'),
+                  InputDecoration(labelText: 'Date'),
                   readOnly: true,
                   controller: TextEditingController(text: DateFormat.yMd().format(selectedDate)),
                   onTap: () {
