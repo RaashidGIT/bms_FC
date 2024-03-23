@@ -12,8 +12,9 @@ import 'package:bms_sample/Default_page/availability.dart';
 import 'package:bms_sample/login_page/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:bms_sample/Admin_page/models/bus.dart';
+
 class Buses extends StatefulWidget {
-  const Buses({ super.key, required this.onSelectScreen, });
+  const Buses({Key? key, required this.onSelectScreen}) : super(key: key);
   final String onSelectScreen;
 
   @override
@@ -27,6 +28,7 @@ class _BusesState extends State<Buses> {
   bool _isLoading = false;
   final _firestore = FirebaseFirestore.instance;
   int _selectedIndex = 0;
+  List<Bus> foundBuses = [];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -96,12 +98,14 @@ class _BusesState extends State<Buses> {
                       ),
                     ),
                     _isLoading ? const Center(child: CircularProgressIndicator()) : SizedBox(),
-                    _noBusFound ? const Center(
-                      child: Text(
-                        'No Bus found',
-                        style: TextStyle(color: Colors.red),
-                      ),
-                    ) : SizedBox(),
+                    _noBusFound
+                        ? const Center(
+                            child: Text(
+                              'No Bus found',
+                              style: TextStyle(color: Colors.red),
+                            ),
+                          )
+                        : SizedBox(),
                     const SizedBox(height: 8),
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.9,
@@ -129,32 +133,20 @@ class _BusesState extends State<Buses> {
                           setState(() {
                             _isLoading = false;
                             if (snapshot.docs.isNotEmpty) {
-                              print('Bus found');
+                              for (QueryDocumentSnapshot<Map<String, dynamic>> doc in snapshot.docs) {
+                                Bus bus = Bus.fromMap(doc.data());
+                                foundBuses.add(bus);
+                                print('Bus name: ${bus.bus_name}');
+                                print('Bustype: ${bus.bustype}');
+                                print('Route from: ${bus.route_AB}');
+                                print('Route to: ${bus.route_BA}');
+                                print('time: ${bus.time}');
+                              }
+                              showBusCard(context, foundBuses);
                             } else {
                               _noBusFound = true;
                             }
                           });
-                          if (snapshot.docs.isNotEmpty) {
-                            for (QueryDocumentSnapshot<Map<String, dynamic>> doc in snapshot.docs) {
-                              Bus bus = Bus.fromMap(doc.data());
-                              showBusCard(context, bus);
-                              print('Bus name: ${bus.bus_name}');
-                              print('Bustype: ${bus.bustype}');
-                              print('Route from: ${bus.route_AB}');
-                              print('Route to: ${bus.route_BA}');
-                              print('time: ${bus.time}');
-                            }
-                          } else {
-                            print('No buses found for route $from - $to');
-                            setState(() {
-                              _noBusFound = true;
-                            });
-                            Future.delayed(const Duration(seconds: 3), () {
-                              setState(() {
-                                _noBusFound = false;
-                              });
-                            });
-                          }
                         },
                         child: Text('Find Bus'),
                         style: ElevatedButton.styleFrom(
@@ -179,10 +171,7 @@ class _BusesState extends State<Buses> {
               decoration: BoxDecoration(
                 gradient: LinearGradient(colors: [
                   Theme.of(context).colorScheme.primaryContainer,
-                  Theme.of(context)
-                      .colorScheme
-                      .primaryContainer
-                      .withOpacity(0.8),
+                  Theme.of(context).colorScheme.primaryContainer.withOpacity(0.8),
                 ], begin: Alignment.topLeft, end: Alignment.bottomRight),
               ),
               child: Row(
@@ -306,7 +295,7 @@ class _BusesState extends State<Buses> {
                   ),
                 );
               },
-            ),           
+            ),
           ],
         ),
       ),
@@ -314,143 +303,150 @@ class _BusesState extends State<Buses> {
   }
 }
 
-  Future<void> showBusCard(BuildContext context, Bus bus) async {
+Future<void> showBusCard(BuildContext context, List<Bus> buses) async {
   showDialog(
     context: context,
     builder: (context) => AlertDialog(
-      title: const Text('Available Bus'),
+      title: const Text('Available Buses'),
       content: SingleChildScrollView(
-        child: Card(
-          margin: const EdgeInsets.all(8),
-          child: Padding(
-            padding: const EdgeInsets.all(8),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      flex: 1,
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: BustypeIcons[bus.bustype] ?? Image.asset('assets/images/default_bus.png'),
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      flex: 7,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Flexible(
-                                child: Text(
-                                  bus.bus_name,
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
-                              ),
-                              Text(
-                                '${bus.time}',
-                                style: const TextStyle(fontSize: 14),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 4),
-                          Text('To: ${bus.route_BA}', style: const TextStyle(fontSize: 14)),
-                          const SizedBox(height: 4),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Flexible(
-                                child: Text('From: ${bus.route_AB}', style: const TextStyle(fontSize: 14)),
-                              ),
-                              const SizedBox(width: 10),
-                              ElevatedButton(
-                                onPressed: () async {
-                                  Map<String, double> locationData = await fetchLatLon(bus.Regno);
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) => Center(
-                                      child: AlertDialog(
-                                        title: const Text('Location Data'),
-                                        content: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Text('Latitude: ${locationData['latitude']}'),
-                                            const SizedBox(height: 8),
-                                            Text('Longitude: ${locationData['longitude']}'),
-                                          ],
-                                        ),
-                                        actions: [
-                                          ElevatedButton(
-                                            onPressed: () {
-                                              Navigator.push(context, MaterialPageRoute(builder: (context) => TrackBusPage(
-                                                latitude: locationData['latitude']?.toDouble() ?? 0.0,
-                                                longitude: locationData['longitude']?.toDouble() ?? 0.0,
-                                              )));
-                                            },
-                                            child: const Text('Map'),
-                                            style: ElevatedButton.styleFrom(
-                                              backgroundColor: Colors.teal,
-                                              foregroundColor: Colors.white,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  );
-                                },
-                                child: Text('Track'),
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.teal,
-                                  foregroundColor: Colors.white,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Flexible(
-                                child: FutureBuilder<bool>(
-                                  future: BusService().getAvailability(bus.Regno),
-                                  builder: (context, snapshot) {
-                                    if (snapshot.hasError) {
-                                      return Text('Error: ${snapshot.error}');
-                                    }
-                                    if (snapshot.connectionState == ConnectionState.waiting) {
-                                      return const Text('Availability: Loading...');
-                                    } else {
-                                      if (snapshot.hasData) {
-                                        bool availability = snapshot.data!;
-                                        return Text('Availability: ${availability ? "Yes" : "No"}');
-                                      } else {
-                                        return const Text('Error: Availability data unavailable');
-                                      }
-                                    }
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
+        child: Column(
+          children: buses.map((bus) => buildBusCard(context, bus)).toList(),
         ),
       ),
     ),
   );
 }
+
+Widget buildBusCard(BuildContext context, Bus bus) {
+  return Card(
+    margin: const EdgeInsets.all(8),
+    child: Padding(
+      padding: const EdgeInsets.all(8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                flex: 1,
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: BustypeIcons[bus.bustype] ?? Image.asset('assets/images/default_bus.png'),
+                ),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                flex: 7,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Flexible(
+                          child: Text(
+                            bus.bus_name,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ),
+                        Text(
+                          '${bus.time}',
+                          style: const TextStyle(fontSize: 14),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 4),
+                    Text('To: ${bus.route_BA}', style: const TextStyle(fontSize: 14)),
+                    const SizedBox(height: 4),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Flexible(
+                          child: Text('From: ${bus.route_AB}', style: const TextStyle(fontSize: 14)),
+                        ),
+                        const SizedBox(width: 10),
+                        ElevatedButton(
+                          onPressed: () async {
+                            Map<String, double> locationData = await fetchLatLon(bus.Regno);
+                            showDialog(
+                              context: context,
+                              builder: (context) => Center(
+                                child: AlertDialog(
+                                  title: const Text('Location Data'),
+                                  content: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text('Latitude: ${locationData['latitude']}'),
+                                      const SizedBox(height: 8),
+                                      Text('Longitude: ${locationData['longitude']}'),
+                                    ],
+                                  ),
+                                  actions: [
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.push(context, MaterialPageRoute(builder: (context) => TrackBusPage(
+                                          latitude: locationData['latitude']?.toDouble() ?? 0.0,
+                                          longitude: locationData['longitude']?.toDouble() ?? 0.0,
+                                        )));
+                                      },
+                                      child: const Text('Map'),
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.teal,
+                                        foregroundColor: Colors.white,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                          child: Text('Track'),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.teal,
+                            foregroundColor: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Flexible(
+                          child: FutureBuilder<bool>(
+                            future: BusService().getAvailability(bus.Regno),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasError) {
+                                return Text('Error: ${snapshot.error}');
+                              }
+                              if (snapshot.connectionState == ConnectionState.waiting) {
+                                return const Text('Availability: Loading...');
+                              } else {
+                                if (snapshot.hasData) {
+                                  bool availability = snapshot.data!;
+                                  return Text('Availability: ${availability ? "Yes" : "No"}');
+                                } else {
+                                  return const Text('Error: Availability data unavailable');
+                                }
+                              }
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
