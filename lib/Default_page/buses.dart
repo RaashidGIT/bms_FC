@@ -196,27 +196,6 @@ class _BusesState extends State<Buses> {
             ),
             ListTile(
               leading: Icon(
-                Icons.access_time,
-                size: 26,
-                color: Theme.of(context).colorScheme.onBackground,
-              ),
-              title: Text(
-                'Bus Schedule',
-                style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                      color: Theme.of(context).colorScheme.onBackground,
-                      fontSize: 18,
-                    ),
-              ),
-              selected: _selectedIndex == 0,
-              onTap: () {
-                // Update the state of the app
-                _onItemTapped(0);
-                // Then close the drawer
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: Icon(
                 Icons.map_outlined,
                 size: 26,
                 color: Theme.of(context).colorScheme.onBackground,
