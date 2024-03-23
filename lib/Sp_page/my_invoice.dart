@@ -216,7 +216,7 @@ class _MyInvoiceScreenState extends State<MyInvoiceScreen> {
               });
             },
             child: const Icon(Icons.refresh),
-            tooltip: 'Reset List',
+            tooltip: 'Reload',
           ),
           const SizedBox(width: 10),
           FloatingActionButton(
@@ -399,7 +399,5 @@ class _MyInvoiceScreenState extends State<MyInvoiceScreen> {
     debugPrint('No user signed in, cannot fetch invoices');
   }
 }
-
-
 }
 
