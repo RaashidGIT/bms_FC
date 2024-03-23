@@ -227,10 +227,10 @@ class _MyInvoiceScreenState extends State<MyInvoiceScreen> {
                 ).then((pickedDate) {
                   if (pickedDate != null) {
                     setState(() {
-                      selectedDate = pickedDate;
                       // Filter invoices based on the selected date
                       List<Invoice> filteredInvoices = invoices.where((invoice) => invoice.date.year == pickedDate.year && invoice.date.month == pickedDate.month && invoice.date.day == pickedDate.day).toList();
                       invoices = filteredInvoices;
+                      selectedDate = pickedDate;
                     });
                   }
                 });

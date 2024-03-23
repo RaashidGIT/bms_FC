@@ -346,16 +346,17 @@ class _BusesState extends State<Buses> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                bus.bus_name,
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
-                                  overflow: TextOverflow.ellipsis,
+                              Flexible(
+                                child: Text(
+                                  bus.bus_name,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
                                 ),
                               ),
                               Text(
-                                // 'Time: ',
                                 '${bus.time}',
                                 style: const TextStyle(fontSize: 14),
                               ),
@@ -367,7 +368,9 @@ class _BusesState extends State<Buses> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text('From: ${bus.route_AB}', style: const TextStyle(fontSize: 14)),
+                              Flexible(
+                                child: Text('From: ${bus.route_AB}', style: const TextStyle(fontSize: 14)),
+                              ),
                               const SizedBox(width: 10),
                               ElevatedButton(
                                 onPressed: () async {
@@ -379,22 +382,26 @@ class _BusesState extends State<Buses> {
                                         title: const Text('Location Data'),
                                         content: Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
-                                          mainAxisSize: MainAxisSize.min, // Adjusts height based on content
+                                          mainAxisSize: MainAxisSize.min,
                                           children: [
                                             Text('Latitude: ${locationData['latitude']}'),
-                                            const SizedBox(height: 8), // Adjust spacing as needed
+                                            const SizedBox(height: 8),
                                             Text('Longitude: ${locationData['longitude']}'),
                                           ],
                                         ),
                                         actions: [
-                                          ElevatedButton( // Use TextButton for a flatter button style
+                                          ElevatedButton(
                                             onPressed: () {
                                               Navigator.push(context, MaterialPageRoute(builder: (context) => TrackBusPage(
-                                                latitude: locationData['latitude']?.toDouble() ?? 0.0, // Pass latitude value
-                                                longitude: locationData['longitude']?.toDouble() ?? 0.0, // Pass longitude value
+                                                latitude: locationData['latitude']?.toDouble() ?? 0.0,
+                                                longitude: locationData['longitude']?.toDouble() ?? 0.0,
                                               )));
                                             },
                                             child: const Text('Map'),
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor: Colors.teal,
+                                              foregroundColor: Colors.white,
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -412,23 +419,25 @@ class _BusesState extends State<Buses> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              FutureBuilder<bool>(
-                                future: BusService().getAvailability(bus.Regno), // Assuming BusService is the class containing getAvailability
-                                builder: (context, snapshot) {
-                                  if (snapshot.hasError) {
-                                    return Text('Error: ${snapshot.error}');
-                                  }
-                                  if (snapshot.connectionState == ConnectionState.waiting) {
-                                    return const Text('Availability: Loading...');
-                                  } else {
-                                    if (snapshot.hasData) {
-                                      bool availability = snapshot.data!;
-                                      return Text('Availability: ${availability ? "Yes" : "No"}');
-                                    } else {
-                                      return const Text('Error: Availability data unavailable');
+                              Flexible(
+                                child: FutureBuilder<bool>(
+                                  future: BusService().getAvailability(bus.Regno),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasError) {
+                                      return Text('Error: ${snapshot.error}');
                                     }
-                                  }
-                                },
+                                    if (snapshot.connectionState == ConnectionState.waiting) {
+                                      return const Text('Availability: Loading...');
+                                    } else {
+                                      if (snapshot.hasData) {
+                                        bool availability = snapshot.data!;
+                                        return Text('Availability: ${availability ? "Yes" : "No"}');
+                                      } else {
+                                        return const Text('Error: Availability data unavailable');
+                                      }
+                                    }
+                                  },
+                                ),
                               ),
                             ],
                           ),
