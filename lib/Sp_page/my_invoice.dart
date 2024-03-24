@@ -12,53 +12,60 @@ class MyInvoiceScreen extends StatefulWidget {
 }
 
 class MyFirestoreService {
-  static Future<void> addInvoice(String tripNo, String from, String to,
-      int totalTickets, int remainingTickets, double price, DateTime selectedDate) async {
+  static Future<String> addInvoice(
+      String tripNo,
+      String from,
+      String to,
+      int totalTickets,
+      int remainingTickets,
+      double price,
+      DateTime selectedDate) async {
     final currentUser = FirebaseAuth.instance.currentUser;
 
     if (currentUser != null) {
       final userId = currentUser.uid;
-      final docRef = FirebaseFirestore.instance.collection('SPusers').doc(userId);
+      final docRef =
+          FirebaseFirestore.instance.collection('SPusers').doc(userId);
 
-      final hasInvoicesSubcollection = await docRef.collection('invoices').get().then((snapshot) => snapshot.docs.isNotEmpty);
+      // Create a new invoice data map
+      Map<String, dynamic> invoiceData = {
+        'tripNo': tripNo,
+        'from': from,
+        'to': to,
+        'totalTickets': totalTickets,
+        'remainingTickets': remainingTickets,
+        'price': price,
+        'date': selectedDate,
+      };
 
-      if (hasInvoicesSubcollection) {
-        await docRef.collection('invoices').add({
-          'tripNo': tripNo,
-          'from': from,
-          'to': to,
-          'totalTickets': totalTickets,
-          'remainingTickets': remainingTickets,
-          'price': price,
-          'date': selectedDate,
-        });
-      } else {
-        await docRef.collection('invoices').add({
-          'tripNo': tripNo,
-          'from': from,
-          'to': to,
-          'totalTickets': totalTickets,
-          'remainingTickets': remainingTickets,
-          'price': price,
-          'date': selectedDate,
-        });
-      }
+      final newDocRef = await docRef.collection('invoices').add(invoiceData);
+      return newDocRef.id; // Return the ID of the newly added document
     } else {
       debugPrint('No user signed in, cannot add invoice to Firestore');
+      return ''; // Return an empty string or handle error as needed
     }
   }
 
   static Future<void> deleteInvoice(String invoiceId) async {
-    final currentUser = FirebaseAuth.instance.currentUser;
-    if (currentUser != null) {
-      await FirebaseFirestore.instance
-          .collection('SPusers')
-          .doc(currentUser.uid)
-          .collection('invoices')
-          .doc(invoiceId)
-          .delete();
+    if (invoiceId.isNotEmpty) {
+      // Ensure invoiceId is not empty
+      final currentUser = FirebaseAuth.instance.currentUser;
+      if (currentUser != null) {
+        try {
+          final docRef = FirebaseFirestore.instance
+              .collection('SPusers')
+              .doc(currentUser.uid)
+              .collection('invoices')
+              .doc(invoiceId);
+          await docRef.delete();
+        } catch (error) {
+          print('Error deleting invoice: $error');
+        }
+      } else {
+        debugPrint('No user signed in, cannot delete invoice');
+      }
     } else {
-      debugPrint('No user signed in, cannot delete invoice');
+      debugPrint('Invoice ID is empty, cannot delete invoice');
     }
   }
 }
@@ -69,49 +76,37 @@ class _MyInvoiceScreenState extends State<MyInvoiceScreen> {
   final FirebaseAuth auth = FirebaseAuth.instance;
   final firestore = FirebaseFirestore.instance;
 
- Future<void> _fetchInvoices() async {
-  final user = auth.currentUser;
-  if (user != null) {
-    try {
-      final invoiceRef = firestore.collection('SPusers').doc(user.uid).collection('invoices');
-      final snapshot = await invoiceRef.orderBy('tripNo', descending: true).get();
-      final fetchedInvoices = snapshot.docs
-          .map((doc) => Invoice.fromMap(doc.data()))
-          .where((invoice) =>
-              invoice.date.year == selectedDate.year &&
-              invoice.date.month == selectedDate.month &&
-              invoice.date.day == selectedDate.day)
-          .toList();
-      setState(() {
-        invoices = fetchedInvoices;
-      });
-    } catch (error) {
-      print('Error fetching invoices: $error');
-    }
-  } else {
-    debugPrint('No user signed in, cannot fetch invoices');
-  }
-}
-
-
-  Future<void> _deleteInvoice(String invoiceId) async {
-    try {
-      await MyFirestoreService.deleteInvoice(invoiceId);
-      setState(() {
-        invoices.removeWhere((invoice) => invoice.id == invoiceId);
-      });
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Invoice deleted successfully'),
-        ),
-      );
-    } catch (error) {
-      debugPrint('Error deleting invoice: $error');
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Failed to delete invoice'),
-        ),
-      );
+  Future<void> _fetchInvoices() async {
+    final user = auth.currentUser;
+    if (user != null) {
+      try {
+        final invoiceRef = firestore
+            .collection('SPusers')
+            .doc(user.uid)
+            .collection('invoices');
+        final snapshot =
+            await invoiceRef.orderBy('tripNo', descending: true).get();
+        final fetchedInvoices = snapshot.docs
+            .map((doc) {
+              final invoice =
+                  Invoice.fromMap(doc.data(), doc.id); // Pass the document ID
+              print(
+                  'Fetched Invoice ID: ${invoice.id}'); // Debug print to see the invoice ID
+              return invoice;
+            })
+            .where((invoice) =>
+                invoice.date.year == selectedDate.year &&
+                invoice.date.month == selectedDate.month &&
+                invoice.date.day == selectedDate.day)
+            .toList();
+        setState(() {
+          invoices = fetchedInvoices;
+        });
+      } catch (error) {
+        print('Error fetching invoices: $error');
+      }
+    } else {
+      debugPrint('No user signed in, cannot fetch invoices');
     }
   }
 
@@ -148,7 +143,8 @@ class _MyInvoiceScreenState extends State<MyInvoiceScreen> {
                           ),
                         ),
                       );
-                      _deleteInvoice(dismissedInvoice.id);
+                      MyFirestoreService.deleteInvoice(dismissedInvoice
+                          .id); // Changed to MyFirestoreService.deleteInvoice
                     },
                     background: Container(
                       color: Colors.red,
@@ -165,9 +161,12 @@ class _MyInvoiceScreenState extends State<MyInvoiceScreen> {
                           subtitle: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("Date: ${DateFormat.yMd().format(invoices[index].date)}"),
-                              Text("From: ${invoices[index].from} - To: ${invoices[index].to}"),
-                              Text("Income: ${(invoices[index].totalTickets - invoices[index].remainingTickets) * invoices[index].price}"),
+                              Text(
+                                  "Date: ${DateFormat.yMd().format(invoices[index].date)}"),
+                              Text(
+                                  "From: ${invoices[index].from} - To: ${invoices[index].to}"),
+                              Text(
+                                  "Income: ${(invoices[index].totalTickets - invoices[index].remainingTickets) * invoices[index].price}"),
                             ],
                           ),
                         ),
@@ -199,7 +198,12 @@ class _MyInvoiceScreenState extends State<MyInvoiceScreen> {
                 if (pickedDate != null) {
                   setState(() {
                     selectedDate = pickedDate;
-                    List<Invoice> filteredInvoices = invoices.where((invoice) => invoice.date.year == pickedDate.year && invoice.date.month == pickedDate.month && invoice.date.day == pickedDate.day).toList();
+                    List<Invoice> filteredInvoices = invoices
+                        .where((invoice) =>
+                            invoice.date.year == pickedDate.year &&
+                            invoice.date.month == pickedDate.month &&
+                            invoice.date.day == pickedDate.day)
+                        .toList();
                     invoices = filteredInvoices;
                   });
                 }
@@ -246,10 +250,10 @@ class _MyInvoiceScreenState extends State<MyInvoiceScreen> {
             child: Column(
               children: [
                 TextField(
-                  decoration: const
-                  InputDecoration(labelText: 'Date'),
+                  decoration: const InputDecoration(labelText: 'Date'),
                   readOnly: true,
-                  controller: TextEditingController(text: DateFormat.yMd().format(selectedDate)),
+                  controller: TextEditingController(
+                      text: DateFormat.yMd().format(selectedDate)),
                   onTap: () {
                     showDatePicker(
                       context: context,
@@ -284,9 +288,11 @@ class _MyInvoiceScreenState extends State<MyInvoiceScreen> {
                   onChanged: (value) => totalTickets = int.tryParse(value) ?? 0,
                 ),
                 TextField(
-                  decoration: const InputDecoration(labelText: 'Remaining Tickets'),
+                  decoration:
+                      const InputDecoration(labelText: 'Remaining Tickets'),
                   keyboardType: TextInputType.number,
-                  onChanged: (value) => remainingTickets = int.tryParse(value) ?? 0,
+                  onChanged: (value) =>
+                      remainingTickets = int.tryParse(value) ?? 0,
                 ),
                 TextField(
                   decoration: const InputDecoration(labelText: 'Price'),
@@ -312,19 +318,34 @@ class _MyInvoiceScreenState extends State<MyInvoiceScreen> {
                     remainingTickets >= 0 &&
                     remainingTickets <= totalTickets &&
                     price > 0.0) {
-                  await MyFirestoreService.addInvoice(
-                      tripNo, from, to, totalTickets, remainingTickets, price, selectedDate);
-                  setState(() {
-                    invoices.add(Invoice(
-                      tripNo: tripNo,
-                      from: from,
-                      to: to,
-                      totalTickets: totalTickets,
-                      remainingTickets: remainingTickets,
-                      price: price,
-                      date: selectedDate,
-                    ));
-                  });
+                  void _addInvoice() async {
+                    // Call the addInvoice method and wait for it to complete
+                    String newInvoiceId = await MyFirestoreService.addInvoice(
+                        tripNo,
+                        from,
+                        to,
+                        totalTickets,
+                        remainingTickets,
+                        price,
+                        selectedDate);
+
+                    // Once the addInvoice operation completes, update the state
+                    setState(() {
+                      invoices.add(Invoice(
+                        tripNo: tripNo,
+                        from: from,
+                        to: to,
+                        totalTickets: totalTickets,
+                        remainingTickets: remainingTickets,
+                        price: price,
+                        date: selectedDate,
+                        id: newInvoiceId, // Use the generated ID here
+                      ));
+                    });
+                  }
+
+// Call the _addInvoice function where needed
+                  _addInvoice();
                   Navigator.of(context).pop();
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
@@ -342,62 +363,70 @@ class _MyInvoiceScreenState extends State<MyInvoiceScreen> {
     );
   }
 
- void _showTotalIncomeDialog() async {
-  double totalMonthIncome = 0.0;
-  double totalSelectedDateIncome = 0.0;
+  void _showTotalIncomeDialog() async {
+    double totalMonthIncome = 0.0;
+    double totalSelectedDateIncome = 0.0;
 
-  final user = auth.currentUser;
-  if (user != null) {
-    try {
-      final invoiceRef = firestore.collection('SPusers').doc(user.uid).collection('invoices');
-      final startOfMonth = DateTime(selectedDate.year, selectedDate.month);
-      final endOfMonth = DateTime(selectedDate.year, selectedDate.month + 1, 0, 23, 59, 59);
-      final snapshot = await invoiceRef
-          .where('date', isGreaterThanOrEqualTo: startOfMonth, isLessThanOrEqualTo: endOfMonth)
-          .get();
+    final user = auth.currentUser;
+    if (user != null) {
+      try {
+        final invoiceRef = firestore
+            .collection('SPusers')
+            .doc(user.uid)
+            .collection('invoices');
+        final startOfMonth = DateTime(selectedDate.year, selectedDate.month);
+        final endOfMonth =
+            DateTime(selectedDate.year, selectedDate.month + 1, 0, 23, 59, 59);
+        final snapshot = await invoiceRef
+            .where('date',
+                isGreaterThanOrEqualTo: startOfMonth,
+                isLessThanOrEqualTo: endOfMonth)
+            .get();
 
-      for (var doc in snapshot.docs) {
-        final invoice = Invoice.fromMap(doc.data());
-        double income = (invoice.totalTickets - invoice.remainingTickets) * invoice.price;
-        totalMonthIncome += income;
-        if (invoice.date.year == selectedDate.year &&
-            invoice.date.month == selectedDate.month &&
-            invoice.date.day == selectedDate.day) {
-          totalSelectedDateIncome += income;
+        for (var doc in snapshot.docs) {
+          final invoice = Invoice.fromMap(doc.data(),doc.id);
+          double income =
+              (invoice.totalTickets - invoice.remainingTickets) * invoice.price;
+          totalMonthIncome += income;
+          if (invoice.date.year == selectedDate.year &&
+              invoice.date.month == selectedDate.month &&
+              invoice.date.day == selectedDate.day) {
+            totalSelectedDateIncome += income;
+          }
         }
-      }
 
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text("Total Income"),
-            content: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text("Total Income for ${DateFormat.yMd().format(selectedDate)}: $totalSelectedDateIncome"),
-                const SizedBox(height: 10),
-                Text("Total Income for ${DateFormat.yMMMM().format(selectedDate)}: $totalMonthIncome"),
-              ],
-            ),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text('Close'),
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text("Total Income"),
+              content: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                      "Total Income for ${DateFormat.yMd().format(selectedDate)}: $totalSelectedDateIncome"),
+                  const SizedBox(height: 10),
+                  Text(
+                      "Total Income for ${DateFormat.yMMMM().format(selectedDate)}: $totalMonthIncome"),
+                ],
               ),
-            ],
-          );
-        },
-      );
-    } catch (error) {
-      print('Error fetching invoices: $error');
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('Close'),
+                ),
+              ],
+            );
+          },
+        );
+      } catch (error) {
+        print('Error fetching invoices: $error');
+      }
+    } else {
+      debugPrint('No user signed in, cannot fetch invoices');
     }
-  } else {
-    debugPrint('No user signed in, cannot fetch invoices');
   }
 }
-}
-

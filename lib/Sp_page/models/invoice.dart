@@ -1,6 +1,4 @@
-// model used by the card stored as invoice
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 
 class Invoice {
   final String tripNo;
@@ -20,10 +18,10 @@ class Invoice {
     required this.remainingTickets,
     required this.price,
     required this.date,
-    this.id = '',
+    required this.id, // Removed default value
   });
 
-  factory Invoice.fromMap(Map<String, dynamic> data) {
+  factory Invoice.fromMap(Map<String, dynamic> data, String id) {
     return Invoice(
       tripNo: data['tripNo'] as String,
       from: data['from'] as String,
@@ -32,7 +30,7 @@ class Invoice {
       remainingTickets: data['remainingTickets'] as int,
       price: data['price'] as double,
       date: (data['date'] as Timestamp).toDate(),
+      id: id, // Assign the id field here
     );
   }
-
 }
