@@ -43,59 +43,63 @@ class _NewBusState extends State<NewBus> {
   
 
   Future<void> _submitBusData() async {
-    // Here we show error messages, if any appeared
-    if (_destinationController.text.trim().isEmpty ||
-        _sourceController.text.trim().isEmpty ||
-        _destinationController.text.trim().isEmpty ||
-        _regController.text.trim().isEmpty ||
-        _BusNameController.text.trim().isEmpty) {
-      showDialog(
-        context: context,
-        builder: (ctx) => AlertDialog(
-          title: const Text('Invalid input'),
-          content: const Text(
-              'Please make sure a valid name, place and category was entered.'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(ctx);
-              },
-              child: Text('Okay'),
-            ),
-          ],
-        ),
-      );
-      return;
-    }
+  // Generate a unique id using uuid package
+  final String id = uuid.v4();
 
-    final formattedTime = _selectedTime.format(context); // Format time using context
-
-     // Add bus data to Firestore
-    await busesRef.add({
-      'bus_name': _BusNameController.text,
-      'route_AB': _sourceController.text,
-      'route_BA': _destinationController.text,
-      'bustype': _selectedBustype.name,
-      'Regno' : _regController.text,
-      'time' : formattedTime,
-    });
-
-    spUsersRef.doc(FirebaseAuth.instance.currentUser!.uid).update({
-      'busId': busesRef.id,
-    });
-
-    widget.onAddBus(
-      Bus(
-        bus_name: _BusNameController.text,
-        Regno: _regController.text,
-        route_AB: _sourceController.text,
-        route_BA: _destinationController.text,
-        bustype: _selectedBustype,
-        time: formattedTime,
+  // Here we show error messages, if any appeared
+  if (_destinationController.text.trim().isEmpty ||
+      _sourceController.text.trim().isEmpty ||
+      _destinationController.text.trim().isEmpty ||
+      _regController.text.trim().isEmpty ||
+      _BusNameController.text.trim().isEmpty) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Invalid input'),
+        content: const Text(
+            'Please make sure a valid name, place and category was entered.'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(ctx);
+            },
+            child: Text('Okay'),
+          ),
+        ],
       ),
     );
-    Navigator.pop(context);
+    return;
   }
+
+  final formattedTime = _selectedTime.format(context); // Format time using context
+
+  // Add bus data to Firestore
+  await busesRef.add({
+    'bus_name': _BusNameController.text,
+    'route_AB': _sourceController.text,
+    'route_BA': _destinationController.text,
+    'bustype': _selectedBustype.name,
+    'Regno': _regController.text,
+    'time': formattedTime,
+  });
+
+  spUsersRef.doc(FirebaseAuth.instance.currentUser!.uid).update({
+    'busId': busesRef.id,
+  });
+
+  widget.onAddBus(
+    Bus(
+      id: id, // Pass the generated id
+      bus_name: _BusNameController.text,
+      Regno: _regController.text,
+      route_AB: _sourceController.text,
+      route_BA: _destinationController.text,
+      bustype: _selectedBustype,
+      time: formattedTime,
+    ),
+  );
+  Navigator.pop(context);
+}
   
 
   @override

@@ -25,7 +25,7 @@ class Bus {
 
   // Constructor to create a new Bus
   Bus({
-    this.id = '',
+    required this.id,
     required this.bus_name,
     required this.route_AB,
     required this.route_BA,
@@ -35,10 +35,12 @@ class Bus {
   });
 
   // Constructor to create a Bus from a Firestore document
-  factory Bus.fromMap(Map<String, dynamic> data) {
+  factory Bus.fromMap(DocumentSnapshot doc) {
+    final data = doc.data() as Map<String, dynamic>;
+    final String id = doc.id;
     // Handle potential errors here, e.g., check for required fields
     // Check for 'id' and generate if missing
-  final String id = data['id'] as String? ?? uuid.v4();
+  // final String id = data['id'] as String? ?? uuid.v4();
 
     return Bus(
       id: id,

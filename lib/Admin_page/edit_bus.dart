@@ -36,50 +36,48 @@ class _AdminPageState extends State<AdminPage> {
   }
 
    void _removeBus(Bus bus) async {
-    final busIndex = _registeredBuses.indexOf(bus);
+  final busIndex = _registeredBuses.indexOf(bus);
 
-    // UI update
-    setState(() {
-      _registeredBuses.remove(bus);
-    });
+  // UI update
+  setState(() {
+    _registeredBuses.remove(bus);
+  });
 
-    ScaffoldMessenger.of(context).clearSnackBars();
+  ScaffoldMessenger.of(context).clearSnackBars();
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      duration: const Duration(seconds: 3),
+      content: const Text('Bus instance deleted.'),
+      action: SnackBarAction(
+        label: 'Undo',
+        onPressed: () {
+          setState(() {
+            _registeredBuses.insert(busIndex, bus);
+          });
+        },
+      ),
+    ),
+  );
+
+  // Delete from Firestore
+  try {
+    await FirebaseFirestore.instance.collection('Bus').doc(bus.id).delete();
+    // Success message or visual cue if desired
+  } catch (error) {
+    // Handle errors gracefully (e.g., retry, log, show an error message)
+    print(error);
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        duration: const Duration(seconds: 3),
-        content: const Text('Bus instance deleted.'),
+        content: Text('Error deleting bus: ${error.toString()}'),
+        duration: const Duration(seconds: 5),
         action: SnackBarAction(
-          label: 'Undo',
-          onPressed: () {
-            setState(() {
-              _registeredBuses.insert(busIndex, bus);
-            });
-          },
+          label: 'Retry',
+          onPressed: () => _removeBus(bus), // Retry deletion on tap
         ),
       ),
     );
-
-    // Delete from Firestore in the background
-  Future.delayed(const Duration(seconds: 3), () async {
-    try {
-      await FirebaseFirestore.instance.collection('Bus').doc(bus.id).delete();
-      // Success message or visual cue if desired
-    } catch (error) {
-      // Handle errors gracefully (e.g., retry, log, show an error message)
-      print(error);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Error deleting bus: ${error.toString()}'),
-          duration: const Duration(seconds: 5),
-          action: SnackBarAction(
-            label: 'Retry',
-            onPressed: () => _removeBus(bus), // Retry deletion on tap
-          ),
-        ),
-      );
-    }
-  });
   }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -136,7 +134,7 @@ class _AdminPageState extends State<AdminPage> {
                 if (snapshot.hasData) {
                   _registeredBuses.clear(); 
                   for (var doc in snapshot.data!.docs) {
-                  _registeredBuses.add(Bus.fromMap(doc.data() as Map<String, dynamic>));
+                 _registeredBuses.add(Bus.fromMap(doc));
                 }
                   return BusesList(
                     buses: _registeredBuses,

@@ -54,10 +54,14 @@ class _BusesState extends State<Buses> {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return const SplashScreen();
                       }
-                      if (snapshot.hasData && AdminEmail == false && AdminPass == false) {
+                      if (snapshot.hasData &&
+                          AdminEmail == false &&
+                          AdminPass == false) {
                         return const MyBus();
                       }
-                      if (snapshot.hasData && AdminEmail == true && AdminPass == true) {
+                      if (snapshot.hasData &&
+                          AdminEmail == true &&
+                          AdminPass == true) {
                         return const AdminPage();
                       }
                       return const AuthScreen();
@@ -83,7 +87,8 @@ class _BusesState extends State<Buses> {
                 child: Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 6),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 4, horizontal: 6),
                       child: TextFormField(
                         decoration: const InputDecoration(labelText: 'From'),
                         controller: _fromController,
@@ -91,13 +96,16 @@ class _BusesState extends State<Buses> {
                     ),
                     const SizedBox(height: 4),
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 6),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 4, horizontal: 6),
                       child: TextFormField(
                         decoration: const InputDecoration(labelText: 'To'),
                         controller: _toController,
                       ),
                     ),
-                    _isLoading ? const Center(child: CircularProgressIndicator()) : SizedBox(),
+                    _isLoading
+                        ? const Center(child: CircularProgressIndicator())
+                        : SizedBox(),
                     _noBusFound
                         ? const Center(
                             child: Text(
@@ -116,7 +124,8 @@ class _BusesState extends State<Buses> {
                           if (from.isEmpty || to.isEmpty) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
-                                content: Text('Please enter both origin and destination.'),
+                                content: Text(
+                                    'Please enter both origin and destination.'),
                               ),
                             );
                             return;
@@ -125,16 +134,18 @@ class _BusesState extends State<Buses> {
                             _isLoading = true;
                             _noBusFound = false;
                           });
-                          QuerySnapshot<Map<String, dynamic>> snapshot = await _firestore
-                              .collection('Bus')
-                              .where('route_AB', isEqualTo: from)
-                              .where('route_BA', isEqualTo: to)
-                              .get();
+                          QuerySnapshot<Map<String, dynamic>> snapshot =
+                              await _firestore
+                                  .collection('Bus')
+                                  .where('route_AB', isEqualTo: from)
+                                  .where('route_BA', isEqualTo: to)
+                                  .get();
                           setState(() {
                             _isLoading = false;
                             if (snapshot.docs.isNotEmpty) {
-                              for (QueryDocumentSnapshot<Map<String, dynamic>> doc in snapshot.docs) {
-                                Bus bus = Bus.fromMap(doc.data());
+                              for (QueryDocumentSnapshot<
+                                  Map<String, dynamic>> doc in snapshot.docs) {
+                                Bus bus = Bus.fromMap(doc);
                                 foundBuses.add(bus);
                                 print('Bus name: ${bus.bus_name}');
                                 print('Bustype: ${bus.bustype}');
@@ -171,7 +182,10 @@ class _BusesState extends State<Buses> {
               decoration: BoxDecoration(
                 gradient: LinearGradient(colors: [
                   Theme.of(context).colorScheme.primaryContainer,
-                  Theme.of(context).colorScheme.primaryContainer.withOpacity(0.8),
+                  Theme.of(context)
+                      .colorScheme
+                      .primaryContainer
+                      .withOpacity(0.8),
                 ], begin: Alignment.topLeft, end: Alignment.bottomRight),
               ),
               child: Row(
@@ -311,7 +325,8 @@ Widget buildBusCard(BuildContext context, Bus bus) {
                 flex: 1,
                 child: Align(
                   alignment: Alignment.centerLeft,
-                  child: BustypeIcons[bus.bustype] ?? Image.asset('assets/images/default_bus.png'),
+                  child: BustypeIcons[bus.bustype] ??
+                      Image.asset('assets/images/default_bus.png'),
                 ),
               ),
               const SizedBox(width: 10),
@@ -340,39 +355,55 @@ Widget buildBusCard(BuildContext context, Bus bus) {
                       ],
                     ),
                     const SizedBox(height: 4),
-                    Text('To: ${bus.route_BA}', style: const TextStyle(fontSize: 14)),
+                    Text('To: ${bus.route_BA}',
+                        style: const TextStyle(fontSize: 14)),
                     const SizedBox(height: 4),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Flexible(
-                          child: Text('From: ${bus.route_AB}', style: const TextStyle(fontSize: 14)),
+                          child: Text('From: ${bus.route_AB}',
+                              style: const TextStyle(fontSize: 14)),
                         ),
                         const SizedBox(width: 10),
                         ElevatedButton(
                           onPressed: () async {
-                            Map<String, double> locationData = await fetchLatLon(bus.Regno);
+                            Map<String, double> locationData =
+                                await fetchLatLon(bus.Regno);
                             showDialog(
                               context: context,
                               builder: (context) => Center(
                                 child: AlertDialog(
                                   title: const Text('Location Data'),
                                   content: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      Text('Latitude: ${locationData['latitude']}'),
+                                      Text(
+                                          'Latitude: ${locationData['latitude']}'),
                                       const SizedBox(height: 8),
-                                      Text('Longitude: ${locationData['longitude']}'),
+                                      Text(
+                                          'Longitude: ${locationData['longitude']}'),
                                     ],
                                   ),
                                   actions: [
                                     ElevatedButton(
                                       onPressed: () {
-                                        Navigator.push(context, MaterialPageRoute(builder: (context) => TrackBusPage(
-                                          latitude: locationData['latitude']?.toDouble() ?? 0.0,
-                                          longitude: locationData['longitude']?.toDouble() ?? 0.0,
-                                        )));
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    TrackBusPage(
+                                                      latitude: locationData[
+                                                                  'latitude']
+                                                              ?.toDouble() ??
+                                                          0.0,
+                                                      longitude: locationData[
+                                                                  'longitude']
+                                                              ?.toDouble() ??
+                                                          0.0,
+                                                    )));
                                       },
                                       child: const Text('Map'),
                                       style: ElevatedButton.styleFrom(
@@ -403,14 +434,17 @@ Widget buildBusCard(BuildContext context, Bus bus) {
                               if (snapshot.hasError) {
                                 return Text('Error: ${snapshot.error}');
                               }
-                              if (snapshot.connectionState == ConnectionState.waiting) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
                                 return const Text('Availability: Loading...');
                               } else {
                                 if (snapshot.hasData) {
                                   bool availability = snapshot.data!;
-                                  return Text('Availability: ${availability ? "Yes" : "No"}');
+                                  return Text(
+                                      'Availability: ${availability ? "Yes" : "No"}');
                                 } else {
-                                  return const Text('Error: Availability data unavailable');
+                                  return const Text(
+                                      'Error: Availability data unavailable');
                                 }
                               }
                             },
@@ -428,4 +462,3 @@ Widget buildBusCard(BuildContext context, Bus bus) {
     ),
   );
 }
-
