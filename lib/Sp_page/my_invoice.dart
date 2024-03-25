@@ -84,16 +84,9 @@ class _MyInvoiceScreenState extends State<MyInvoiceScreen> {
             .collection('SPusers')
             .doc(user.uid)
             .collection('invoices');
-        final snapshot =
-            await invoiceRef.orderBy('tripNo', descending: true).get();
+        final snapshot = await invoiceRef.get();
         final fetchedInvoices = snapshot.docs
-            .map((doc) {
-              final invoice =
-                  Invoice.fromMap(doc.data(), doc.id); // Pass the document ID
-              print(
-                  'Fetched Invoice ID: ${invoice.id}'); // Debug print to see the invoice ID
-              return invoice;
-            })
+            .map((doc) => Invoice.fromMap(doc.data(), doc.id))
             .where((invoice) =>
                 invoice.date.year == selectedDate.year &&
                 invoice.date.month == selectedDate.month &&
@@ -131,16 +124,8 @@ class _MyInvoiceScreenState extends State<MyInvoiceScreen> {
                     onDismissed: (direction) {
                       final dismissedInvoice = invoices.removeAt(index);
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
+                        const SnackBar(
                           content: Text('Invoice deleted'),
-                          action: SnackBarAction(
-                            label: 'Undo',
-                            onPressed: () {
-                              setState(() {
-                                invoices.insert(index, dismissedInvoice);
-                              });
-                            },
-                          ),
                         ),
                       );
                       MyFirestoreService.deleteInvoice(dismissedInvoice
@@ -198,14 +183,8 @@ class _MyInvoiceScreenState extends State<MyInvoiceScreen> {
                 if (pickedDate != null) {
                   setState(() {
                     selectedDate = pickedDate;
-                    List<Invoice> filteredInvoices = invoices
-                        .where((invoice) =>
-                            invoice.date.year == pickedDate.year &&
-                            invoice.date.month == pickedDate.month &&
-                            invoice.date.day == pickedDate.day)
-                        .toList();
-                    invoices = filteredInvoices;
                   });
+                  _fetchInvoices();
                 }
               });
             },
@@ -384,7 +363,7 @@ class _MyInvoiceScreenState extends State<MyInvoiceScreen> {
             .get();
 
         for (var doc in snapshot.docs) {
-          final invoice = Invoice.fromMap(doc.data(),doc.id);
+          final invoice = Invoice.fromMap(doc.data(), doc.id);
           double income =
               (invoice.totalTickets - invoice.remainingTickets) * invoice.price;
           totalMonthIncome += income;
