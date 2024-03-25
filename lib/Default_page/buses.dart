@@ -133,6 +133,7 @@ class _BusesState extends State<Buses> {
                           setState(() {
                             _isLoading = true;
                             _noBusFound = false;
+                             foundBuses.clear(); // Clear the list before adding new buses
                           });
                           QuerySnapshot<Map<String, dynamic>> snapshot =
                               await _firestore
