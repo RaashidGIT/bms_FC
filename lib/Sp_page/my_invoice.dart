@@ -322,8 +322,7 @@ class _MyInvoiceScreenState extends State<MyInvoiceScreen> {
                       ));
                     });
                   }
-
-// Call the _addInvoice function where needed
+                  // Call the _addInvoice function where needed
                   _addInvoice();
                   Navigator.of(context).pop();
                 } else {

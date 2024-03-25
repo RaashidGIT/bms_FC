@@ -28,7 +28,7 @@ class Invoice {
       to: data['to'] as String,
       totalTickets: data['totalTickets'] as int,
       remainingTickets: data['remainingTickets'] as int,
-      price: data['price'] as double,
+      price: (data['price'] as num).toDouble(),
       date: (data['date'] as Timestamp).toDate(),
       id: id, // Assign the id field here
     );
