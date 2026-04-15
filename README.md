@@ -11,14 +11,19 @@ A mobile-based Bus Management System developed using Flutter, designed to stream
 -------------------------------------------------------------
 📍 Real-time Bus Tracking
 Track the live location of buses for better planning.
+
 🗓️ Bus Schedule Management
 View routes, timings, and assigned buses.
+
 👤 User Authentication
 Secure login system for students and admins.
+
 🔔 Notifications & Alerts
 Get updates about delays, route changes, or important announcements.
+
 📊 Admin Panel
 Manage buses, routes, and users efficiently.
+
 ----------------------------------------------------------------
 🛠️ Tech Stack
 ----------------------------------------------------------------
